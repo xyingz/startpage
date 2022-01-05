@@ -4,32 +4,24 @@
 
     <SearchBarComponent />
 
-    <ButtonComponent icon="search" @click="onClick" />
+    <ButtonComponent :icon="`drop${drop}`" class="drop-btn" @click="onClick" />
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script lang="ts" setup>
+import { ref } from 'vue';
 import TimeComponent from '@/components/Time.vue';
 import SearchBarComponent from '@/components/SearchBar.vue';
 import ButtonComponent from '@/components/button/Button.vue';
 
-export default defineComponent({
-  name: 'HomePage',
+const drop = ref('down');
 
-  components: { SearchBarComponent, TimeComponent, ButtonComponent },
-
-  setup() {
-    return {
-      onClick() {
-        console.log('clicked');
-      }
-    };
-  }
-});
+function onClick() {
+  console.log('click');
+}
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .p-home {
   padding-top: 10rem;
   display: grid;
@@ -37,5 +29,21 @@ export default defineComponent({
   grid-gap: 1rem;
   grid-auto-columns: 100%;
   justify-content: center;
+
+  .drop-btn {
+    animation: bounce 1s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
 </style>

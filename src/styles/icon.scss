@@ -11,7 +11,7 @@
   -webkit-font-smoothing: antialiased;
 }
 
-@each $icon in baidu, bing, google, search {
+@each $icon in baidu, bing, dropdown, dropup, google, search {
   .icon-#{$icon}:before {
     content: url('../assets/icons/#{$icon}.svg');
   }
