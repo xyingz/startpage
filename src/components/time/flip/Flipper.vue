@@ -6,6 +6,7 @@
 </template>
 
 <script lang="ts">
+import { parseInt } from '@/utils/common';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
@@ -39,8 +40,8 @@ export default defineComponent({
   },
 
   created() {
-    this.frontTextFromData = this.frontText;
-    this.backTextFromData = this.backText;
+    this.frontTextFromData = parseInt(this.frontText);
+    this.backTextFromData = parseInt(this.backText);
   },
 
   methods: {

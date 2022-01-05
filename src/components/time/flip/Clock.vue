@@ -15,6 +15,8 @@
 import { defineComponent } from 'vue';
 import Flipper from './Flipper.vue';
 
+type FormatKey = 'M+' | 'd+' | 'h+' | 'H+' | 'm+' | 's+' | 'q+' | 'S';
+
 export default defineComponent({
   name: 'FlipClock',
   components: {
@@ -22,8 +24,8 @@ export default defineComponent({
   },
   data() {
     return {
-      timer: null,
-      flipObjs: []
+      timer: null as any,
+      flipObjs: [] as any[]
     };
   },
   mounted() {
@@ -42,7 +44,7 @@ export default defineComponent({
     // 初始化数字
     init() {
       const now = new Date();
-      const nowTimeStr = this.formatDate(new Date(now.getTime()), 'hhiiss');
+      const nowTimeStr = this.formatDate(new Date(now.getTime()), 'hhmmss');
       for (let i = 0; i < this.flipObjs.length; i++) {
         this.flipObjs[i].setFront(nowTimeStr[i]);
       }
@@ -54,9 +56,9 @@ export default defineComponent({
         const now = new Date();
         const nowTimeStr = this.formatDate(
           new Date(now.getTime() - 1000),
-          'hhiiss'
+          'hhmmss'
         );
-        const nextTimeStr = this.formatDate(now, 'hhiiss');
+        const nextTimeStr = this.formatDate(now, 'hhmmss');
         for (let i = 0; i < this.flipObjs.length; i++) {
           if (nowTimeStr[i] !== nextTimeStr[i]) {
             this.flipObjs[i].flipDown(nowTimeStr[i], nextTimeStr[i]);
@@ -65,7 +67,7 @@ export default defineComponent({
       }, 1000);
     },
     // 正则格式化日期
-    formatDate(date, dateFormat) {
+    formatDate(date: Date, dateFormat: string) {
       /* 单独格式化年份，根据y的字符数量输出年份
      * 例如：yyyy => 2019
             yy => 19
@@ -78,19 +80,24 @@ export default defineComponent({
           `${date.getFullYear()}`.substr(4 - RegExp.$1.length)
         );
       }
-      // 格式化月、日、时、分、秒
-      const o = {
-        'm+': date.getMonth() + 1,
-        'd+': date.getDate(),
-        'h+': date.getHours(),
-        'i+': date.getMinutes(),
-        's+': date.getSeconds()
+
+      const o: Record<FormatKey, number> = {
+        'M+': date.getMonth() + 1, // 月份
+        'd+': date.getDate(), // 日
+        'h+': date.getHours() % 12 === 0 ? 12 : date.getHours() % 12, // 小时
+        'H+': date.getHours(), // 小时
+        'm+': date.getMinutes(), // 分
+        's+': date.getSeconds(), // 秒
+        'q+': Math.floor((date.getMonth() + 3) / 3), // 季度
+        S: date.getMilliseconds() // 毫秒
       };
+
+      let k: keyof Record<FormatKey, number>;
       // eslint-disable-next-line no-restricted-syntax
-      for (const k in o) {
+      for (k in o) {
         if (new RegExp(`(${k})`).test(dateFormat)) {
           // 取出对应的值
-          const str = `${o[k]}`;
+          const str = o[k].toString();
           /* 根据设置的格式，输出对应的字符
            * 例如: 早上8时，hh => 08，h => 8
            * 但是，当数字>=10时，无论格式为一位还是多位，不做截取，这是与年份格式化不一致的地方
@@ -106,7 +113,7 @@ export default defineComponent({
       return dateFormat;
     },
     // 日期时间补零
-    padLeftZero(str) {
+    padLeftZero(str: string | any[]) {
       return `00${str}`.substr(str.length);
     }
   }
