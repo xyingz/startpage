@@ -3,6 +3,8 @@
     <TimeComponent />
 
     <SearchBarComponent />
+
+    <ButtonComponent icon="search" @click="onClick" />
   </div>
 </template>
 
@@ -10,13 +12,20 @@
 import { defineComponent } from 'vue';
 import TimeComponent from '@/components/Time.vue';
 import SearchBarComponent from '@/components/SearchBar.vue';
+import ButtonComponent from '@/components/button/Button.vue';
 
 export default defineComponent({
   name: 'HomePage',
 
-  components: { SearchBarComponent, TimeComponent },
+  components: { SearchBarComponent, TimeComponent, ButtonComponent },
 
-  setup() {}
+  setup() {
+    return {
+      onClick() {
+        console.log('clicked');
+      }
+    };
+  }
 });
 </script>
 

@@ -12,9 +12,7 @@
         @focusout="onFocusOut"
       />
 
-      <button class="search-btn" @click="onSearch">
-        <i class="icon icon-search" style="font-size: 1rem" />
-      </button>
+      <ButtonComponent icon="search" class="search-btn" @click="onSearch" />
     </div>
 
     <div class="search-engine-group">
@@ -35,7 +33,8 @@
 </template>
 
 <script lang="ts">
-import { ref, reactive, onMounted } from 'vue';
+import { defineComponent, ref, reactive, onMounted } from 'vue';
+import ButtonComponent from './button/Button.vue';
 
 interface SearchEngine {
   name: string;
@@ -43,6 +42,10 @@ interface SearchEngine {
   url: string;
   comment: string;
 }
+
+export default defineComponent({
+  components: { ButtonComponent }
+});
 </script>
 
 <script lang="ts" setup>
@@ -76,6 +79,7 @@ function onSelectEngine(engine: SearchEngine) {
 const searchText = ref('');
 function onSearch() {
   if (!searchText.value) {
+    inputBar.value?.focus();
     return;
   }
 
@@ -124,11 +128,9 @@ input {
   right: calc(25% - 2rem);
   width: 3rem;
   height: 100%;
-  border-radius: 0.5rem;
-  border: 0px;
   transition: all 0.2s;
+  background-color: #efefef;
   cursor: pointer;
-  display: inline-block;
   padding: 0;
 
   &:hover {
