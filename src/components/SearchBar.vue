@@ -1,32 +1,34 @@
 <template>
-  <div style="position: relative; width: 100%">
-    <input
-      v-model="searchText"
-      type="text"
-      placeholder="开始搜索"
-      aria-placeholder="开始搜索"
-      @keypress.enter="onSearch"
-    />
+  <div class="search-section">
+    <div style="position: relative; width: 100%">
+      <input
+        v-model="searchText"
+        type="text"
+        placeholder="开始搜索"
+        aria-placeholder="开始搜索"
+        @keypress.enter="onSearch"
+      />
 
-    <button class="search-btn" @click="onSearch">
-      <i class="icon icon-search" style="font-size: 1rem" />
-    </button>
+      <button class="search-btn" @click="onSearch">
+        <i class="icon icon-search" style="font-size: 1rem" />
+      </button>
+    </div>
+
+    <div class="search-engine-group">
+      <div
+        v-for="engine in searchEngines"
+        :key="engine.name"
+        class="icon search-engine"
+        :class="{
+          [`icon-${engine.icon}`]: true,
+          active: activedEngine.name === engine.name
+        }"
+        @click="onSelectEngine(engine)"
+      />
+    </div>
+
+    <div class="search-comment">{{ activedEngine.comment }}</div>
   </div>
-
-  <div class="search-engine-group">
-    <div
-      v-for="engine in searchEngines"
-      :key="engine.name"
-      class="icon search-engine"
-      :class="{
-        [`icon-${engine.icon}`]: true,
-        active: activedEngine.name === engine.name
-      }"
-      @click="onSelectEngine(engine)"
-    />
-  </div>
-
-  <div class="search-comment">{{ activedEngine.comment }}</div>
 </template>
 
 <script lang="ts">
@@ -79,13 +81,21 @@ function onSearch() {
 </script>
 
 <style scoped lang="scss">
+.search-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+}
+
 input {
   width: 50%;
-  height: 2rem;
+  height: 3rem;
   border-radius: 0.5rem;
   border: 1px solid #ccc;
   transition: all 0.2s;
-  padding: 0 2.5rem 0 0.5rem;
+  padding: 0 3.5rem 0 0.5rem;
+  font-size: 1.5rem;
 
   &:focus {
     outline: none;
@@ -94,8 +104,8 @@ input {
 
 .search-btn {
   position: absolute;
-  right: calc(25% - 1.5rem);
-  width: 2rem;
+  right: calc(25% - 2rem);
+  width: 3rem;
   height: 100%;
   border-radius: 0.5rem;
   border: 0px;
@@ -105,11 +115,11 @@ input {
   padding: 0;
 
   &:hover {
-    background: #bbb;
+    background: #ccc;
   }
 
   &:active {
-    background: #aaa;
+    background: #bbb;
   }
 
   &:focus {
@@ -120,9 +130,13 @@ input {
 @media screen and (max-width: 768px) {
   input {
     width: 70%;
+    height: 2rem;
+    padding: 0 2.5rem 0 0.5rem;
+    font-size: 1rem;
   }
 
   .search-btn {
+    width: 2rem;
     right: calc(15% - 1.5rem);
   }
 }
