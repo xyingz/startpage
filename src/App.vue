@@ -23,5 +23,8 @@ footer {
   bottom: 0;
   width: 100%;
   text-align: center;
+  font-weight: 500;
+  color: black;
+  backdrop-filter: blur(10px);
 }
 </style>
