@@ -20,10 +20,15 @@ body {
   background-attachment: fixed;
   width: 100vw;
   height: 100vh;
+  transition: backdrop-filter 0.2s;
 }
 
 @media screen and (max-width: 768px) {
   body {
     background-image: url('https://api.dujin.org/bing/m.php');
   }
+}
+
+.global-search-active {
+  backdrop-filter: blur(20px);
 }

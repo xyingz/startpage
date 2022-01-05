@@ -2,11 +2,14 @@
   <div class="search-section">
     <div style="position: relative; width: 100%">
       <input
+        ref="inputBar"
         v-model="searchText"
         type="text"
         placeholder="开始搜索"
         aria-placeholder="开始搜索"
         @keypress.enter="onSearch"
+        @focusin="onFocus"
+        @focusout="onFocusOut"
       />
 
       <button class="search-btn" @click="onSearch">
@@ -32,7 +35,7 @@
 </template>
 
 <script lang="ts">
-import { ref, reactive } from 'vue';
+import { ref, reactive, onMounted } from 'vue';
 
 interface SearchEngine {
   name: string;
@@ -77,6 +80,19 @@ function onSearch() {
 
   window.open(activedEngine.value?.url + searchText.value);
   searchText.value = '';
+}
+
+const inputBar = ref<HTMLInputElement>();
+onMounted(() => {
+  inputBar.value?.focus();
+});
+
+function onFocus() {
+  document.body.classList.add('global-search-active');
+}
+
+function onFocusOut() {
+  document.body.classList.remove('global-search-active');
 }
 </script>
 
