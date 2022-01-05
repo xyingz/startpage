@@ -70,6 +70,7 @@ const searchEngines = reactive<Array<SearchEngine>>([
 const activedEngine = ref<SearchEngine>(searchEngines[0]);
 function onSelectEngine(engine: SearchEngine) {
   activedEngine.value = engine;
+  inputBar.value?.focus();
 }
 
 const searchText = ref('');
