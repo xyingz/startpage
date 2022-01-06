@@ -1,5 +1,5 @@
 <template>
-  <Clock />
+  <Clock :time="time" />
 </template>
 
 <script lang="ts">
@@ -10,9 +10,9 @@ export default defineComponent({
   components: { Clock },
 
   setup() {
-    const time = ref(new Date().toLocaleString());
+    const time = ref<Date>(new Date());
     setInterval(() => {
-      time.value = new Date().toLocaleString();
+      time.value = new Date();
     }, 100);
 
     return {

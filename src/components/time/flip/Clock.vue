@@ -1,20 +1,53 @@
 <template>
   <div class="clock">
-    <Flipper ref="flipperHour1" />
-    <Flipper ref="flipperHour2" />
-    <span>:</span>
-    <Flipper ref="flipperMinute1" />
-    <Flipper ref="flipperMinute2" />
-    <span>:</span>
-    <Flipper ref="flipperSecond1" />
-    <Flipper ref="flipperSecond2" />
+    <template v-if="showHour">
+      <Flipper ref="flipperHour1" />
+      <Flipper ref="flipperHour2" />
+    </template>
+    <template v-if="showHour && showMinute">
+      <span>:</span>
+    </template>
+    <template v-if="showMinute">
+      <Flipper ref="flipperMinute1" />
+      <Flipper ref="flipperMinute2" />
+    </template>
+    <template v-if="showMinute && showSecond">
+      <span>:</span>
+    </template>
+    <template v-if="showSecond">
+      <Flipper ref="flipperSecond1" />
+      <Flipper ref="flipperSecond2" />
+    </template>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { formatDate } from '@/utils/common';
-import { ref, reactive, onMounted } from 'vue';
+import { ref, reactive, onMounted, PropType } from 'vue';
 import Flipper from './Flipper.vue';
+
+const props = defineProps({
+  time: {
+    type: Date,
+    default: new Date()
+  },
+  direction: {
+    type: String as PropType<'down' | 'up'>,
+    default: 'down'
+  },
+  showHour: {
+    type: Boolean,
+    default: true
+  },
+  showMinute: {
+    type: Boolean,
+    default: true
+  },
+  showSecond: {
+    type: Boolean,
+    default: true
+  }
+});
 
 const flipperHour1 = ref();
 const flipperHour2 = ref();
@@ -34,20 +67,20 @@ onMounted(() => {
   ]);
 
   // 初始化所有时间
-  let now = new Date();
-  let nowTime = formatDate(new Date(now.getTime()), 'hhmmss');
+  let nowTime = formatDate(props.time, 'hhmmss');
   for (let i = 0; i < flippers.length; i++) {
-    flippers[i].value.setFront(nowTime[i]);
+    flippers[i]?.value?.setFront(nowTime[i]);
   }
 
   // 启动时间更新
   setInterval(() => {
-    now = new Date();
-    nowTime = formatDate(new Date(now.getTime() - 1000), 'hhmmss');
-    const nextTime = formatDate(now, 'hhmmss');
+    nowTime = formatDate(new Date(props.time.getTime() - 1000), 'hhmmss');
+    const nextTime = formatDate(props.time, 'hhmmss');
     for (let i = 0; i < flippers.length; i++) {
       if (nowTime[i] !== nextTime[i]) {
-        flippers[i].value.flipDown(nowTime[i], nextTime[i]);
+        if (props.direction === 'up')
+          flippers[i]?.value?.flipUp(nowTime[i], nextTime[i]);
+        else flippers[i]?.value?.flipDown(nowTime[i], nextTime[i]);
       }
     }
   }, 1000);
