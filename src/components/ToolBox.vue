@@ -24,12 +24,14 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts">
 import { Tool } from '@/typings/tool';
 import { reactive, ref } from 'vue';
 import { useStore } from '@/store/index';
 import ButtonComponent from './button/Button.vue';
+</script>
 
+<script lang="ts" setup>
 const store = useStore();
 const tools = reactive<Array<Tool>>(store.state.tools);
 

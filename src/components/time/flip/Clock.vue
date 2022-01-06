@@ -21,18 +21,22 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts">
 import { formatDate } from '@/utils/common';
-import { ref, reactive, onMounted, PropType, watch } from 'vue';
+import { ref, reactive, onMounted, watch, PropType } from 'vue';
 import Flipper from './Flipper.vue';
 
+type Direction = 'up' | 'down';
+</script>
+
+<script lang="ts" setup>
 const props = defineProps({
   time: {
     type: Date,
     default: new Date()
   },
   direction: {
-    type: String as PropType<'down' | 'up'>,
+    type: String as PropType<Direction>,
     default: 'down'
   },
   showHour: {
