@@ -10,7 +10,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import TimeComponent from '@/components/Time.vue';
+import TimeComponent from '@/components/time/Time.vue';
 import SearchBarComponent from '@/components/SearchBar.vue';
 import ButtonComponent from '@/components/button/Button.vue';
 

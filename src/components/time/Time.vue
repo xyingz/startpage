@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import Clock from './time/flip/Clock.vue';
+import Clock from './flip/Clock.vue';
 
 export default defineComponent({
   components: { Clock },
