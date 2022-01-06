@@ -2,27 +2,36 @@
  * @Author: JeremyJone
  * @Date: 2021-10-12 16:18:03
  * @LastEditors: JeremyJone
- * @LastEditTime: 2021-10-25 14:54:47
+ * @LastEditTime: 2022-01-06 16:16:52
  * @Description: 状态管理文件
  */
 
 import { InjectionKey } from 'vue';
 import { createStore, useStore as baseUseStore, Store } from 'vuex';
+import { SET_FOCUS_MODE } from './mutation-types';
 
 export interface State {
-  // TODO: 根据 state 实际内容修改
-  count: number;
+  focusMode: boolean;
 }
 
 export const key: InjectionKey<Store<State>> = Symbol('store_key');
 
 export default createStore({
+  strict: true,
+
   state: {
-    // TODO: 根据实际内容修改
-    count: 0
+    focusMode: false
   },
-  mutations: {},
-  actions: {},
+  mutations: {
+    [SET_FOCUS_MODE](state: State, focusMode: boolean) {
+      state.focusMode = focusMode;
+    }
+  },
+  actions: {
+    setFocusMode(context, focusMode: boolean) {
+      context.commit(SET_FOCUS_MODE, focusMode);
+    }
+  },
   modules: {}
 });
 

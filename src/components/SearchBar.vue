@@ -4,7 +4,7 @@
       <input
         ref="inputBar"
         v-model="searchText"
-        :class="{ shadow: inputIsFocus }"
+        :class="{ shadow: store.state.focusMode }"
         type="text"
         placeholder="开始搜索"
         aria-placeholder="开始搜索"
@@ -22,25 +22,31 @@
       />
     </div>
 
-    <div class="search-engine-group">
-      <template v-for="engine in searchEngines" :key="engine.name">
-        <ButtonComponent
-          size="large"
-          class="search-engine"
-          radius="2rem"
-          :type="activedEngine.name === engine.name ? 'info' : 'normal'"
-          :icon="engine.icon"
-          @click="onSelectEngine(engine)"
-        />
-      </template>
-    </div>
+    <transition name="shrink">
+      <div v-if="!isTidy">
+        <div class="search-engine-group">
+          <template v-for="engine in searchEngines" :key="engine.name">
+            <ButtonComponent
+              size="large"
+              class="search-engine"
+              radius="2rem"
+              :type="activedEngine.name === engine.name ? 'info' : 'normal'"
+              :icon="engine.icon"
+              @click="onSelectEngine(engine)"
+            />
+          </template>
+        </div>
 
-    <div class="search-comment">{{ activedEngine.comment }}</div>
+        <div class="search-comment">{{ activedEngine.comment }}</div>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, reactive, onMounted } from 'vue';
+import { SET_FOCUS_MODE } from '@/store/mutation-types';
+import { useStore } from '@/store/index';
 import ButtonComponent from './button/Button.vue';
 
 interface SearchEngine {
@@ -56,6 +62,15 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
+defineProps({
+  isTidy: {
+    type: Boolean,
+    default: false
+  }
+});
+
+const store = useStore();
+
 const searchEngines = reactive<Array<SearchEngine>>([
   {
     name: 'baidu',
@@ -99,15 +114,14 @@ onMounted(() => {
   inputBar.value?.focus();
 });
 
-const inputIsFocus = ref(false);
 function onFocus() {
   document.body.classList.add('global-search-active');
-  inputIsFocus.value = true;
+  store.commit(SET_FOCUS_MODE, true);
 }
 
 function onFocusOut() {
   document.body.classList.remove('global-search-active');
-  inputIsFocus.value = false;
+  store.commit(SET_FOCUS_MODE, false);
 }
 </script>
 
@@ -115,7 +129,6 @@ function onFocusOut() {
 .search-section {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
   position: relative;
 }
 
@@ -147,9 +160,11 @@ input {
   align-items: center;
   gap: 1rem;
   height: 2rem;
+  margin-top: 1rem;
 }
 
 .search-comment {
+  margin-top: 1rem;
   font-size: 0.8rem;
   color: #666;
 }
