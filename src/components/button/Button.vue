@@ -89,18 +89,20 @@ const iconStyle = computed(() => {
   transition: all 0.2s;
 
   @each $type in 'primary', 'normal', 'secondary', 'success', 'danger',
-    'warning', 'info', 'light', 'dark'
+    'warning', 'info', 'light', 'dark', 'transparent'
   {
-    &.btn-#{$type} {
-      background-color: var(--#{$type}-color);
-      color: var(--#{$type}-color-text);
+    @if ($type != 'transparent') {
+      &.btn-#{$type} {
+        background-color: var(--#{$type}-color);
+        color: var(--#{$type}-color-text);
 
-      &:hover {
-        background-color: var(--#{$type}-color-hover);
-      }
+        &:hover {
+          background-color: var(--#{$type}-color-hover);
+        }
 
-      &:active {
-        background-color: var(--#{$type}-color-active);
+        &:active {
+          background-color: var(--#{$type}-color-active);
+        }
       }
     }
   }

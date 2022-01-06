@@ -4,7 +4,14 @@
 
     <SearchBarComponent />
 
-    <ButtonComponent :icon="`drop${drop}`" class="drop-btn" @click="onClick" />
+    <div>
+      <ButtonComponent
+        :icon="`drop${drop}`"
+        type="transparent"
+        class="drop-btn"
+        @click="onClick"
+      />
+    </div>
   </div>
 </template>
 
