@@ -3,7 +3,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-05 11:53:15
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-05 16:01:10
+ * @LastEditTime: 2022-01-06 14:34:22
  * @Description: 通用函数
  */
 
@@ -37,7 +37,7 @@ export type LanguageKey = 'zh' | 'en';
 /**
  * 格式化时间
  * @param date 日期对象，或一个日期字符串，对其进行格式化
- * @param fmt 格式文本，y:年，q:季度，M:月，d:日，D:星期，H:小时，m:分钟，s:秒，S:毫秒。例：`yyyy-MM-dd`
+ * @param fmt 格式文本，y:年，q:季度，M:月，d:日，D:星期，H:小时(24小时制)，h:小时(12小时制)，m:分钟，s:秒，S:毫秒。例：`yyyy-MM-dd`
  * @param lang 显示星期的文本，中文或者英文
  * @return 格式化的内容
  */

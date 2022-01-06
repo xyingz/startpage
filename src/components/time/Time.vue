@@ -13,7 +13,7 @@ export default defineComponent({
     const time = ref<Date>(new Date());
     setInterval(() => {
       time.value = new Date();
-    }, 100);
+    }, 1000);
 
     return {
       time

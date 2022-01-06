@@ -23,7 +23,7 @@
 
 <script lang="ts" setup>
 import { formatDate } from '@/utils/common';
-import { ref, reactive, onMounted, PropType } from 'vue';
+import { ref, reactive, onMounted, PropType, watch } from 'vue';
 import Flipper from './Flipper.vue';
 
 const props = defineProps({
@@ -55,27 +55,34 @@ const flipperMinute1 = ref();
 const flipperMinute2 = ref();
 const flipperSecond1 = ref();
 const flipperSecond2 = ref();
+const flippers = reactive<any>([]);
 
 onMounted(() => {
-  const flippers = reactive<Array<any>>([
-    flipperHour1,
-    flipperHour2,
-    flipperMinute1,
-    flipperMinute2,
-    flipperSecond1,
-    flipperSecond2
-  ]);
+  flippers.push(
+    ...[
+      flipperHour1,
+      flipperHour2,
+      flipperMinute1,
+      flipperMinute2,
+      flipperSecond1,
+      flipperSecond2
+    ]
+  );
 
   // 初始化所有时间
-  let nowTime = formatDate(props.time, 'hhmmss');
+  const nowTime = formatDate(props.time, 'HHmmss');
   for (let i = 0; i < flippers.length; i++) {
     flippers[i]?.value?.setFront(nowTime[i]);
   }
+});
 
-  // 启动时间更新
-  setInterval(() => {
-    nowTime = formatDate(new Date(props.time.getTime() - 1000), 'hhmmss');
-    const nextTime = formatDate(props.time, 'hhmmss');
+// 监听时间更新
+watch(
+  () => props.time,
+  () => {
+    const nowTime = formatDate(new Date(props.time.getTime() - 1000), 'HHmmss');
+    const nextTime = formatDate(props.time, 'HHmmss');
+
     for (let i = 0; i < flippers.length; i++) {
       if (nowTime[i] !== nextTime[i]) {
         if (props.direction === 'up')
@@ -83,8 +90,8 @@ onMounted(() => {
         else flippers[i]?.value?.flipDown(nowTime[i], nextTime[i]);
       }
     }
-  }, 1000);
-});
+  }
+);
 </script>
 
 <style scoped lang="scss">
