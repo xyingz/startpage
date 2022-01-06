@@ -4,6 +4,7 @@
       <input
         ref="inputBar"
         v-model="searchText"
+        :class="{ shadow: inputIsFocus }"
         type="text"
         placeholder="开始搜索"
         aria-placeholder="开始搜索"
@@ -12,20 +13,26 @@
         @focusout="onFocusOut"
       />
 
-      <ButtonComponent icon="search" class="search-btn" @click="onSearch" />
+      <ButtonComponent
+        type="primary"
+        icon="search"
+        class="search-btn"
+        radius="0.5rem"
+        @click="onSearch"
+      />
     </div>
 
     <div class="search-engine-group">
-      <div
-        v-for="engine in searchEngines"
-        :key="engine.name"
-        class="icon search-engine"
-        :class="{
-          [`icon-${engine.icon}`]: true,
-          active: activedEngine.name === engine.name
-        }"
-        @click="onSelectEngine(engine)"
-      />
+      <template v-for="engine in searchEngines" :key="engine.name">
+        <ButtonComponent
+          size="large"
+          class="search-engine"
+          radius="2rem"
+          :type="activedEngine.name === engine.name ? 'info' : 'normal'"
+          :icon="engine.icon"
+          @click="onSelectEngine(engine)"
+        />
+      </template>
     </div>
 
     <div class="search-comment">{{ activedEngine.comment }}</div>
@@ -92,12 +99,15 @@ onMounted(() => {
   inputBar.value?.focus();
 });
 
+const inputIsFocus = ref(false);
 function onFocus() {
   document.body.classList.add('global-search-active');
+  inputIsFocus.value = true;
 }
 
 function onFocusOut() {
   document.body.classList.remove('global-search-active');
+  inputIsFocus.value = false;
 }
 </script>
 
@@ -113,7 +123,7 @@ input {
   width: 50%;
   height: 3rem;
   border-radius: 0.5rem;
-  border: 1px solid #ccc;
+  border: 0px;
   transition: all 0.2s;
   padding: 0 3.5rem 0 0.5rem;
   font-size: 1.5rem;
@@ -128,22 +138,7 @@ input {
   right: calc(25% - 2rem);
   width: 3rem;
   height: 100%;
-  transition: all 0.2s;
-  background-color: #efefef;
-  cursor: pointer;
   padding: 0;
-
-  &:hover {
-    background: #ccc;
-  }
-
-  &:active {
-    background: #bbb;
-  }
-
-  &:focus {
-    outline: none;
-  }
 }
 
 @media screen and (max-width: 768px) {
@@ -166,24 +161,6 @@ input {
   align-items: center;
   gap: 1rem;
   height: 2rem;
-
-  .search-engine {
-    font-size: 1.5rem;
-    cursor: pointer;
-    padding: 0.2rem 0.8rem;
-    border-radius: 1rem;
-    transition: all 0.2s;
-
-    &:hover {
-      background: #eee;
-      font-size: 2rem;
-    }
-  }
-
-  .active {
-    background: #eee;
-    font-size: 2rem;
-  }
 }
 
 .search-comment {

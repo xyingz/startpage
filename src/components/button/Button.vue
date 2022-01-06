@@ -2,10 +2,8 @@
   <div
     v-bind="$attrs"
     class="button"
-    :style="{
-      backgroundColor: type ? `var(--${type}-color)` : '',
-      borderRadius
-    }"
+    :class="`btn-${type}`"
+    :style="{ borderRadius }"
   >
     <template v-if="label">{{ label }}</template>
     <template v-else-if="icon">
@@ -24,7 +22,7 @@ const props = defineProps({
   },
   type: {
     type: String,
-    default: ''
+    default: 'normal'
   },
   disabled: {
     type: Boolean,
@@ -39,7 +37,7 @@ const props = defineProps({
     default: ''
   },
   radius: {
-    type: [Boolean, Number],
+    type: [Boolean, Number, String],
     default: true
   }
 });
@@ -48,6 +46,10 @@ const borderRadius = computed(() => {
   const { radius } = props;
   if (radius === false) {
     return '';
+  }
+
+  if (typeof radius === 'string') {
+    return radius;
   }
 
   if (radius === true) {
@@ -84,5 +86,23 @@ const iconStyle = computed(() => {
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
+  transition: all 0.2s;
+
+  @each $type in 'primary', 'normal', 'secondary', 'success', 'danger',
+    'warning', 'info', 'light', 'dark'
+  {
+    &.btn-#{$type} {
+      background-color: var(--#{$type}-color);
+      color: var(--#{$type}-color-text);
+
+      &:hover {
+        background-color: var(--#{$type}-color-hover);
+      }
+
+      &:active {
+        background-color: var(--#{$type}-color-active);
+      }
+    }
+  }
 }
 </style>
