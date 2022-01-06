@@ -141,6 +141,19 @@ input {
   padding: 0;
 }
 
+.search-engine-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  height: 2rem;
+}
+
+.search-comment {
+  font-size: 0.8rem;
+  color: #666;
+}
+
 @media screen and (max-width: 768px) {
   input {
     width: 70%;
@@ -153,18 +166,14 @@ input {
     width: 2rem;
     right: calc(15% - 1.5rem);
   }
-}
 
-.search-engine-group {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  height: 2rem;
-}
+  .search-engine {
+    width: 1rem;
+    padding: 0.25rem 0.75rem;
+  }
 
-.search-comment {
-  font-size: 0.8rem;
-  color: #666;
+  .search-engine-group {
+    height: 1rem;
+  }
 }
 </style>
