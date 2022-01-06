@@ -47,14 +47,8 @@
 import { defineComponent, ref, reactive, onMounted } from 'vue';
 import { SET_FOCUS_MODE } from '@/store/mutation-types';
 import { useStore } from '@/store/index';
+import { SearchEngine } from '@/typings/search';
 import ButtonComponent from './button/Button.vue';
-
-interface SearchEngine {
-  name: string;
-  icon: string;
-  url: string;
-  comment: string;
-}
 
 export default defineComponent({
   components: { ButtonComponent }

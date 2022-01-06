@@ -5,15 +5,25 @@
     :class="`btn-${type}`"
     :style="{ borderRadius }"
   >
-    <template v-if="label">{{ label }}</template>
+    <template v-if="slots.icon">
+      <slot name="icon" />
+    </template>
+    <template v-else-if="slots.default">
+      <slot />
+    </template>
+    <template v-else-if="label">
+      <span :style="customBtnStyle">{{ label }}</span>
+    </template>
     <template v-else-if="icon">
-      <i :class="`icon icon-${icon}`" :style="iconStyle" />
+      <i :class="`icon icon-${icon}`" :style="customBtnStyle" />
     </template>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed, useSlots } from 'vue';
+
+const slots = useSlots();
 
 const props = defineProps({
   size: {
@@ -59,7 +69,7 @@ const borderRadius = computed(() => {
 });
 
 // 支持内容，也支持自定义尺寸
-const iconStyle = computed(() => {
+const customBtnStyle = computed(() => {
   const { size } = props;
   switch (size) {
     case 'small':

@@ -16,9 +16,7 @@
     </div>
 
     <transition name="scale">
-      <div v-if="isShowToolBox" class="tool-box">
-        <div v-for="i in 30" :key="i">{{ i }}</div>
-      </div>
+      <ToolboxComponent v-if="isShowToolBox" />
     </transition>
   </div>
 </template>
@@ -28,6 +26,7 @@ import { ref, watch } from 'vue';
 import TimeComponent from '@/components/time/Time.vue';
 import SearchBarComponent from '@/components/SearchBar.vue';
 import ButtonComponent from '@/components/button/Button.vue';
+import ToolboxComponent from '@/components/ToolBox.vue';
 import { useStore } from '@/store/index';
 
 const store = useStore();
@@ -83,24 +82,6 @@ watch(
   }
   100% {
     transform: translateY(0);
-  }
-}
-
-.tool-box {
-  width: 70%;
-  display: grid;
-  grid-auto-flow: row;
-  grid-template-columns: repeat(8, 1fr);
-  grid-gap: 0.5rem;
-  grid-auto-columns: 100%;
-  justify-content: center;
-  margin: 0 auto;
-}
-
-@media screen and (max-width: 768px) {
-  .tool-box {
-    width: 80%;
-    grid-template-columns: repeat(4, 1fr);
   }
 }
 </style>
