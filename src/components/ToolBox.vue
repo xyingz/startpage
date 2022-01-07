@@ -101,9 +101,9 @@ function onConfirm() {
   display: grid;
   grid-auto-flow: row;
   grid-template-columns: repeat(8, 1fr);
-  grid-gap: 0.5rem;
+  grid-gap: 2rem 1rem;
   grid-auto-columns: 100%;
-  justify-content: center;
+  justify-items: center;
   margin: 0 auto;
 
   &-btn-wrap {
@@ -141,6 +141,13 @@ function onConfirm() {
   .tool-box {
     width: 80%;
     grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1280px) {
+  .tool-box {
+    width: 80%;
+    grid-template-columns: repeat(6, 1fr);
   }
 }
 </style>
