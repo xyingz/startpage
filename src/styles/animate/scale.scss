@@ -5,5 +5,15 @@
 
 .scale-enter-from,
 .scale-leave-to {
+  transform: scale(0);
+}
+
+.scale-to-top-enter-active,
+.scale-to-top-leave-active {
+  transition: all 0.5s ease;
+}
+
+.scale-to-top-enter-from,
+.scale-to-top-leave-to {
   transform: scale(0) translateY(-300px);
 }

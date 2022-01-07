@@ -15,7 +15,7 @@
       </div>
     </div>
 
-    <transition name="scale">
+    <transition name="scale-to-top">
       <ToolboxComponent v-if="isShowToolBox" />
     </transition>
   </div>
