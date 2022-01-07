@@ -14,11 +14,14 @@ $colors: (
 
 :root {
   @each $name, $color in $colors {
+    $textColor: #ffffff;
+    @if color.whiteness($color) > 50% {
+      $textColor: #212121;
+    }
+
     --#{$name}-color: #{$color};
-    --#{$name}-color-text: #ffffff;
+    --#{$name}-color-text: #{$textColor};
     --#{$name}-color-hover: #{color.scale($color, $lightness: -10%)};
     --#{$name}-color-active: #{color.scale($color, $lightness: -20%)};
   }
-
-  --default-border-radius: 0.25rem;
 }
