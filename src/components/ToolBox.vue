@@ -51,8 +51,8 @@
       @cancel="onClose"
       @ok="onConfirm"
     >
-      <div>1</div>
-      <div>2</div>
+      <!-- <div>1</div>
+      <div>2</div> -->
     </Dialog>
   </div>
 </template>
@@ -87,11 +87,11 @@ function onCreateTool() {
 }
 
 function onClose() {
-  console.log('onClose');
+  // console.log('onClose');
 }
 
 function onConfirm() {
-  console.log('onConfirm');
+  // console.log('onConfirm');
 }
 </script>
 
