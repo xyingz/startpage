@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2021-10-12 16:18:03
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-06 17:39:33
+ * @LastEditTime: 2022-01-07 15:37:30
  * @Description: 状态管理文件
  */
 
@@ -24,23 +24,23 @@ export default createStore({
   state: {
     focusMode: false,
     tools: [
-      // {
-      //   id: '1',
-      //   name: 'google',
-      //   icon: 'google',
-      //   favicon: 'https://www.google.com/favicon.ico',
-      //   url: 'https://www.google.com',
-      //   comment: 'Google'
-      // },
-      // {
-      //   id: '2',
-      //   name: 'netdesk',
-      //   icon: 'netdesk',
-      //   favicon:
-      //     'https://pan.baidu.com/m-static/base/static/images/favicon.ico',
-      //   url: 'https://pan.baidu.com',
-      //   comment: '百度网盘'
-      // }
+      {
+        id: '1',
+        name: 'google',
+        icon: 'google',
+        favicon: 'https://www.google.com/favicon.ico',
+        url: 'https://www.google.com',
+        comment: 'Google'
+      },
+      {
+        id: '2',
+        name: 'netdesk',
+        icon: 'netdesk',
+        favicon:
+          'https://pan.baidu.com/m-static/base/static/images/favicon.ico',
+        url: 'https://pan.baidu.com',
+        comment: '百度网盘'
+      }
     ]
   },
   mutations: {
