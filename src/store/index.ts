@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2021-10-12 16:18:03
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-07 16:39:25
+ * @LastEditTime: 2022-01-07 17:15:25
  * @Description: 状态管理文件
  */
 
@@ -173,46 +173,6 @@ export default createStore({
       },
       {
         id: '19',
-        name: 'stackshare',
-        icon: 'stackshare',
-        favicon: 'https://stackshare.io/favicon.ico',
-        url: 'https://stackshare.io',
-        comment: 'StackShare'
-      },
-      {
-        id: '20',
-        name: 'stackshare',
-        icon: 'stackshare',
-        favicon: 'https://stackshare.io/favicon.ico',
-        url: 'https://stackshare.io',
-        comment: 'StackShare'
-      },
-      {
-        id: '21',
-        name: 'stackshare',
-        icon: 'stackshare',
-        favicon: 'https://stackshare.io/favicon.ico',
-        url: 'https://stackshare.io',
-        comment: 'StackShare'
-      },
-      {
-        id: '22',
-        name: 'stackshare',
-        icon: 'stackshare',
-        favicon: 'https://stackshare.io/favicon.ico',
-        url: 'https://stackshare.io',
-        comment: 'StackShare'
-      },
-      {
-        id: '23',
-        name: 'stackshare',
-        icon: 'stackshare',
-        favicon: 'https://stackshare.io/favicon.ico',
-        url: 'https://stackshare.io',
-        comment: 'StackShare'
-      },
-      {
-        id: '24',
         name: 'stackshare',
         icon: 'stackshare',
         favicon: 'https://stackshare.io/favicon.ico',
