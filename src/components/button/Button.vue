@@ -5,10 +5,11 @@
     :class="[`btn-${type}`, useSize, `${useOutline}-${type}`]"
     :style="{ borderRadius }"
   >
-    <template v-if="slots.icon">
+    <!-- TODO：如果是 icon 插槽，应该和 label 一同显示 -->
+    <!-- <template v-if="slots.icon">
       <slot name="icon" />
-    </template>
-    <template v-else-if="slots.default">
+    </template> -->
+    <template v-if="slots.default">
       <slot />
     </template>
     <template v-else-if="label">
@@ -113,6 +114,7 @@ const customBtnStyle = computed(() => {
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
+  overflow: hidden;
   transition: all 0.2s;
 }
 
