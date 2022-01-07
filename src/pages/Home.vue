@@ -16,7 +16,7 @@
     </div>
 
     <transition name="scale-to-top">
-      <ToolboxComponent v-if="isShowToolBox" />
+      <ToolboxComponent v-if="isShowToolBox" class="tool-box-wrap" />
     </transition>
   </div>
 </template>
@@ -49,7 +49,7 @@ watch(
 
 <style scoped lang="scss">
 .p-home {
-  height: 100%;
+  height: calc(100vh - 10rem);
   width: 100vw;
   padding-top: 10rem;
   transition: padding-top 0.5s;
@@ -60,6 +60,7 @@ watch(
     grid-gap: 1rem;
     grid-auto-columns: 100%;
     justify-content: center;
+    height: 200px;
 
     .drop-btn {
       animation: bounce 1s ease-in-out infinite alternate;
@@ -67,9 +68,15 @@ watch(
   }
 }
 
+.tool-box-wrap {
+  height: calc(100vh - 200px - 10rem);
+  overflow: auto;
+}
+
 @media screen and (max-width: 768px) {
   .p-home.show-tool-box {
     padding-top: 4rem;
+    height: calc(100vh - 4rem);
   }
 }
 
