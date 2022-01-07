@@ -109,6 +109,8 @@ function onConfirm() {
   &-btn-wrap {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 
   &-btn {
@@ -119,7 +121,6 @@ function onConfirm() {
 
   &-name {
     font-size: 0.8rem;
-    text-align: center;
     font-weight: bold;
     color: var(--normal-color-text);
   }
