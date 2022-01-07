@@ -2,7 +2,7 @@
   <div
     v-bind="$attrs"
     class="button"
-    :class="`btn-${type}`"
+    :class="[`btn-${type}`, useSize, `${useOutline}-${type}`]"
     :style="{ borderRadius }"
   >
     <template v-if="slots.icon">
@@ -49,7 +49,24 @@ const props = defineProps({
   radius: {
     type: [Boolean, Number, String],
     default: true
+  },
+  outline: {
+    type: Boolean,
+    default: false
   }
+});
+
+const useOutline = computed(() => {
+  const { outline } = props;
+  return outline ? 'outline' : '';
+});
+
+const useSize = computed(() => {
+  const { size } = props;
+  if (['small', 'normal', 'large', 'big'].includes(size)) {
+    return size;
+  }
+  return '';
 });
 
 const borderRadius = computed(() => {
@@ -97,24 +114,55 @@ const customBtnStyle = computed(() => {
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;
+}
 
-  @each $type in 'primary', 'normal', 'secondary', 'success', 'danger',
-    'warning', 'info', 'light', 'dark', 'transparent'
-  {
-    @if ($type != 'transparent') {
-      &.btn-#{$type} {
-        background-color: var(--#{$type}-color);
-        color: var(--#{$type}-color-text);
+@each $type in 'primary', 'normal', 'secondary', 'success', 'danger', 'warning',
+  'info', 'light', 'dark', 'transparent'
+{
+  @if ($type != 'transparent') {
+    .btn-#{$type} {
+      background-color: var(--#{$type}-color);
+      color: var(--#{$type}-color-text);
 
-        &:hover {
-          background-color: var(--#{$type}-color-hover);
-        }
+      &:hover {
+        background-color: var(--#{$type}-color-hover);
+      }
 
-        &:active {
-          background-color: var(--#{$type}-color-active);
-        }
+      &:active {
+        background-color: var(--#{$type}-color-active);
+      }
+    }
+
+    .outline-#{$type} {
+      border: 1px solid var(--#{$type}-color);
+      color: var(--#{$type}-color);
+      background-color: var(--normal-color);
+
+      &:hover {
+        border-color: var(--#{$type}-color-hover);
+        color: var(--#{$type}-color-hover);
+        background-color: var(--normal-color);
+      }
+
+      &:active {
+        border-color: var(--#{$type}-color-active);
+        color: var(--#{$type}-color-active);
+        background-color: var(--normal-color);
       }
     }
   }
+}
+
+.small {
+  padding: 0.25rem 0.5rem;
+}
+.normal {
+  padding: 0.5rem 1rem;
+}
+.large {
+  padding: 0.5rem 1rem;
+}
+.big {
+  padding: 0.75rem 1.25rem;
 }
 </style>
