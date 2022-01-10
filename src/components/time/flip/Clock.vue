@@ -114,14 +114,4 @@ $size: calc(v-bind(size) * 1rem);
     font-size: $size;
   }
 }
-
-@media screen and (max-width: 768px) {
-  .clock {
-    gap: 0.25rem;
-
-    span {
-      font-size: calc($size * 0.75);
-    }
-  }
-}
 </style>

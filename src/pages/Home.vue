@@ -1,6 +1,6 @@
 <template>
-  <div class="column">
-    <div class="col-5 column justify-end q-gutter-md">
+  <div class="column" @click.passive="onFocusOut">
+    <div class="col-5 column full-width justify-end q-gutter-y-md">
       <TimeComponent />
       <SearchBarComponent />
     </div>
@@ -15,6 +15,15 @@
 import TimeComponent from '@/components/time/Time.vue';
 import SearchBarComponent from '@/components/SearchBar.vue';
 import ToolboxComponent from '@/components/ToolBox.vue';
+import { useStore } from '@/store';
+import { SET_FOCUS_MODE } from '@/store/mutation-types';
+
+const store = useStore();
+
+function onFocusOut() {
+  document.body.classList.remove('global-search-active');
+  store.commit(SET_FOCUS_MODE, false);
+}
 </script>
 
 <style scoped lang="scss"></style>
