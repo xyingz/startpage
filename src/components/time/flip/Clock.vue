@@ -1,22 +1,22 @@
 <template>
   <div class="clock">
     <template v-if="showHour">
-      <Flipper ref="flipperHour1" />
-      <Flipper ref="flipperHour2" />
+      <Flipper ref="flipperHour1" :size="size" />
+      <Flipper ref="flipperHour2" :size="size" />
     </template>
     <template v-if="showHour && showMinute">
       <span>:</span>
     </template>
     <template v-if="showMinute">
-      <Flipper ref="flipperMinute1" />
-      <Flipper ref="flipperMinute2" />
+      <Flipper ref="flipperMinute1" :size="size" />
+      <Flipper ref="flipperMinute2" :size="size" />
     </template>
     <template v-if="showMinute && showSecond">
       <span>:</span>
     </template>
     <template v-if="showSecond">
-      <Flipper ref="flipperSecond1" />
-      <Flipper ref="flipperSecond2" />
+      <Flipper ref="flipperSecond1" :size="size" />
+      <Flipper ref="flipperSecond2" :size="size" />
     </template>
   </div>
 </template>
@@ -52,6 +52,8 @@ const props = defineProps({
     default: true
   }
 });
+
+const size = ref(1.5);
 
 const flipperHour1 = ref();
 const flipperHour2 = ref();
@@ -99,6 +101,8 @@ watch(
 </script>
 
 <style scoped lang="scss">
+$size: calc(v-bind(size) * 1rem);
+
 .clock {
   display: flex;
   flex-direction: row;
@@ -107,8 +111,7 @@ watch(
   gap: 0.5rem;
 
   span {
-    font-size: 3rem;
-    align-self: baseline;
+    font-size: $size;
   }
 }
 
@@ -117,7 +120,7 @@ watch(
     gap: 0.25rem;
 
     span {
-      font-size: 1.75rem;
+      font-size: calc($size * 0.75);
     }
   }
 }

@@ -8,6 +8,13 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
+defineProps({
+  size: {
+    type: Number,
+    default: 2
+  }
+});
+
 const frontText = ref('');
 const backText = ref('');
 const flipType = ref<'down' | 'up'>('down');
@@ -60,14 +67,16 @@ defineExpose({
 </script>
 
 <style scoped lang="scss">
+$size: calc(v-bind(size) * 1rem);
+
 .flipper-bar {
   display: inline-block;
   position: relative;
-  width: 3rem;
-  height: 5rem;
-  line-height: 5rem;
+  width: calc($size * 1.5);
+  height: calc($size * 1.5 * 1.5);
+  line-height: calc($size * 1.5 * 1.5);
   border-radius: 10px;
-  font-size: 3rem;
+  font-size: calc($size * 1.5);
   color: #fff;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
   text-align: center;
@@ -153,10 +162,10 @@ defineExpose({
 
 @media screen and (max-width: 768px) {
   .flipper-bar {
-    width: 2rem;
-    height: 3rem;
-    line-height: 3rem;
-    font-size: 2rem;
+    width: $size;
+    height: calc($size * 1.5);
+    line-height: calc($size * 1.5);
+    font-size: $size;
   }
 }
 
