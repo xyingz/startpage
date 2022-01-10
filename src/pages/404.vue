@@ -2,7 +2,7 @@
   <div class="p-404">
     <h1>页面不存在</h1>
     <div>对不起，您访问的页面不存在。</div>
-    <button @click="onBack">返回</button>
+    <q-btn label="返回" flat icon="chevron_left" @click="onBack" />
   </div>
 </template>
 
@@ -22,7 +22,7 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
+<style>
 .p-404 {
   position: absolute;
   top: 0;
@@ -30,5 +30,10 @@ export default defineComponent({
   width: 100vw;
   height: 100vh;
   margin: 0 auto;
+}
+
+/* 重置按钮左侧图标边距 */
+.on-left {
+  margin-right: 0;
 }
 </style>
