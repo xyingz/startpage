@@ -9,8 +9,8 @@
       rounded
       class="q-ml-md search-bar"
       bg-color="white"
-      placeholder="开始搜索"
-      aria-placeholder="开始搜索"
+      :placeholder="placeholderText"
+      aria-placeholder="搜索框"
       @keypress.enter="onSearch"
       @focusin="onFocus"
     >
@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { SET_FOCUS_MODE } from '@/store/mutation-types';
 import { useStore } from '@/store/index';
 </script>
@@ -45,15 +45,26 @@ const store = useStore();
 const engines = store.state.searchEngines.map(engine => ({
   value: engine.name,
   icon: `img:./src/assets/icons/${engine.icon}.svg`,
-  url: engine.url
+  url: engine.url,
+  slot: engine.name,
+  comment: engine.comment
 }));
 
 const activedEngineName = ref(engines[0]?.value);
+
+function getActiveEngine() {
+  return engines.find(eng => eng.value === activedEngineName.value);
+}
 
 function onSelectEngine(engine: any) {
   activedEngineName.value = engine;
   inputBar.value?.focus();
 }
+
+const placeholderText = computed(() => {
+  const engine = getActiveEngine();
+  return `使用 ${engine?.comment} 搜索` || '开始搜索';
+});
 
 const searchText = ref('');
 function onSearch() {
@@ -62,10 +73,7 @@ function onSearch() {
     return;
   }
 
-  const engine = engines.find(
-    engine => engine.value === activedEngineName.value
-  );
-
+  const engine = getActiveEngine();
   if (engine) {
     window.open(engine.url + searchText.value);
     searchText.value = '';
