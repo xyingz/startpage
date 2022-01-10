@@ -19,7 +19,7 @@
       </template>
     </q-input>
 
-    <transition name="shrink">
+    <q-slide-transition>
       <q-btn-toggle
         v-if="!store.state.isShowToolBox"
         v-model="activedEngineName"
@@ -29,7 +29,7 @@
         :options="engines"
         @update:model-value="value => onSelectEngine(value)"
       />
-    </transition>
+    </q-slide-transition>
   </div>
 </template>
 
