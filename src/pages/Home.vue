@@ -1,6 +1,6 @@
 <template>
   <div class="column">
-    <div class="col-5 column justify-end">
+    <div class="col-5 column justify-end q-gutter-md">
       <TimeComponent />
       <SearchBarComponent />
     </div>
