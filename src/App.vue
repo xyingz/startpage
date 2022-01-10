@@ -1,5 +1,5 @@
 <template>
-  <router-view />
+  <router-view style="height: 100vh" />
 
   <footer>CopyRight @ JeremyJone</footer>
 </template>

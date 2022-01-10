@@ -2,18 +2,19 @@
  * @Author: JeremyJone
  * @Date: 2021-10-12 16:18:03
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-07 17:15:25
+ * @LastEditTime: 2022-01-10 14:16:30
  * @Description: 状态管理文件
  */
 
 import { Tool } from '@/typings/tool';
 import { InjectionKey } from 'vue';
 import { createStore, useStore as baseUseStore, Store } from 'vuex';
-import { SET_FOCUS_MODE } from './mutation-types';
+import { SET_FOCUS_MODE, SET_SHOW_TOOLBOX } from './mutation-types';
 
 export interface State {
   focusMode: boolean;
   tools: Array<Tool>;
+  isShowToolBox: boolean;
 }
 
 export const key: InjectionKey<Store<State>> = Symbol('store_key');
@@ -179,16 +180,24 @@ export default createStore({
         url: 'https://stackshare.io',
         comment: 'StackShare'
       }
-    ]
+    ],
+    isShowToolBox: false
   },
   mutations: {
     [SET_FOCUS_MODE](state: State, focusMode: boolean) {
       state.focusMode = focusMode;
+    },
+    [SET_SHOW_TOOLBOX](state: State, isShowToolBox: boolean) {
+      state.isShowToolBox = isShowToolBox;
     }
   },
   actions: {
     setFocusMode(context, focusMode: boolean) {
       context.commit(SET_FOCUS_MODE, focusMode);
+    },
+
+    setShowToolBox(context, isShowToolBox: boolean) {
+      context.commit(SET_SHOW_TOOLBOX, isShowToolBox);
     }
   },
   modules: {}
