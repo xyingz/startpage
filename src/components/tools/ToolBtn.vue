@@ -1,5 +1,8 @@
 <template>
-  <div class="tool-box-btn-wrap relative-position">
+  <div
+    class="tool-box-btn-wrap relative-position"
+    :class="{ 'tool-box-btn-wrap-swing': store.state.removeToolState }"
+  >
     <q-btn
       v-touch-hold.mouse="handleHold"
       unelevated
@@ -28,6 +31,7 @@
       </template>
 
       <q-btn
+        v-if="store.state.removeToolState"
         icon="close"
         color="warning"
         round
@@ -42,7 +46,7 @@
 
 <script lang="ts" setup>
 import { useStore } from '@/store';
-import { REMOVE_TOOL } from '@/store/mutation-types';
+import { REMOVE_TOOL, SET_REMOVE_TOOL_STATE } from '@/store/mutation-types';
 import { Tool } from '@/typings/tool';
 import { useQuasar } from 'quasar';
 
@@ -58,7 +62,9 @@ function clickTool(tool: Tool) {
 }
 
 function handleHold() {
-  console.log('hold');
+  if (!store.state.removeToolState) {
+    store.dispatch(SET_REMOVE_TOOL_STATE, true);
+  }
 }
 
 function deleteTool(tool: Tool) {
@@ -70,5 +76,27 @@ function deleteTool(tool: Tool) {
 .tool-box-btn-delete {
   right: -0.3rem;
   top: -0.3rem;
+}
+
+.tool-box-btn-wrap-swing {
+  animation: swing 0.2s ease-in-out infinite;
+}
+
+@keyframes swing {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(1.5deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  75% {
+    transform: rotate(-1.5deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
 }
 </style>

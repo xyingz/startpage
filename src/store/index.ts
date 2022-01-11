@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2021-10-12 16:18:03
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-11 15:08:57
+ * @LastEditTime: 2022-01-11 15:37:14
  * @Description: 状态管理文件
  */
 
@@ -17,6 +17,7 @@ import {
   ADD_TOOL,
   REMOVE_TOOL,
   SET_FOCUS_MODE,
+  SET_REMOVE_TOOL_STATE,
   SET_SHOW_TOOLBOX
 } from './mutation-types';
 
@@ -25,6 +26,7 @@ export interface State {
   tools: Array<Tool>;
   isShowToolBox: boolean;
   searchEngines: Array<SearchEngine>;
+  removeToolState: boolean;
 }
 
 export const key: InjectionKey<Store<State>> = Symbol('store_key');
@@ -36,7 +38,8 @@ export default createStore({
     focusMode: false,
     isShowToolBox: false,
     tools,
-    searchEngines
+    searchEngines,
+    removeToolState: false
   },
   mutations: {
     [SET_FOCUS_MODE](state: State, focusMode: boolean) {
@@ -57,6 +60,9 @@ export default createStore({
       if (index !== -1) {
         state.tools.splice(index, 1);
       }
+    },
+    [SET_REMOVE_TOOL_STATE](state: State, removeToolState: boolean) {
+      state.removeToolState = removeToolState;
     }
   },
   actions: {
@@ -73,6 +79,9 @@ export default createStore({
     },
     [REMOVE_TOOL](context, tool: Tool) {
       context.commit(REMOVE_TOOL, tool);
+    },
+    [SET_REMOVE_TOOL_STATE](context, removeToolState: boolean) {
+      context.commit(SET_REMOVE_TOOL_STATE, removeToolState);
     }
   },
   modules: {}
