@@ -2,17 +2,18 @@
  * @Author: JeremyJone
  * @Date: 2021-10-12 16:18:03
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-10 17:10:37
+ * @LastEditTime: 2022-01-11 12:21:19
  * @Description: 状态管理文件
  */
 
 import { SearchEngine } from '@/typings/search';
 import { Tool } from '@/typings/tool';
+import { uuid } from '@/utils/common';
 import { InjectionKey } from 'vue';
 import { createStore, useStore as baseUseStore, Store } from 'vuex';
 import searchEngines from './data/search-engine';
 import tools from './data/tools';
-import { SET_FOCUS_MODE, SET_SHOW_TOOLBOX } from './mutation-types';
+import { ADD_TOOL, SET_FOCUS_MODE, SET_SHOW_TOOLBOX } from './mutation-types';
 
 export interface State {
   focusMode: boolean;
@@ -38,15 +39,26 @@ export default createStore({
     },
     [SET_SHOW_TOOLBOX](state: State, isShowToolBox: boolean) {
       state.isShowToolBox = isShowToolBox;
+    },
+    [ADD_TOOL](state: State, tool: Tool) {
+      state.tools.push({
+        id: uuid(12),
+        url: tool.url,
+        comment: tool.comment
+      });
     }
   },
   actions: {
-    setFocusMode(context, focusMode: boolean) {
+    [SET_FOCUS_MODE](context, focusMode: boolean) {
       context.commit(SET_FOCUS_MODE, focusMode);
     },
 
-    setShowToolBox(context, isShowToolBox: boolean) {
+    [SET_SHOW_TOOLBOX](context, isShowToolBox: boolean) {
       context.commit(SET_SHOW_TOOLBOX, isShowToolBox);
+    },
+
+    [ADD_TOOL](context, tool: Tool) {
+      context.commit(ADD_TOOL, tool);
     }
   },
   modules: {}

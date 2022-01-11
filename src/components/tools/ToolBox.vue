@@ -57,7 +57,7 @@
     </div>
   </transition>
 
-  <q-dialog
+  <!-- <q-dialog
     v-model="showDialog"
     persistent
     transition-show="scale"
@@ -77,7 +77,9 @@
         <q-btn v-close-popup flat label="取消" />
       </q-card-actions>
     </q-card>
-  </q-dialog>
+  </q-dialog> -->
+
+  <AddDialog v-model="showDialog" />
 </template>
 
 <script lang="ts">
@@ -86,6 +88,7 @@ import { reactive, ref, watch } from 'vue';
 import { useStore } from '@/store/index';
 import { SET_SHOW_TOOLBOX } from '@/store/mutation-types';
 import { useQuasar } from 'quasar';
+import AddDialog from './AddDialog.vue';
 </script>
 
 <script lang="ts" setup>
@@ -98,7 +101,7 @@ const raidus = ref('10');
 const drop = ref('down');
 
 function changeToolBoxState() {
-  store.commit(SET_SHOW_TOOLBOX, !store.state.isShowToolBox);
+  store.dispatch(SET_SHOW_TOOLBOX, !store.state.isShowToolBox);
   drop.value = store.state.isShowToolBox ? 'up' : 'down';
 }
 
@@ -122,14 +125,6 @@ function onCreateTool() {
   // });
 
   showDialog.value = true;
-}
-
-// function onClose() {
-//   // console.log('onClose');
-// }
-
-function onConfirm() {
-  // console.log('onConfirm');
 }
 </script>
 
@@ -200,6 +195,7 @@ $border: 3px;
     width: 100%;
     grid-template-columns: repeat(4, 1fr);
     grid-gap: 0.5rem 0.25rem;
+    padding: 0 2rem;
 
     &-btn {
       width: calc(#{$size} / 2);

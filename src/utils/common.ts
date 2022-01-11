@@ -1,35 +1,49 @@
+/* eslint-disable no-bitwise */
 /* eslint-disable no-param-reassign */
 /*
  * @Author: JeremyJone
  * @Date: 2022-01-05 11:53:15
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-06 14:34:22
+ * @LastEditTime: 2022-01-11 12:18:55
  * @Description: 通用函数
  */
 
 /**
- * 转换一个对象为一个数字，如果可转，则返回数字，否则返回0
- * @param str 待转对象
- * @returns 数字
+ * 生成uuid
+ * @param len 指定uuid的长度
+ * @param radix 进制，默认16进制
  */
-export function parseInt(str: any): number {
-  if (typeof str === 'number') {
-    return str;
-  }
-  if (typeof str === 'string') {
-    return parseInt(str);
+export function uuid(len: number, radix = 16): string {
+  const chars =
+    '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
+  const res = [];
+  let i;
+  radix = radix || chars.length;
+
+  if (len) {
+    // Compact form
+    for (i = 0; i < len; i++) res[i] = chars[0 | (Math.random() * radix)];
+  } else {
+    // rfc4122, version 4 form
+    let r;
+
+    // rfc4122 requires these characters
+    // eslint-disable-next-line no-multi-assign
+    res[8] = res[13] = res[18] = res[23] = '-';
+    res[14] = '4';
+
+    // Fill in random data.  At i==19 set the high bits of clock sequence as
+    // per rfc4122, sec. 4.1.5
+    for (i = 0; i < 36; i++) {
+      if (!res[i]) {
+        r = 0 | (Math.random() * 16);
+        res[i] = chars[i === 19 ? (r & 0x3) | 0x8 : r];
+      }
+    }
   }
 
-  try {
-    return parseInt(str.toString());
-  } catch (error) {
-    return 0;
-  }
+  return res.join('');
 }
-
-export default {
-  parseInt
-};
 
 type FormatKey = 'M+' | 'd+' | 'h+' | 'H+' | 'm+' | 's+' | 'q+' | 'S';
 export type LanguageKey = 'zh' | 'en';

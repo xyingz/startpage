@@ -14,7 +14,7 @@
 <script lang="ts" setup>
 import TimeComponent from '@/components/time/Time.vue';
 import SearchBarComponent from '@/components/SearchBar.vue';
-import ToolboxComponent from '@/components/ToolBox.vue';
+import ToolboxComponent from '@/components/tools/ToolBox.vue';
 import { useStore } from '@/store';
 import { SET_FOCUS_MODE } from '@/store/mutation-types';
 
@@ -22,7 +22,7 @@ const store = useStore();
 
 function onFocusOut() {
   document.body.classList.remove('global-search-active');
-  store.commit(SET_FOCUS_MODE, false);
+  store.dispatch(SET_FOCUS_MODE, false);
 }
 </script>
 

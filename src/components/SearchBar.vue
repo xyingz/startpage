@@ -87,7 +87,7 @@ onMounted(() => {
 
 function onFocus() {
   document.body.classList.add('global-search-active');
-  store.commit(SET_FOCUS_MODE, true);
+  store.dispatch(SET_FOCUS_MODE, true);
 }
 </script>
 
