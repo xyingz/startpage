@@ -1,14 +1,11 @@
-// import { mount } from '@vue/test-utils';
-// import WelcomeComponent from '@/components/SearchBar.vue';
+import { shallowMount } from '@vue/test-utils';
+import App from '@/App.vue';
 
-// describe('Welcome Component Test', () => {
-//   const wrapper = mount(WelcomeComponent, {
-//     props: { msg: 'Hello Test!' }
-//   });
+describe('Test', () => {
+  const wrapper = shallowMount(App);
 
-//   it('load compoent', () => {
-//     const html = wrapper.text();
-//     console.log(html);
-//     expect(html).toContain('Hello Test!');
-//   });
-// });
+  it('load compoent', () => {
+    const html = wrapper.text();
+    expect(html).toContain('JeremyJone');
+  });
+});
