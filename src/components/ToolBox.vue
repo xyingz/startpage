@@ -57,18 +57,27 @@
     </div>
   </transition>
 
-  <Dialog
+  <q-dialog
     v-model="showDialog"
-    title="添加工具栏"
-    content="请输入工具栏名称"
-    ok-label="添加"
-    cancel-label="取消"
-    @cancel="onClose"
-    @ok="onConfirm"
+    persistent
+    transition-show="scale"
+    transition-hide="scale"
   >
-    <!-- <div>1</div>
-      <div>2</div> -->
-  </Dialog>
+    <q-card class="bg-teal text-white">
+      <q-card-section>
+        <div class="text-h6">Persistent</div>
+      </q-card-section>
+
+      <q-card-section class="q-pt-none">
+        Click/Tap on the backdrop.
+      </q-card-section>
+
+      <q-card-actions align="right" class="bg-white text-teal">
+        <q-btn flat color="primary" label="添加" @click="onConfirm" />
+        <q-btn v-close-popup flat label="取消" />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script lang="ts">
@@ -77,7 +86,6 @@ import { reactive, ref, watch } from 'vue';
 import { useStore } from '@/store/index';
 import { SET_SHOW_TOOLBOX } from '@/store/mutation-types';
 import { useQuasar } from 'quasar';
-import Dialog from './dialog';
 </script>
 
 <script lang="ts" setup>
@@ -116,9 +124,9 @@ function onCreateTool() {
   showDialog.value = true;
 }
 
-function onClose() {
-  // console.log('onClose');
-}
+// function onClose() {
+//   // console.log('onClose');
+// }
 
 function onConfirm() {
   // console.log('onConfirm');
