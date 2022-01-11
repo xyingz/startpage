@@ -18,9 +18,11 @@
       </div>
 
       <div v-else class="tool-box">
-        <template v-for="tool in tools" :key="tool.id">
-          <ToolBtn :tool="tool" />
-        </template>
+        <transition-group name="scale">
+          <template v-for="tool in tools" :key="tool.id">
+            <ToolBtn :tool="tool" />
+          </template>
+        </transition-group>
 
         <q-btn class="add-tool-btn" @click="onCreateTool">
           <q-icon size="3em" name="add" />
@@ -137,12 +139,11 @@ $border: 3px;
   .tool-box {
     width: 100%;
     grid-template-columns: repeat(4, 1fr);
-    grid-gap: 0.5rem 0.25rem;
     padding: 0 2rem;
 
     &-btn {
-      width: calc(#{$size} / 2);
-      height: calc(#{$size} / 2);
+      width: calc(#{$size} / 2) !important;
+      height: calc(#{$size} / 2) !important;
     }
   }
 }

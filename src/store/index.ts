@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2021-10-12 16:18:03
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-11 12:21:19
+ * @LastEditTime: 2022-01-11 15:08:57
  * @Description: 状态管理文件
  */
 
@@ -13,7 +13,12 @@ import { InjectionKey } from 'vue';
 import { createStore, useStore as baseUseStore, Store } from 'vuex';
 import searchEngines from './data/search-engine';
 import tools from './data/tools';
-import { ADD_TOOL, SET_FOCUS_MODE, SET_SHOW_TOOLBOX } from './mutation-types';
+import {
+  ADD_TOOL,
+  REMOVE_TOOL,
+  SET_FOCUS_MODE,
+  SET_SHOW_TOOLBOX
+} from './mutation-types';
 
 export interface State {
   focusMode: boolean;
@@ -46,6 +51,12 @@ export default createStore({
         url: tool.url,
         comment: tool.comment
       });
+    },
+    [REMOVE_TOOL](state: State, tool: Tool) {
+      const index = state.tools.findIndex(item => item.id === tool.id);
+      if (index !== -1) {
+        state.tools.splice(index, 1);
+      }
     }
   },
   actions: {
@@ -59,6 +70,9 @@ export default createStore({
 
     [ADD_TOOL](context, tool: Tool) {
       context.commit(ADD_TOOL, tool);
+    },
+    [REMOVE_TOOL](context, tool: Tool) {
+      context.commit(REMOVE_TOOL, tool);
     }
   },
   modules: {}
