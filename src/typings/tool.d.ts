@@ -1,4 +1,4 @@
-export declare interface Tool {
+declare interface Tool {
   readonly id: string;
   url?: string;
   comment?: string;

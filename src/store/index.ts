@@ -6,8 +6,6 @@
  * @Description: 状态管理文件
  */
 
-import { SearchEngine } from '@/typings/search';
-import { Tool } from '@/typings/tool';
 import { uuid } from '@/utils/common';
 import { InjectionKey } from 'vue';
 import { createStore, useStore as baseUseStore, Store } from 'vuex';

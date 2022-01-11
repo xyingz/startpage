@@ -59,6 +59,8 @@ module.exports = {
 
     'no-plusplus': ['error', { allowForLoopAfterthoughts: true }],
 
+    'no-undef': 'off',
+
     // 【必须】缩进 2 个空格
     // indent: [
     //   "error",

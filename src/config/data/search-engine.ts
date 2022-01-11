@@ -1,5 +1,3 @@
-import { SearchEngine } from '@/typings/search';
-
 const searchEngines: Array<SearchEngine> = [
   {
     name: 'baidu',

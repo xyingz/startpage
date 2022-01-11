@@ -47,7 +47,6 @@
 <script lang="ts" setup>
 import { useStore } from '@/store';
 import { REMOVE_TOOL, SET_REMOVE_TOOL_STATE } from '@/store/mutation-types';
-import { Tool } from '@/typings/tool';
 import { useQuasar } from 'quasar';
 
 defineProps<{ tool: Tool }>();

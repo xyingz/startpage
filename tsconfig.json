@@ -12,7 +12,7 @@
     "lib": ["esnext", "dom"],
     "baseUrl": ".",
     "types": ["vite/client", "node", "jest"],
-    "typeRoots": ["node_modules/@types"],
+    "typeRoots": ["node_modules/@types", "./src/typings"],
     "paths": {
       "@/*": ["./src/*"]
     }

@@ -7,7 +7,6 @@
  */
 import store from '@/store';
 import { SET_TOOL_LIST } from '@/store/mutation-types';
-import { Tool } from '@/typings/tool';
 import { LocalStorage } from 'quasar';
 import { TOOL_LIST } from './constants';
 import tools from './data/tools';

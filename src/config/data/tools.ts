@@ -1,4 +1,3 @@
-import { Tool } from '@/typings/tool';
 import { uuid } from '@/utils/common';
 
 const tools: Array<Tool> = [

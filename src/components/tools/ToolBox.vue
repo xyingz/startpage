@@ -35,7 +35,6 @@
 </template>
 
 <script lang="ts">
-import { Tool } from '@/typings/tool';
 import { reactive, ref, watch } from 'vue';
 import { useStore } from '@/store/index';
 import { SET_SHOW_TOOLBOX } from '@/store/mutation-types';
