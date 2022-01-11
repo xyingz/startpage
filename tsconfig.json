@@ -15,7 +15,10 @@
     "typeRoots": ["node_modules/@types", "./src/typings"],
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    // resolve vue-test-util import error
+    // See https://github.com/vuejs/vue-test-utils-next/issues/1206
+    "skipLibCheck": true
   },
   "include": [
     "src/**/*.ts",
