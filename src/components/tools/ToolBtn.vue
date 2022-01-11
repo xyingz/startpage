@@ -79,7 +79,7 @@ function deleteTool(tool: Tool) {
 }
 
 .tool-box-btn-wrap-swing {
-  animation: swing 0.2s ease-in-out infinite;
+  animation: swing 0.3s ease-in-out infinite;
 }
 
 @keyframes swing {

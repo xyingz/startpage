@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2021-10-12 16:18:03
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-11 15:37:14
+ * @LastEditTime: 2022-01-11 16:09:36
  * @Description: 状态管理文件
  */
 
@@ -11,14 +11,16 @@ import { Tool } from '@/typings/tool';
 import { uuid } from '@/utils/common';
 import { InjectionKey } from 'vue';
 import { createStore, useStore as baseUseStore, Store } from 'vuex';
-import searchEngines from './data/search-engine';
-import tools from './data/tools';
+import { LocalStorage } from 'quasar';
+import { TOOL_LIST } from '@/config/constants';
+import searchEngines from '../config/data/search-engine';
 import {
   ADD_TOOL,
   REMOVE_TOOL,
   SET_FOCUS_MODE,
   SET_REMOVE_TOOL_STATE,
-  SET_SHOW_TOOLBOX
+  SET_SHOW_TOOLBOX,
+  SET_TOOL_LIST
 } from './mutation-types';
 
 export interface State {
@@ -37,7 +39,7 @@ export default createStore({
   state: {
     focusMode: false,
     isShowToolBox: false,
-    tools,
+    tools: [],
     searchEngines,
     removeToolState: false
   },
@@ -48,18 +50,27 @@ export default createStore({
     [SET_SHOW_TOOLBOX](state: State, isShowToolBox: boolean) {
       state.isShowToolBox = isShowToolBox;
     },
+    [SET_TOOL_LIST](state: State, tools: Array<Tool>) {
+      state.tools = tools;
+    },
     [ADD_TOOL](state: State, tool: Tool) {
       state.tools.push({
         id: uuid(12),
         url: tool.url,
         comment: tool.comment
       });
+
+      // 更新 localStorage
+      LocalStorage.set(TOOL_LIST, JSON.stringify(state.tools));
     },
     [REMOVE_TOOL](state: State, tool: Tool) {
       const index = state.tools.findIndex(item => item.id === tool.id);
       if (index !== -1) {
         state.tools.splice(index, 1);
       }
+
+      // 更新 localStorage
+      LocalStorage.set(TOOL_LIST, JSON.stringify(state.tools));
     },
     [SET_REMOVE_TOOL_STATE](state: State, removeToolState: boolean) {
       state.removeToolState = removeToolState;
@@ -72,6 +83,10 @@ export default createStore({
 
     [SET_SHOW_TOOLBOX](context, isShowToolBox: boolean) {
       context.commit(SET_SHOW_TOOLBOX, isShowToolBox);
+    },
+
+    [SET_TOOL_LIST](content, toolList: Array<Tool>) {
+      content.commit(SET_TOOL_LIST, toolList);
     },
 
     [ADD_TOOL](context, tool: Tool) {

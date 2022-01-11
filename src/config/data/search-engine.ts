@@ -21,7 +21,7 @@ const searchEngines: Array<SearchEngine> = [
   },
   {
     name: 'magi',
-    url: 'https://www.magi.com/search?q=',
+    url: 'https://magi.com/search?q=',
     icon: 'magi',
     comment: 'Magi（搜人、事、物、概念，或者直接提问）'
   }

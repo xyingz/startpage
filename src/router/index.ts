@@ -2,12 +2,13 @@
  * @Author: JeremyJone
  * @Date: 2021-10-12 16:00:00
  * @LastEditors: JeremyJone
- * @LastEditTime: 2021-10-12 16:12:45
+ * @LastEditTime: 2022-01-11 15:50:43
  * @Description: 路由配置文件
  */
 
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import Home from '@/pages/Home.vue';
+import { initConfig } from '@/config/init';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -29,7 +30,8 @@ const router = createRouter({
 
 // 路由拦截器
 router.beforeEach((to, from, next) => {
-  // TODO: 自定义拦截内容
+  // 初始化配置
+  initConfig();
 
   next();
 });
