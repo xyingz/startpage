@@ -11,7 +11,7 @@
   <transition name="scale-to-top">
     <div v-if="store.state.isShowToolBox">
       <div v-if="!tools.length">
-        <div class="text-h5 text-bold q-my-md">
+        <div class="text-h5 text-bold text-info q-my-md">
           工具箱是空的，快去添加一个吧
         </div>
         <q-btn label="添加工具" color="primary" @click="onCreateTool" />
