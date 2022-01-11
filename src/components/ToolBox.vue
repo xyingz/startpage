@@ -1,57 +1,58 @@
 <template>
-  <div>
-    <ButtonComponent
-      :icon="`drop${drop}`"
-      type="transparent"
-      class="drop-btn"
-      @click="changeToolBoxState"
-    />
-  </div>
+  <q-btn
+    class="drop-btn"
+    flat
+    rounded
+    color="primary"
+    :icon="`keyboard_double_arrow_${drop}`"
+    @click="changeToolBoxState"
+  />
 
   <transition name="scale-to-top">
     <div v-if="store.state.isShowToolBox">
       <div v-if="!tools.length">
-        <div class="text-info tools-empty-tip">
+        <div class="text-h5 text-bold q-my-md">
           工具箱是空的，快去添加一个吧
         </div>
-        <ButtonComponent
-          label="添加工具"
-          type="primary"
-          size="small"
-          @click="onCreateTool"
-        />
+        <q-btn label="添加工具" color="primary" @click="onCreateTool" />
       </div>
 
       <div v-else class="tool-box">
         <template v-for="tool in tools" :key="tool.id">
           <div class="tool-box-btn-wrap">
-            <ButtonComponent
-              :label="!tool.icon && !tool.favicon ? tool.name : ''"
-              size="big"
-              class="tool-box-btn shadow-hover"
-              :icon="tool.icon"
-              type="info"
-              :radius="20"
-              :style="{ '--tool-size': size }"
+            <q-btn
+              unelevated
+              color="dark"
+              :padding="$q.screen.lt.sm ? 'none' : ''"
+              class="tool-box-btn"
               @click="() => clickTool(tool)"
             >
-              <template v-if="tool.favicon">
-                <img :src="tool.favicon" :alt="tool.comment" />
+              <template v-if="tool.url">
+                <q-img
+                  :src="`https://ico.kucat.cn/get.php?url=${tool.url}`"
+                  :alt="tool.comment"
+                  ratio="1"
+                  width="100%"
+                  height="100%"
+                  fit="contain"
+                >
+                  <template #error>
+                    <q-icon
+                      name="public"
+                      size="2rem"
+                      :class="{ 'error-btn-icon': $q.screen.gt.xs }"
+                    />
+                  </template>
+                </q-img>
               </template>
-            </ButtonComponent>
-            <div class="tool-box-name">{{ tool.comment }}</div>
+            </q-btn>
+            <div class="tool-box-name ellipsis">{{ tool.comment }}</div>
           </div>
         </template>
 
-        <ButtonComponent
-          class="tool-box-btn add-tool-btn"
-          type="transparent"
-          icon="plus"
-          size="3rem"
-          :radius="20"
-          :style="{ '--tool-size': size }"
-          @click="onCreateTool"
-        />
+        <q-btn class="add-tool-btn" @click="onCreateTool">
+          <q-icon size="3em" name="add" />
+        </q-btn>
       </div>
     </div>
   </transition>
@@ -75,16 +76,17 @@ import { Tool } from '@/typings/tool';
 import { reactive, ref, watch } from 'vue';
 import { useStore } from '@/store/index';
 import { SET_SHOW_TOOLBOX } from '@/store/mutation-types';
-import ButtonComponent from './button/Button.vue';
+import { useQuasar } from 'quasar';
 import Dialog from './dialog';
 </script>
 
 <script lang="ts" setup>
+const $q = useQuasar();
 const store = useStore();
 const tools = reactive<Array<Tool>>(store.state.tools);
 
-const size = ref('5rem');
-
+const size = ref('4rem');
+const raidus = ref('10');
 const drop = ref('down');
 
 function changeToolBoxState() {
@@ -124,6 +126,10 @@ function onConfirm() {
 </script>
 
 <style scoped lang="scss">
+$size: v-bind(size);
+$raidus: calc(v-bind(raidus) * 1%);
+$border: 3px;
+
 .drop-btn {
   animation: bounce 1s ease-in-out infinite alternate;
 }
@@ -158,9 +164,9 @@ function onConfirm() {
   }
 
   &-btn {
-    width: var(--tool-size);
-    height: var(--tool-size);
-    padding: 0;
+    width: $size;
+    height: $size;
+    border-radius: $raidus;
   }
 
   &-name {
@@ -171,24 +177,30 @@ function onConfirm() {
 }
 
 .add-tool-btn {
-  $border: 3px;
   border: $border dashed #666;
-  width: calc(var(--tool-size) - $border * 2);
-  height: calc(var(--tool-size) - $border * 2);
+  border-radius: $raidus;
+  width: calc(#{$size} - #{$border} * 2);
+  height: calc(#{$size} - #{$border} * 2);
 }
 
-.tools-empty-tip {
-  margin: 1rem 0;
+.error-btn-icon {
+  margin-top: calc(#{$size} / 2 - 2rem / 2 - #{$border});
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 600px) {
   .tool-box {
-    width: 80%;
+    width: 100%;
     grid-template-columns: repeat(4, 1fr);
+    grid-gap: 0.5rem 0.25rem;
+
+    &-btn {
+      width: calc(#{$size} / 2);
+      height: calc(#{$size} / 2);
+    }
   }
 }
 
-@media screen and (min-width: 769px) and (max-width: 1280px) {
+@media screen and (min-width: 601px) and (max-width: 1024px) {
   .tool-box {
     width: 80%;
     grid-template-columns: repeat(6, 1fr);

@@ -94,7 +94,7 @@ function onFocus() {
 <style scoped lang="scss">
 .search-bar {
   width: 50%;
-  min-width: 400px;
+  min-width: 300px;
   margin-bottom: 0.5rem;
 }
 </style>
