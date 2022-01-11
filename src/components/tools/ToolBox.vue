@@ -19,35 +19,7 @@
 
       <div v-else class="tool-box">
         <template v-for="tool in tools" :key="tool.id">
-          <div class="tool-box-btn-wrap">
-            <q-btn
-              unelevated
-              color="dark"
-              :padding="$q.screen.lt.sm ? 'none' : ''"
-              class="tool-box-btn"
-              @click="() => clickTool(tool)"
-            >
-              <template v-if="tool.url">
-                <q-img
-                  :src="`https://ico.kucat.cn/get.php?url=${tool.url}`"
-                  :alt="tool.comment"
-                  ratio="1"
-                  width="100%"
-                  height="100%"
-                  fit="contain"
-                >
-                  <template #error>
-                    <q-icon
-                      name="public"
-                      size="2rem"
-                      :class="{ 'error-btn-icon': $q.screen.gt.xs }"
-                    />
-                  </template>
-                </q-img>
-              </template>
-            </q-btn>
-            <div class="tool-box-name ellipsis">{{ tool.comment }}</div>
-          </div>
+          <ToolBtn :tool="tool" />
         </template>
 
         <q-btn class="add-tool-btn" @click="onCreateTool">
@@ -65,12 +37,11 @@ import { Tool } from '@/typings/tool';
 import { reactive, ref, watch } from 'vue';
 import { useStore } from '@/store/index';
 import { SET_SHOW_TOOLBOX } from '@/store/mutation-types';
-import { useQuasar } from 'quasar';
+import ToolBtn from './ToolBtn.vue';
 import AddDialog from './AddDialog.vue';
 </script>
 
 <script lang="ts" setup>
-const $q = useQuasar();
 const store = useStore();
 const tools = reactive<Array<Tool>>(store.state.tools);
 
@@ -90,12 +61,6 @@ watch(
   }
 );
 
-function clickTool(tool: Tool) {
-  if (tool.url) {
-    window.open(tool.url, '_blank');
-  }
-}
-
 const showDialog = ref(false);
 function onCreateTool() {
   // createDialog({
@@ -106,7 +71,7 @@ function onCreateTool() {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 $size: v-bind(size);
 $raidus: calc(v-bind(raidus) * 1%);
 $border: 3px;
@@ -137,23 +102,23 @@ $border: 3px;
   justify-items: center;
   margin: 0 auto;
 
-  &-btn-wrap {
+  .tool-box-btn-wrap {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-  }
 
-  &-btn {
-    width: $size;
-    height: $size;
-    border-radius: $raidus;
-  }
+    .tool-box-btn {
+      width: $size;
+      height: $size;
+      border-radius: $raidus;
+    }
 
-  &-name {
-    font-size: 0.8rem;
-    font-weight: bold;
-    color: var(--normal-color-text);
+    .tool-box-name {
+      font-size: 0.8rem;
+      font-weight: bold;
+      color: var(--normal-color-text);
+    }
   }
 }
 
