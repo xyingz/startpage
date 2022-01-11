@@ -18,6 +18,12 @@ const searchEngines: Array<SearchEngine> = [
     url: 'https://www.google.com/search?q=',
     icon: 'google',
     comment: '谷歌（需要梯子）'
+  },
+  {
+    name: 'magi',
+    url: 'https://www.magi.com/search?q=',
+    icon: 'magi',
+    comment: '谷歌（需要梯子）'
   }
 ];
 

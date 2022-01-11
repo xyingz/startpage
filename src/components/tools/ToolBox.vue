@@ -57,28 +57,6 @@
     </div>
   </transition>
 
-  <!-- <q-dialog
-    v-model="showDialog"
-    persistent
-    transition-show="scale"
-    transition-hide="scale"
-  >
-    <q-card class="bg-teal text-white">
-      <q-card-section>
-        <div class="text-h6">Persistent</div>
-      </q-card-section>
-
-      <q-card-section class="q-pt-none">
-        Click/Tap on the backdrop.
-      </q-card-section>
-
-      <q-card-actions align="right" class="bg-white text-teal">
-        <q-btn flat color="primary" label="添加" @click="onConfirm" />
-        <q-btn v-close-popup flat label="取消" />
-      </q-card-actions>
-    </q-card>
-  </q-dialog> -->
-
   <AddDialog v-model="showDialog" />
 </template>
 
