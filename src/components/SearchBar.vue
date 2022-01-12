@@ -44,7 +44,9 @@ const store = useStore();
 
 const engines = store.state.searchEngines.map(engine => ({
   value: engine.name,
-  icon: `img:./src/assets/icons/${engine.icon}.svg`,
+  icon: `img:${import.meta.env.PROD ? './public' : './src'}/assets/icons/${
+    engine.icon
+  }.svg`,
   url: engine.url,
   slot: engine.name,
   comment: engine.comment

@@ -24,6 +24,9 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Copy file
+        run: mv ./src/assets/icons/ ./dist/assets/icons/
+
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
