@@ -37,7 +37,7 @@
 
 <script lang="ts" setup>
 import { useStore } from '@/store';
-import { ADD_TOOL } from '@/store/mutation-types';
+import { SETTINGS } from '@/store/mutation-types';
 import { computed, ref } from 'vue';
 
 const props = defineProps({
@@ -72,7 +72,7 @@ function onConfirm() {
     return;
   }
 
-  store.dispatch(ADD_TOOL, {
+  store.dispatch(SETTINGS.ADD_TOOL, {
     comment: toolName.value,
     url: toolUrl.value
   });

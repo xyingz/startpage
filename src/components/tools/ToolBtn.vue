@@ -1,7 +1,9 @@
 <template>
   <div
     class="tool-box-btn-wrap relative-position"
-    :class="{ 'tool-box-btn-wrap-swing': store.state.removeToolState }"
+    :class="{
+      'tool-box-btn-wrap-swing': store.state.controllers.removeToolState
+    }"
   >
     <q-btn
       v-touch-hold.mouse="handleHold"
@@ -31,7 +33,7 @@
       </template>
 
       <q-btn
-        v-if="store.state.removeToolState"
+        v-if="store.state.controllers.removeToolState"
         icon="close"
         color="warning"
         round
@@ -46,7 +48,7 @@
 
 <script lang="ts" setup>
 import { useStore } from '@/store';
-import { REMOVE_TOOL, SET_REMOVE_TOOL_STATE } from '@/store/mutation-types';
+import { CONTROLLERS, SETTINGS } from '@/store/mutation-types';
 import { useQuasar } from 'quasar';
 
 defineProps<{ tool: Tool }>();
@@ -61,13 +63,13 @@ function clickTool(tool: Tool) {
 }
 
 function handleHold() {
-  if (!store.state.removeToolState) {
-    store.dispatch(SET_REMOVE_TOOL_STATE, true);
+  if (!store.state.controllers.removeToolState) {
+    store.dispatch(CONTROLLERS.SET_REMOVE_TOOL_STATE, true);
   }
 }
 
 function deleteTool(tool: Tool) {
-  store.dispatch(REMOVE_TOOL, tool);
+  store.dispatch(SETTINGS.REMOVE_TOOL, tool);
 }
 </script>
 

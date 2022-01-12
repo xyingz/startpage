@@ -21,11 +21,11 @@
 
     <q-slide-transition>
       <q-btn-toggle
-        v-if="!store.state.isShowToolBox"
+        v-if="!store.state.controllers.isShowToolBox"
         v-model="activedEngineName"
         class="search-bar-engine-toggle-wrap"
         toggle-color="primary"
-        :glossy="store.state.focusMode"
+        :glossy="store.state.controllers.focusMode"
         rounded
         :options="engines"
         @update:model-value="value => onSelectEngine(value)"
@@ -36,14 +36,14 @@
 
 <script lang="ts">
 import { ref, onMounted, computed } from 'vue';
-import { SET_FOCUS_MODE } from '@/store/mutation-types';
+import { CONTROLLERS } from '@/store/mutation-types';
 import { useStore } from '@/store/index';
 </script>
 
 <script lang="ts" setup>
 const store = useStore();
 
-const engines = store.state.searchEngines.map(engine => ({
+const engines = store.state.settings.searchEngines.map(engine => ({
   value: engine.name,
   icon: `img:${import.meta.env.PROD ? '' : './src'}/assets/icons/${
     engine.icon
@@ -90,7 +90,7 @@ onMounted(() => {
 
 function onFocus() {
   document.body.classList.add('global-search-active');
-  store.dispatch(SET_FOCUS_MODE, true);
+  store.dispatch(CONTROLLERS.SET_FOCUS_MODE, true);
 }
 </script>
 

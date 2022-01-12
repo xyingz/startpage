@@ -2,11 +2,11 @@
  * @Author: JeremyJone
  * @Date: 2022-01-11 15:50:00
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-12 12:34:56
+ * @LastEditTime: 2022-01-12 15:19:17
  * @Description: 初始化配置
  */
 import store from '@/store';
-import { SET_SEARCH_ENGINE_LIST, SET_TOOL_LIST } from '@/store/mutation-types';
+import { SETTINGS } from '@/store/mutation-types';
 import { LocalStorage } from 'quasar';
 import { SEARCH_ENGINE_LIST, TOOL_LIST } from './constants';
 import searchEngines from './data/search-engine';
@@ -27,7 +27,7 @@ function initToolList() {
   }
 
   // 设置工具列表
-  store.dispatch(SET_TOOL_LIST, toolList);
+  store.dispatch(SETTINGS.SET_TOOL_LIST, toolList);
 }
 
 /**
@@ -45,7 +45,7 @@ function initSearchEngineList() {
   }
 
   // 设置搜索引擎列表
-  store.dispatch(SET_SEARCH_ENGINE_LIST, searchList);
+  store.dispatch(SETTINGS.SET_SEARCH_ENGINE_LIST, searchList);
 }
 
 export function initConfig() {

@@ -9,7 +9,7 @@
   />
 
   <transition name="scale-to-top">
-    <div v-if="store.state.isShowToolBox">
+    <div v-if="store.state.controllers.isShowToolBox">
       <div v-if="!tools.length">
         <div class="text-h5 text-bold text-info q-my-md">
           工具箱是空的，快去添加一个吧
@@ -37,7 +37,7 @@
 <script lang="ts">
 import { reactive, ref, watch } from 'vue';
 import { useStore } from '@/store/index';
-import { SET_SHOW_TOOLBOX } from '@/store/mutation-types';
+import { CONTROLLERS } from '@/store/mutation-types';
 import { useQuasar } from 'quasar';
 import ToolBtn from './ToolBtn.vue';
 import AddDialog from './AddDialog.vue';
@@ -46,21 +46,24 @@ import AddDialog from './AddDialog.vue';
 <script lang="ts" setup>
 const $q = useQuasar();
 const store = useStore();
-const tools = reactive<Array<Tool>>(store.state.tools);
+const tools = reactive<Array<Tool>>(store.state.settings.tools);
 
 const size = ref('4rem');
 const raidus = ref('10');
 const drop = ref('down');
 
 function changeToolBoxState() {
-  store.dispatch(SET_SHOW_TOOLBOX, !store.state.isShowToolBox);
-  drop.value = store.state.isShowToolBox ? 'up' : 'down';
+  store.dispatch(
+    CONTROLLERS.SET_SHOW_TOOLBOX,
+    !store.state.controllers.isShowToolBox
+  );
+  drop.value = store.state.controllers.isShowToolBox ? 'up' : 'down';
 }
 
 watch(
-  () => store.state.focusMode,
+  () => store.state.controllers.focusMode,
   mode => {
-    if (mode && store.state.isShowToolBox) changeToolBoxState();
+    if (mode && store.state.controllers.isShowToolBox) changeToolBoxState();
   }
 );
 
