@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2021-10-12 16:23:09
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-04 18:22:33
+ * @LastEditTime: 2022-01-12 17:08:17
  * @Description: Axios 配置文件
  */
 
@@ -11,8 +11,7 @@ import Axios from 'axios';
 const baseURL = '';
 const axios = Axios.create({
   baseURL, // 基础 url
-  timeout: 10000, // 超时 10s
-  withCredentials: true // 允许跨域
+  timeout: 10000 // 超时 10s
 });
 
 // 请求拦截器

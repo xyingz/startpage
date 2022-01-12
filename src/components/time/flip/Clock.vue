@@ -108,7 +108,7 @@ $size: calc(v-bind(size) * 1rem);
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.2rem;
 
   span {
     font-size: $size;

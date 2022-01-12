@@ -1,7 +1,7 @@
 <template>
   <div class="column" @click.passive="onFocusOut">
     <div class="col-5 column full-width justify-end q-gutter-y-md">
-      <TimeComponent />
+      <InfoPanelComponent />
       <SearchBarComponent />
     </div>
 
@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts" setup>
-import TimeComponent from '@/components/time/Time.vue';
+import InfoPanelComponent from '@/components/InfoPanel.vue';
 import SearchBarComponent from '@/components/SearchBar.vue';
 import ToolboxComponent from '@/components/tools/ToolBox.vue';
 import { useStore } from '@/store';

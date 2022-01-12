@@ -72,11 +72,11 @@ $size: calc(v-bind(size) * 1rem) !default;
 .flipper-bar {
   display: inline-block;
   position: relative;
-  width: calc(#{$size} * 1.5);
-  height: calc(#{$size} * 1.5 * 1.5);
-  line-height: calc(#{$size} * 1.5 * 1.5);
+  width: calc(#{$size} * 1.2);
+  height: calc(#{$size} * 1.4 * 1.5);
+  line-height: calc(#{$size} * 1.4 * 1.5);
   border-radius: 10px;
-  font-size: calc(#{$size} * 1.5);
+  font-size: calc(#{$size} * 1.2);
   color: #fff;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
   text-align: center;
