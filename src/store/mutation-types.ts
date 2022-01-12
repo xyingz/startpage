@@ -4,12 +4,6 @@ export const ADD_TOOL = 'ADD_TOOL';
 export const REMOVE_TOOL = 'REMOVE_TOOL';
 export const SET_REMOVE_TOOL_STATE = 'SET_REMOVE_TOOL_STATE';
 export const SET_TOOL_LIST = 'SET_TOOL_LIST';
+export const SET_SEARCH_ENGINE_LIST = 'SET_SEARCH_ENGINE_LIST';
 
-export default {
-  SET_FOCUS_MODE,
-  SET_SHOW_TOOLBOX,
-  ADD_TOOL,
-  REMOVE_TOOL,
-  SET_REMOVE_TOOL_STATE,
-  SET_TOOL_LIST
-};
+export default {};

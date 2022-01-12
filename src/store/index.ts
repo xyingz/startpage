@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2021-10-12 16:18:03
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-11 16:09:36
+ * @LastEditTime: 2022-01-12 12:31:30
  * @Description: 状态管理文件
  */
 
@@ -11,12 +11,12 @@ import { InjectionKey } from 'vue';
 import { createStore, useStore as baseUseStore, Store } from 'vuex';
 import { LocalStorage } from 'quasar';
 import { TOOL_LIST } from '@/config/constants';
-import searchEngines from '../config/data/search-engine';
 import {
   ADD_TOOL,
   REMOVE_TOOL,
   SET_FOCUS_MODE,
   SET_REMOVE_TOOL_STATE,
+  SET_SEARCH_ENGINE_LIST,
   SET_SHOW_TOOLBOX,
   SET_TOOL_LIST
 } from './mutation-types';
@@ -38,7 +38,7 @@ export default createStore({
     focusMode: false,
     isShowToolBox: false,
     tools: [],
-    searchEngines,
+    searchEngines: [],
     removeToolState: false
   },
   mutations: {
@@ -72,6 +72,9 @@ export default createStore({
     },
     [SET_REMOVE_TOOL_STATE](state: State, removeToolState: boolean) {
       state.removeToolState = removeToolState;
+    },
+    [SET_SEARCH_ENGINE_LIST](state: State, list: Array<SearchEngine>) {
+      state.searchEngines = list;
     }
   },
   actions: {
@@ -95,6 +98,9 @@ export default createStore({
     },
     [SET_REMOVE_TOOL_STATE](context, removeToolState: boolean) {
       context.commit(SET_REMOVE_TOOL_STATE, removeToolState);
+    },
+    [SET_SEARCH_ENGINE_LIST](context, list: Array<SearchEngine>) {
+      context.commit(SET_SEARCH_ENGINE_LIST, list);
     }
   },
   modules: {}
