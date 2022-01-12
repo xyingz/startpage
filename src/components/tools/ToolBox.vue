@@ -25,7 +25,7 @@
         </transition-group>
 
         <q-btn class="add-tool-btn" @click="onCreateTool">
-          <q-icon size="3em" name="add" />
+          <q-icon :size="`${$q.screen.lt.sm ? 1.5 : 3}rem`" name="add" />
         </q-btn>
       </div>
     </div>
@@ -38,11 +38,13 @@
 import { reactive, ref, watch } from 'vue';
 import { useStore } from '@/store/index';
 import { SET_SHOW_TOOLBOX } from '@/store/mutation-types';
+import { useQuasar } from 'quasar';
 import ToolBtn from './ToolBtn.vue';
 import AddDialog from './AddDialog.vue';
 </script>
 
 <script lang="ts" setup>
+const $q = useQuasar();
 const store = useStore();
 const tools = reactive<Array<Tool>>(store.state.tools);
 
@@ -118,7 +120,7 @@ $border: 3px;
     .tool-box-name {
       font-size: 0.8rem;
       font-weight: bold;
-      color: var(--normal-color-text);
+      width: $size;
     }
   }
 }
@@ -144,6 +146,13 @@ $border: 3px;
       width: calc(#{$size} / 2) !important;
       height: calc(#{$size} / 2) !important;
     }
+  }
+
+  .add-tool-btn {
+    border: $border dashed #666;
+    border-radius: $raidus;
+    width: calc(#{$size} / 2 - #{$border} * 2);
+    height: calc(#{$size} / 2 - #{$border} * 2);
   }
 }
 
