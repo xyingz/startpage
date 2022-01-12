@@ -7,7 +7,7 @@
       dense
       standout
       rounded
-      class="q-ml-md search-bar"
+      class="search-bar"
       bg-color="white"
       :placeholder="placeholderText"
       aria-placeholder="搜索框"
@@ -23,6 +23,7 @@
       <q-btn-toggle
         v-if="!store.state.isShowToolBox"
         v-model="activedEngineName"
+        class="search-bar-engine-toggle-wrap"
         toggle-color="primary"
         :glossy="store.state.focusMode"
         rounded
@@ -93,10 +94,17 @@ function onFocus() {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .search-bar {
   width: 50%;
   min-width: 300px;
   margin-bottom: 0.5rem;
+}
+
+.search-bar-engine-toggle-wrap {
+  img {
+    width: 24px;
+    height: 24px;
+  }
 }
 </style>
