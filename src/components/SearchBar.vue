@@ -102,6 +102,7 @@ function onFocus() {
 }
 
 .search-bar-engine-toggle-wrap {
+  // 为了解决 QQ浏览器 图标大小异常的问题
   img {
     width: 24px;
     height: 24px;
