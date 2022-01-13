@@ -1,19 +1,9 @@
 {
     "version": "1.0.0",
-    "name": "vite_vue3_template",
-    "description": "vite + vue3 + typescript project template",
+    "name": "x-start-page",
+    "description": "xiaopangying start page",
     "author": "jeremyjone",
     "license": "MIT",
-    "keywords": [
-        "vite",
-        "vue3",
-        "typescript",
-        "template"
-    ],
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/jeremyjone/vue3-ts-template.git"
-    },
     "scripts": {
         "dev": "vite",
         "build": "vue-tsc --noEmit && vite build",
