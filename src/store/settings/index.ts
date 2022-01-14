@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-12 14:50:46
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-12 15:17:59
+ * @LastEditTime: 2022-01-14 17:35:12
  * @Description: 用户可以自行配置的设置项
  */
 
@@ -24,6 +24,7 @@ const store: Module<SettingsState, RootState> = {
     tools: [],
     searchEngines: []
   },
+
   mutations: {
     [SET_TOOL_LIST](state, tools: Array<Tool>) {
       state.tools = tools;

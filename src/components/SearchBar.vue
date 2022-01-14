@@ -38,6 +38,7 @@
 import { ref, onMounted, computed } from 'vue';
 import { CONTROLLERS } from '@/store/mutation-types';
 import { useStore } from '@/store/index';
+import { saveDefaultSearchEngineIdx } from '@/config/set-data';
 </script>
 
 <script lang="ts" setup>
@@ -53,20 +54,23 @@ const engines = store.state.settings.searchEngines.map(engine => ({
   comment: engine.comment
 }));
 
-const activedEngineName = ref(engines[0]?.value);
-
-function getActiveEngine() {
-  return engines.find(eng => eng.value === activedEngineName.value);
-}
+const activedEngineName = ref(
+  engines[store.getters[CONTROLLERS.GET_SEARCH_ENGINE_INDEX]]?.value
+);
+const activeEngine = computed(() =>
+  engines.find(eng => eng.value === activedEngineName.value)
+);
 
 function onSelectEngine(engine: any) {
   activedEngineName.value = engine;
   inputBar.value?.focus();
+
+  // 保存搜索引擎
+  saveDefaultSearchEngineIdx(engines.findIndex(eng => eng.value === engine));
 }
 
 const placeholderText = computed(() => {
-  const engine = getActiveEngine();
-  return `使用 ${engine?.comment} 搜索` || '开始搜索';
+  return `使用 ${activeEngine.value?.comment} 搜索` || '开始搜索';
 });
 
 const searchText = ref('');
@@ -76,9 +80,8 @@ function onSearch() {
     return;
   }
 
-  const engine = getActiveEngine();
-  if (engine) {
-    window.open(engine.url + searchText.value);
+  if (activeEngine.value) {
+    window.open(activeEngine.value.url + searchText.value);
     searchText.value = '';
   }
 }

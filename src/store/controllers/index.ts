@@ -2,14 +2,16 @@
  * @Author: JeremyJone
  * @Date: 2022-01-12 14:36:57
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-12 15:18:06
+ * @LastEditTime: 2022-01-14 17:36:40
  * @Description: 程序内部控制变量模块
  */
 
 import { Module } from 'vuex';
 import {
+  GET_SEARCH_ENGINE_INDEX,
   SET_FOCUS_MODE,
   SET_REMOVE_TOOL_STATE,
+  SET_SEARCH_ENGINE_IDX,
   SET_SHOW_TOOLBOX
 } from '../mutation-types';
 
@@ -19,8 +21,19 @@ const store: Module<ControllersState, RootState> = {
   state: {
     focusMode: false,
     isShowToolBox: false,
-    removeToolState: false
+    removeToolState: false,
+    defaultEngineIdx: 1
   },
+
+  getters: {
+    [GET_SEARCH_ENGINE_INDEX]: (state, getters, rootState) => {
+      return state.defaultEngineIdx >= 0 &&
+        state.defaultEngineIdx < rootState.settings.searchEngines.length
+        ? state.defaultEngineIdx
+        : 0;
+    }
+  },
+
   mutations: {
     [SET_FOCUS_MODE](state, focusMode: boolean) {
       state.focusMode = focusMode;
@@ -30,6 +43,9 @@ const store: Module<ControllersState, RootState> = {
     },
     [SET_REMOVE_TOOL_STATE](state, removeToolState: boolean) {
       state.removeToolState = removeToolState;
+    },
+    [SET_SEARCH_ENGINE_IDX](state, idx: number) {
+      state.defaultEngineIdx = idx;
     }
   },
   actions: {
@@ -43,6 +59,13 @@ const store: Module<ControllersState, RootState> = {
 
     [SET_REMOVE_TOOL_STATE](context, removeToolState: boolean) {
       context.commit(SET_REMOVE_TOOL_STATE, removeToolState);
+    },
+    [SET_SEARCH_ENGINE_IDX](context, idx: number) {
+      let index = 0;
+      if (idx >= 0 && idx < context.rootState.settings.searchEngines.length) {
+        index = idx;
+      }
+      context.commit(SET_SEARCH_ENGINE_IDX, index);
     }
   }
 };
