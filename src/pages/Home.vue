@@ -2,7 +2,13 @@
   <div>
     <div class="column full-height" @click.passive="onFocusOut">
       <div class="absolute-top-right q-mr-md q-mt-sm">
-        <q-btn flat icon="settings" @click="() => (showSettings = true)" />
+        <q-btn
+          flat
+          round
+          size="sm"
+          icon="settings"
+          @click="() => (showSettings = true)"
+        />
       </div>
       <div
         class="column full-width justify-end q-gutter-y-md"
