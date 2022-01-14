@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-11 15:50:00
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-14 17:37:19
+ * @LastEditTime: 2022-01-14 18:10:06
  * @Description: 初始化配置
  */
 import store from '@/store';
@@ -11,15 +11,34 @@ import { LocalStorage } from 'quasar';
 import {
   DEFAULT_SEARCH_ENGINE_IDX,
   SEARCH_ENGINE_LIST,
-  TOOL_LIST
+  TOOL_LIST,
+  USER_SETTINGS
 } from './constants';
 import searchEngines from './data/search-engine';
 import tools from './data/tools';
+import { userSettings } from './data/user-settings';
 import {
   saveDefaultSearchEngineIdx,
   saveSearchEngineList,
-  saveToolList
+  saveToolList,
+  saveUserSettings
 } from './set-data';
+
+/**
+ * 初始化用户设置项
+ */
+function initUserSettings() {
+  const settings = LocalStorage.getItem<string>(USER_SETTINGS);
+  const us = userSettings;
+
+  if (settings) {
+    Object.assign(us, JSON.parse(settings));
+  } else {
+    saveUserSettings(us);
+  }
+
+  store.dispatch(SETTINGS.SAVE_USER_SETTINGS, us);
+}
 
 /**
  * 初始化工具列表
@@ -73,6 +92,8 @@ function initDefaultSearchEngineIdx() {
 }
 
 export function initConfig() {
+  initUserSettings();
+
   initToolList();
   initSearchEngineList();
   initDefaultSearchEngineIdx();

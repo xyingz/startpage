@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-12 14:50:46
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-14 17:35:12
+ * @LastEditTime: 2022-01-14 18:11:52
  * @Description: 用户可以自行配置的设置项
  */
 
@@ -13,6 +13,7 @@ import { Module } from 'vuex';
 import {
   ADD_TOOL,
   REMOVE_TOOL,
+  SAVE_USER_SETTINGS,
   SET_SEARCH_ENGINE_LIST,
   SET_TOOL_LIST
 } from '../mutation-types';
@@ -22,7 +23,10 @@ const store: Module<SettingsState, RootState> = {
 
   state: {
     tools: [],
-    searchEngines: []
+    searchEngines: [],
+    userSettings: {
+      isSaveDefaultSearchEngine: true
+    }
   },
 
   mutations: {
@@ -50,6 +54,9 @@ const store: Module<SettingsState, RootState> = {
     },
     [SET_SEARCH_ENGINE_LIST](state, list: Array<SearchEngine>) {
       state.searchEngines = list;
+    },
+    [SAVE_USER_SETTINGS](state, settings: object) {
+      Object.assign(state.userSettings, settings);
     }
   },
   actions: {
@@ -65,6 +72,9 @@ const store: Module<SettingsState, RootState> = {
     },
     [SET_SEARCH_ENGINE_LIST](context, list: Array<SearchEngine>) {
       context.commit(SET_SEARCH_ENGINE_LIST, list);
+    },
+    [SAVE_USER_SETTINGS](context, settings: object) {
+      context.commit(SAVE_USER_SETTINGS, settings);
     }
   }
 };

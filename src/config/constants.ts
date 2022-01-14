@@ -13,4 +13,9 @@ export const SEARCH_ENGINE_LIST = 'x-start-searchEngineList';
  */
 export const DEFAULT_SEARCH_ENGINE_IDX = 'x-start-defaultSearchEngineIdx';
 
+/**
+ *  用户设置项
+ */
+export const USER_SETTINGS = 'x-start-user-settings';
+
 export default {};

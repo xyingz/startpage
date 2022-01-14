@@ -10,9 +10,18 @@
 
       <q-card-section class="scroll" style="height: calc(100% - 50px)">
         <q-list bordered padding>
-          <q-item-label header>User Controls</q-item-label>
+          <q-item-label header>保存</q-item-label>
 
-          <q-item v-ripple clickable>
+          <q-item v-ripple tag="label">
+            <q-item-section>
+              <q-item-label>切换搜索引擎时是否保存为默认引擎</q-item-label>
+            </q-item-section>
+            <q-item-section side>
+              <q-toggle v-model="isSaveDefaultSearchEngine" color="blue" />
+            </q-item-section>
+          </q-item>
+
+          <!-- <q-item v-ripple clickable>
             <q-item-section>
               <q-item-label>Content filtering</q-item-label>
               <q-item-label caption>
@@ -151,7 +160,7 @@
             <q-item-section>
               <q-slider v-model="mic" :min="0" :max="50" label />
             </q-item-section>
-          </q-item>
+          </q-item> -->
         </q-list>
       </q-card-section>
     </q-card>
@@ -159,7 +168,10 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { saveUserSettings } from '@/config/set-data';
+import { useStore } from '@/store';
+import { SETTINGS } from '@/store/mutation-types';
+import { computed } from 'vue';
 
 const props = defineProps({
   showDialog: {
@@ -177,17 +189,17 @@ const show = computed<boolean>({
   }
 });
 
-const check1 = ref(true);
-const check2 = ref(false);
-const check3 = ref(false);
-
-const notif1 = ref(true);
-const notif2 = ref(true);
-const notif3 = ref(false);
-
-const volume = ref(6);
-const brightness = ref(3);
-const mic = ref(8);
+const store = useStore();
+const isSaveDefaultSearchEngine = computed<boolean>({
+  get() {
+    return store.state.settings.userSettings.isSaveDefaultSearchEngine;
+  },
+  set(value) {
+    const v = { isSaveDefaultSearchEngine: value };
+    saveUserSettings(v);
+    store.commit(SETTINGS.SAVE_USER_SETTINGS, v);
+  }
+});
 </script>
 
 <style scoped></style>

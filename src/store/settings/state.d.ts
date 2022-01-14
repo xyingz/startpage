@@ -8,4 +8,11 @@ declare interface SettingsState {
    * 搜索引擎集合
    */
   searchEngines: Array<SearchEngine>;
+
+  /**
+   * 用户设置项
+   */
+  userSettings: {
+    isSaveDefaultSearchEngine: boolean;
+  };
 }
