@@ -17,7 +17,6 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { useQuasar } from 'quasar';
 import getLunar from '@/api/lunar';
 import getWeather from '@/api/weather';
 import { formatDate } from '@/utils/common';
@@ -29,8 +28,6 @@ export default defineComponent({
   },
 
   setup() {
-    const $q = useQuasar();
-
     const weatherStr = ref('');
     getWeather().then(res => {
       if (typeof res === 'string') {
@@ -55,7 +52,6 @@ export default defineComponent({
     });
 
     return {
-      $q,
       weatherStr,
       dateStr,
       lunarStr,
