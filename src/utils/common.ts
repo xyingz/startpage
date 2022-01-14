@@ -4,7 +4,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-05 11:53:15
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-14 15:55:48
+ * @LastEditTime: 2022-01-14 16:43:23
  * @Description: 通用函数
  */
 
@@ -118,24 +118,28 @@ export function mobileKeyboardCallback(showCb: Function, hideCb: Function) {
   if (!isDeviceMobile()) return;
 
   if (isIos()) {
-    document.body.addEventListener('focusin', () => {
-      showCb();
-    });
-    document.body.addEventListener('focusout', () => {
-      hideCb();
-    });
+    window.onload = () => {
+      document.body.addEventListener('focusin', () => {
+        showCb();
+      });
+      document.body.addEventListener('focusout', () => {
+        hideCb();
+      });
+    };
   } else if (isAndroid()) {
     const originHeight =
       document.documentElement.clientHeight || document.body.clientHeight;
 
-    window.addEventListener('resize', () => {
-      const height =
-        document.documentElement.clientHeight || document.body.clientHeight;
-      if (height < originHeight) {
-        showCb();
-      } else {
-        hideCb();
-      }
-    });
+    window.onload = () => {
+      window.addEventListener('resize', () => {
+        const height =
+          document.documentElement.clientHeight || document.body.clientHeight;
+        if (height < originHeight) {
+          showCb();
+        } else {
+          hideCb();
+        }
+      });
+    };
   }
 }
