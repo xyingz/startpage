@@ -1,13 +1,26 @@
 <template>
-  <div class="column" @click.passive="onFocusOut">
-    <div class="col-5 column full-width justify-end q-gutter-y-md">
-      <InfoPanelComponent />
-      <SearchBarComponent />
+  <div>
+    <div class="column full-height" @click.passive="onFocusOut">
+      <div class="absolute-top-right q-mr-md q-mt-sm">
+        <q-btn flat icon="settings" @click="() => (showSettings = true)" />
+      </div>
+      <div
+        class="column full-width justify-end q-gutter-y-md"
+        :class="`col-${$q.screen.lt.sm && isShowKeyboard ? 9 : 5}`"
+      >
+        <InfoPanelComponent />
+        <SearchBarComponent />
+      </div>
+
+      <div
+        class="q-py-md"
+        :class="`col-${$q.screen.lt.sm && isShowKeyboard ? 3 : 7}`"
+      >
+        <ToolboxComponent />
+      </div>
     </div>
 
-    <div class="col-7 q-py-md">
-      <ToolboxComponent />
-    </div>
+    <SettingDrawer v-model="showSettings" />
   </div>
 </template>
 
@@ -17,6 +30,9 @@ import SearchBarComponent from '@/components/SearchBar.vue';
 import ToolboxComponent from '@/components/tools/ToolBox.vue';
 import { useStore } from '@/store';
 import { CONTROLLERS } from '@/store/mutation-types';
+import { mobileKeyboardCallback } from '@/utils/common';
+import { ref } from 'vue';
+import SettingDrawer from './HomeSettingDrawer.vue';
 
 const store = useStore();
 
@@ -36,6 +52,19 @@ function onFocusOut() {
     store.dispatch(CONTROLLERS.SET_REMOVE_TOOL_STATE, false);
   }
 }
+
+const showSettings = ref(false);
+
+// 判断手机端的软键盘是否弹出，从而在聚焦模式下减少下方的高度
+const isShowKeyboard = ref(false);
+mobileKeyboardCallback(
+  () => {
+    isShowKeyboard.value = true;
+  },
+  () => {
+    isShowKeyboard.value = false;
+  }
+);
 </script>
 
 <style scoped lang="scss"></style>

@@ -15,49 +15,34 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
+<script lang="ts" setup>
+import { ref } from 'vue';
 import getLunar from '@/api/lunar';
 import getWeather from '@/api/weather';
 import { formatDate } from '@/utils/common';
 import TimeComponent from './time/Time.vue';
 
-export default defineComponent({
-  components: {
-    TimeComponent
-  },
-
-  setup() {
-    const weatherStr = ref('');
-    getWeather().then(res => {
-      if (typeof res === 'string') {
-        weatherStr.value = res;
-      } else {
-        weatherStr.value = `${res[0].location.name} 当前：${res[0].now.temperature}°C ${res[0].now.text}`;
-      }
-    });
-
-    const dateStr = ref('');
-    const lunarStr = ref('');
-    const ganzhiStr = ref('');
-    getLunar().then(res => {
-      let date: Date | string = new Date();
-      if (typeof res !== 'string') {
-        date = res[0].date;
-        lunarStr.value = `${res[0].lunar_month_name}${res[0].lunar_day_name}`;
-        ganzhiStr.value = `${res[0].ganzhi_year}年 ${res[0].ganzhi_month}月 ${res[0].ganzhi_day}日 ${res[0].lunar_festival}`;
-      }
-
-      dateStr.value = formatDate(date, 'yyyy-MM-dd');
-    });
-
-    return {
-      weatherStr,
-      dateStr,
-      lunarStr,
-      ganzhiStr
-    };
+const weatherStr = ref('');
+getWeather().then(res => {
+  if (typeof res === 'string') {
+    weatherStr.value = res;
+  } else {
+    weatherStr.value = `${res[0].location.name} 当前：${res[0].now.temperature}°C ${res[0].now.text}`;
   }
+});
+
+const dateStr = ref('');
+const lunarStr = ref('');
+const ganzhiStr = ref('');
+getLunar().then(res => {
+  let date: Date | string = new Date();
+  if (typeof res !== 'string') {
+    date = res[0].date;
+    lunarStr.value = `${res[0].lunar_month_name}${res[0].lunar_day_name}`;
+    ganzhiStr.value = `${res[0].ganzhi_year}年 ${res[0].ganzhi_month}月 ${res[0].ganzhi_day}日 ${res[0].lunar_festival}`;
+  }
+
+  dateStr.value = formatDate(date, 'yyyy-MM-dd');
 });
 </script>
 

@@ -4,9 +4,11 @@
  * @Author: JeremyJone
  * @Date: 2022-01-05 11:53:15
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-11 12:18:55
+ * @LastEditTime: 2022-01-14 15:55:48
  * @Description: 通用函数
  */
+
+import { isAndroid, isDeviceMobile, isIos } from './check';
 
 /**
  * 生成uuid
@@ -110,4 +112,30 @@ export function formatDate(
     fmt = fmt.replace(RegExp.$1, WEEK[lang][date.getDay()]);
   }
   return fmt;
+}
+
+export function mobileKeyboardCallback(showCb: Function, hideCb: Function) {
+  if (!isDeviceMobile()) return;
+
+  if (isIos()) {
+    document.body.addEventListener('focusin', () => {
+      showCb();
+    });
+    document.body.addEventListener('focusout', () => {
+      hideCb();
+    });
+  } else if (isAndroid()) {
+    const originHeight =
+      document.documentElement.clientHeight || document.body.clientHeight;
+
+    window.addEventListener('resize', () => {
+      const height =
+        document.documentElement.clientHeight || document.body.clientHeight;
+      if (height < originHeight) {
+        showCb();
+      } else {
+        hideCb();
+      }
+    });
+  }
 }

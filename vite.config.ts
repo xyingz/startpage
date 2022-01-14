@@ -20,5 +20,8 @@ export default defineConfig({
       '@': resolve(__dirname, 'src')
     }
   },
-  base: './' // 打包路径
+  base: './', // 打包路径
+  server: {
+    host: '0.0.0.0'
+  }
 });
