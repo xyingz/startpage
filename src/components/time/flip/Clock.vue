@@ -112,6 +112,7 @@ $size: calc(v-bind(size) * 1rem);
 
   span {
     font-size: $size;
+    color: lightgrey;
   }
 }
 </style>
