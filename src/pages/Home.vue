@@ -25,6 +25,19 @@
         :class="`col-${$q.screen.lt.sm && isShowKeyboard ? 3 : 7}`"
       >
         <ToolboxComponent />
+
+        <transition name="fade">
+          <div
+            v-if="store.state.controllers.focusMode"
+            class="absolute-bottom text-grey-8"
+            style="padding-bottom: 10rem"
+          >
+            <sup>『</sup> {{ randomAphorisms?.content }} <sub>』</sub>
+            <q-tooltip :delay="500">
+              {{ randomAphorisms?.source }} {{ randomAphorisms?.author }}
+            </q-tooltip>
+          </div>
+        </transition>
       </div>
     </div>
 
@@ -33,13 +46,13 @@
 </template>
 
 <script lang="ts" setup>
+import { ref, watch } from 'vue';
 import InfoPanelComponent from '@/components/InfoPanel.vue';
 import SearchBarComponent from '@/components/SearchBar.vue';
 import ToolboxComponent from '@/components/tools/ToolBox.vue';
 import { useStore } from '@/store';
 import { CONTROLLERS } from '@/store/mutation-types';
-import { mobileKeyboardCallback } from '@/utils/common';
-import { ref } from 'vue';
+import { mobileKeyboardCallback, random } from '@/utils/common';
 import SettingDrawer from './HomeSettingDrawer.vue';
 
 const store = useStore();
@@ -71,6 +84,23 @@ mobileKeyboardCallback(
   },
   () => {
     isShowKeyboard.value = false;
+  }
+);
+
+// 格言警句
+const aphorisms = ref<any[]>([]);
+const randomAphorisms = ref<any>();
+fetch('/aphorisms.json')
+  .then(res => res.json())
+  .then(data => {
+    aphorisms.value = data;
+    randomAphorisms.value = random(aphorisms.value);
+  });
+
+watch(
+  () => store.state.controllers.focusMode,
+  () => {
+    randomAphorisms.value = random(aphorisms.value);
   }
 );
 </script>

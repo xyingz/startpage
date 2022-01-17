@@ -3,9 +3,9 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
+  path:
+    - 'src/**'
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest

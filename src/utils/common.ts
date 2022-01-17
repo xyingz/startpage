@@ -4,7 +4,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-05 11:53:15
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-14 16:43:23
+ * @LastEditTime: 2022-01-17 17:22:05
  * @Description: 通用函数
  */
 
@@ -142,4 +142,12 @@ export function mobileKeyboardCallback(showCb: Function, hideCb: Function) {
       });
     };
   }
+}
+
+/**
+ * 随机获取数组中的一项
+ * @param arr
+ */
+export function random(arr: any[]) {
+  return arr[Math.floor(Math.random() * arr.length)];
 }
