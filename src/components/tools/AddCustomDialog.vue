@@ -1,5 +1,6 @@
 <template>
   <q-dialog
+    ref="dialogRef"
     v-model="show"
     persistent
     transition-show="scale"
@@ -63,15 +64,18 @@ const toolName = ref('');
 const toolUrl = ref('');
 const toolNameRef = ref<HTMLInputElement>();
 const toolUrlRef = ref<HTMLInputElement>();
+const dialogRef = ref();
 const store = useStore();
 function onConfirm() {
   if (!toolName.value) {
     toolNameRef.value?.focus();
+    dialogRef.value?.shake();
     return;
   }
 
   if (!toolUrl.value) {
     toolUrlRef.value?.focus();
+    dialogRef.value?.shake();
     return;
   }
 

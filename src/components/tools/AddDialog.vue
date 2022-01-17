@@ -50,9 +50,35 @@
                 <template v-for="tool in toolList[label]" :key="tool.id">
                   <q-list bordered separator>
                     <q-item v-ripple clickable>
+                      <q-item-section
+                        v-if="$q.screen.gt.xs"
+                        avatar
+                        style="width: 2rem; height: 2rem"
+                      >
+                        <q-img
+                          :src="`https://ico.kucat.cn/get.php?url=${tool.url}`"
+                          :alt="tool.name"
+                          ratio="1"
+                          width="100%"
+                          height="100%"
+                          fit="contain"
+                        >
+                          <template #error>
+                            <q-icon
+                              name="public"
+                              size="2rem"
+                              :class="{ 'error-btn-icon': $q.screen.gt.xs }"
+                            />
+                          </template>
+                        </q-img>
+                      </q-item-section>
+
                       <q-item-section>
-                        <q-item-label>{{ tool.name }}</q-item-label>
-                        <q-item-label caption>
+                        <q-item-label class="ellipsis">
+                          {{ tool.name }}
+                        </q-item-label>
+
+                        <q-item-label caption class="ellipsis-2-lines">
                           {{ tool.comment || '无描述' }}
                         </q-item-label>
                       </q-item-section>
