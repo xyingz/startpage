@@ -1,6 +1,6 @@
 declare interface SettingsState {
   /**
-   * 工具箱集合
+   * 工具箱集合。最多容纳24个工具图标
    */
   tools: Array<Tool>;
 

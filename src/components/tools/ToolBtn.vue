@@ -14,22 +14,24 @@
       @click="() => clickTool(tool)"
     >
       <template v-if="tool.url">
-        <q-img
-          :src="`https://ico.kucat.cn/get.php?url=${tool.url}`"
-          :alt="tool.comment"
-          ratio="1"
-          width="100%"
-          height="100%"
-          fit="contain"
-        >
-          <template #error>
-            <q-icon
-              name="public"
-              size="2rem"
-              :class="{ 'error-btn-icon': $q.screen.gt.xs }"
-            />
-          </template>
-        </q-img>
+        <div class="tool-box-btn-img-wrap">
+          <q-img
+            :src="`https://ico.kucat.cn/get.php?url=${tool.url}`"
+            :alt="tool.name"
+            ratio="1"
+            width="100%"
+            height="100%"
+            fit="contain"
+          >
+            <template #error>
+              <q-icon
+                name="public"
+                size="2rem"
+                :class="{ 'error-btn-icon': $q.screen.gt.xs }"
+              />
+            </template>
+          </q-img>
+        </div>
       </template>
 
       <q-btn
@@ -42,7 +44,7 @@
         @click.stop="() => deleteTool(tool)"
       />
     </q-btn>
-    <div class="tool-box-name ellipsis text-white">{{ tool.comment }}</div>
+    <div class="tool-box-name ellipsis text-white">{{ tool.name }}</div>
   </div>
 </template>
 

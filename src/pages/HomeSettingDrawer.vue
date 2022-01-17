@@ -57,7 +57,7 @@
             </q-item-section>
             <q-item-section side>
               <q-btn
-                dense
+                size="sm"
                 color="primary"
                 label="重置"
                 @click="toolRadius = 10"

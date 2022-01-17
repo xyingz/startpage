@@ -16,7 +16,8 @@
         "lint:all": "eslint --fix",
         "lint-staged": "lint-staged",
         "test:unit": "jest --passWithNoTests",
-        "commit": "git-cz"
+        "commit": "git-cz",
+        "init:tools": "node ./scripts/init-tools.js"
     },
     "lint-staged": {
         "*.{vue,js,ts,jsx,tsx}": [

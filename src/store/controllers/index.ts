@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-12 14:36:57
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-17 11:34:11
+ * @LastEditTime: 2022-01-17 15:59:56
  * @Description: 程序内部控制变量模块
  */
 
@@ -22,7 +22,7 @@ const store: Module<ControllersState, RootState> = {
     focusMode: false,
     isShowToolBox: false,
     removeToolState: false,
-    defaultEngineIdx: 1
+    defaultEngineIdx: 0
   },
 
   getters: {

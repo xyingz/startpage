@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-12 14:50:46
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-17 11:53:48
+ * @LastEditTime: 2022-01-17 16:41:51
  * @Description: 用户可以自行配置的设置项
  */
 
@@ -37,14 +37,16 @@ const store: Module<SettingsState, RootState> = {
       state.tools = tools;
     },
     [ADD_TOOL](state, tool: Tool) {
-      state.tools.push({
-        id: uuid(12),
-        url: tool.url,
-        comment: tool.comment
-      });
+      if (state.tools.length < 24) {
+        state.tools.push({
+          id: tool.id ?? uuid(12),
+          url: tool.url,
+          name: tool.name
+        });
 
-      // 更新 localStorage
-      LocalStorage.set(TOOL_LIST, JSON.stringify(state.tools));
+        // 更新 localStorage
+        LocalStorage.set(TOOL_LIST, JSON.stringify(state.tools));
+      }
     },
     [REMOVE_TOOL](state, tool: Tool) {
       const index = state.tools.findIndex(item => item.id === tool.id);

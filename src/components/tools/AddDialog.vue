@@ -28,9 +28,9 @@
             active-color="primary"
             indicator-color="primary"
           >
-            <q-tab name="mails" label="Mails" />
-            <q-tab name="alarms" label="Alarms" />
-            <q-tab name="movies" label="Movies" />
+            <template v-for="label in labels" :key="label">
+              <q-tab :name="label" :label="label" />
+            </template>
           </q-tabs>
         </q-card-section>
 
@@ -45,146 +45,57 @@
             transition-prev="jump-up"
             transition-next="jump-up"
           >
-            <q-tab-panel name="mails">
-              <div class="text-h4 q-mb-md">Mails</div>
-              <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
-                praesentium cumque magnam odio iure quidem, quod illum numquam
-                possimus obcaecati commodi minima assumenda consectetur culpa
-                fuga nulla ullam. In, libero.
-              </p>
-              <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
-                praesentium cumque magnam odio iure quidem, quod illum numquam
-                possimus obcaecati commodi minima assumenda consectetur culpa
-                fuga nulla ullam. In, libero.
-              </p>
-            </q-tab-panel>
+            <template v-for="label in labels" :key="label">
+              <q-tab-panel :name="label" class="q-pa-none">
+                <template v-for="tool in toolList[label]" :key="tool.id">
+                  <q-list bordered separator>
+                    <q-item v-ripple clickable>
+                      <q-item-section>
+                        <q-item-label>{{ tool.name }}</q-item-label>
+                        <q-item-label caption>
+                          {{ tool.comment || '无描述' }}
+                        </q-item-label>
+                      </q-item-section>
 
-            <q-tab-panel name="alarms">
-              <div class="text-h4 q-mb-md">Alarms</div>
-              <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
-                praesentium cumque magnam odio iure quidem, quod illum numquam
-                possimus obcaecati commodi minima assumenda consectetur culpa
-                fuga nulla ullam. In, libero.
-              </p>
-              <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
-                praesentium cumque magnam odio iure quidem, quod illum numquam
-                possimus obcaecati commodi minima assumenda consectetur culpa
-                fuga nulla ullam. In, libero.
-              </p>
-            </q-tab-panel>
-
-            <q-tab-panel name="movies">
-              <div class="text-h4 q-mb-md">Movies</div>
-              <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
-                praesentium cumque magnam odio iure quidem, quod illum numquam
-                possimus obcaecati commodi minima assumenda consectetur culpa
-                fuga nulla ullam. In, libero.
-              </p>
-              <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
-                praesentium cumque magnam odio iure quidem, quod illum numquam
-                possimus obcaecati commodi minima assumenda consectetur culpa
-                fuga nulla ullam. In, libero.
-              </p>
-              <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
-                praesentium cumque magnam odio iure quidem, quod illum numquam
-                possimus obcaecati commodi minima assumenda consectetur culpa
-                fuga nulla ullam. In, libero.
-              </p>
-            </q-tab-panel>
+                      <q-item-section side>
+                        <q-btn
+                          v-if="!checkAdded(tool)"
+                          flat
+                          size="sm"
+                          color="primary"
+                          label="添加"
+                          @click="addTool(tool)"
+                        />
+                        <div v-else>
+                          <span>已添加</span>
+                          <q-btn
+                            flat
+                            round
+                            icon="delete"
+                            size="sm"
+                            @click="removeTool(tool)"
+                          />
+                        </div>
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
+                </template>
+              </q-tab-panel>
+            </template>
           </q-tab-panels>
         </q-card-section>
       </q-card-section>
-      <!-- <q-tabs
-        v-model="tab"
-        dense
-        class="fit"
-        vertical
-        active-color="primary"
-        indicator-color="primary"
-        align="justify"
-      >
-        <q-tab name="mails" label="Mails" />
-        <q-tab name="alarms" label="Alarms" />
-        <q-tab name="movies" label="Movies" />
-      </q-tabs>
-
-      <q-separator />
-
-      <q-tab-panels
-        v-model="tab"
-        animated
-        swipeable
-        vertical
-        transition-prev="jump-up"
-        transition-next="jump-up"
-      >
-        <q-tab-panel name="mails">
-          <div class="text-h4 q-mb-md">Mails</div>
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
-            praesentium cumque magnam odio iure quidem, quod illum numquam
-            possimus obcaecati commodi minima assumenda consectetur culpa fuga
-            nulla ullam. In, libero.
-          </p>
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
-            praesentium cumque magnam odio iure quidem, quod illum numquam
-            possimus obcaecati commodi minima assumenda consectetur culpa fuga
-            nulla ullam. In, libero.
-          </p>
-        </q-tab-panel>
-
-        <q-tab-panel name="alarms">
-          <div class="text-h4 q-mb-md">Alarms</div>
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
-            praesentium cumque magnam odio iure quidem, quod illum numquam
-            possimus obcaecati commodi minima assumenda consectetur culpa fuga
-            nulla ullam. In, libero.
-          </p>
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
-            praesentium cumque magnam odio iure quidem, quod illum numquam
-            possimus obcaecati commodi minima assumenda consectetur culpa fuga
-            nulla ullam. In, libero.
-          </p>
-        </q-tab-panel>
-
-        <q-tab-panel name="movies">
-          <div class="text-h4 q-mb-md">Movies</div>
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
-            praesentium cumque magnam odio iure quidem, quod illum numquam
-            possimus obcaecati commodi minima assumenda consectetur culpa fuga
-            nulla ullam. In, libero.
-          </p>
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
-            praesentium cumque magnam odio iure quidem, quod illum numquam
-            possimus obcaecati commodi minima assumenda consectetur culpa fuga
-            nulla ullam. In, libero.
-          </p>
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
-            praesentium cumque magnam odio iure quidem, quod illum numquam
-            possimus obcaecati commodi minima assumenda consectetur culpa fuga
-            nulla ullam. In, libero.
-          </p>
-        </q-tab-panel>
-      </q-tab-panels> -->
     </q-card>
+
+    <AddCustomDialog v-model="isShowCustomDialog" />
   </q-dialog>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
+import { useStore } from '@/store';
+import { SETTINGS } from '@/store/mutation-types';
+import AddCustomDialog from './AddCustomDialog.vue';
 
 const props = defineProps({
   showDialog: {
@@ -202,11 +113,33 @@ const show = computed<boolean>({
   }
 });
 
-const tab = ref('mails');
-
 const isShowCustomDialog = ref(false);
 function showCustomDialog() {
   isShowCustomDialog.value = true;
+}
+
+const store = useStore();
+function checkAdded(tool: Tool) {
+  return store.state.settings.tools.find(t => t.id === tool.id);
+}
+
+const toolList = ref<{ [key: string]: Tool[] }>({});
+const labels = ref<string[]>();
+const tab = ref<string>();
+fetch('/tools.json')
+  .then(res => res.json())
+  .then(data => {
+    toolList.value = data;
+    labels.value = Object.keys(data);
+    tab.value = labels.value?.[0];
+  });
+
+function addTool(tool: Tool) {
+  store.dispatch(SETTINGS.ADD_TOOL, tool);
+}
+
+function removeTool(tool: Tool) {
+  store.dispatch(SETTINGS.REMOVE_TOOL, tool);
 }
 </script>
 

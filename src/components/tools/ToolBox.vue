@@ -30,7 +30,11 @@
           </template>
         </transition-group>
 
-        <q-btn class="add-tool-btn" @click="onCreateTool">
+        <q-btn
+          v-if="tools.length < 24"
+          class="add-tool-btn"
+          @click="onCreateTool"
+        >
           <q-icon :size="`${$q.screen.lt.sm ? 1.5 : 3}rem`" name="add" />
         </q-btn>
       </div>
@@ -128,7 +132,13 @@ $border: 3px;
       width: $size;
       height: $size;
       border-radius: $radius;
-      overflow: hidden;
+
+      .tool-box-btn-img-wrap {
+        width: 100%;
+        height: 100%;
+        border-radius: $radius;
+        overflow: hidden;
+      }
     }
 
     .tool-box-name {

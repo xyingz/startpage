@@ -38,7 +38,10 @@
 <script lang="ts" setup>
 import { useStore } from '@/store';
 import { SETTINGS } from '@/store/mutation-types';
+import { useQuasar } from 'quasar';
 import { computed, ref } from 'vue';
+
+const $q = useQuasar();
 
 const props = defineProps({
   showDialog: {
@@ -72,8 +75,17 @@ function onConfirm() {
     return;
   }
 
+  if (store.state.settings.tools.length >= 18) {
+    $q.notify({
+      color: 'warning',
+      message: '工具箱已满。最多可以放置 24 个工具',
+      position: 'center'
+    });
+    return;
+  }
+
   store.dispatch(SETTINGS.ADD_TOOL, {
-    comment: toolName.value,
+    name: toolName.value,
     url: toolUrl.value
   });
   toolName.value = '';
