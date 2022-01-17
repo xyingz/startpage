@@ -1,43 +1,189 @@
 <template>
-  <q-dialog
-    v-model="show"
-    persistent
-    transition-show="scale"
-    transition-hide="scale"
-  >
-    <q-card style="width: 50%">
-      <q-card-section class="bg-primary">
-        <div class="text-h6 text-white">添加导航</div>
+  <q-dialog v-model="show" transition-show="scale" transition-hide="scale">
+    <q-card class="fit">
+      <q-card-section class="bg-primary q-pa-none">
+        <q-toolbar>
+          <q-btn
+            flat
+            round
+            dense
+            icon="add"
+            class="q-mr-sm"
+            @click="showCustomDialog"
+          />
+          <q-toolbar-title class="text-center text-bold">
+            添加导航工具
+          </q-toolbar-title>
+          <q-btn v-close-popup flat round dense icon="close" />
+        </q-toolbar>
       </q-card-section>
 
-      <q-card-section class="q-pt-none">
-        <q-input
-          ref="toolNameRef"
-          v-model="toolName"
-          dense
-          placeholder="导航名称"
-          :rules="[val => !!val || '导航名称是必要的']"
-        />
-        <q-input
-          ref="toolUrlRef"
-          v-model="toolUrl"
-          dense
-          placeholder="完整的 URL，通常以 http:// 或 https:// 起始"
-          :rules="[val => !!val || 'URL 是必要的']"
-        />
-      </q-card-section>
+      <q-separator />
 
-      <q-card-actions align="right">
-        <q-btn color="primary" label="添加" @click="onConfirm" />
-        <q-btn v-close-popup outline color="primary" label="取消" />
-      </q-card-actions>
+      <q-card-section horizontal>
+        <q-card-section class="col-3 q-pa-none">
+          <q-tabs
+            v-model="tab"
+            vertical
+            active-color="primary"
+            indicator-color="primary"
+          >
+            <q-tab name="mails" label="Mails" />
+            <q-tab name="alarms" label="Alarms" />
+            <q-tab name="movies" label="Movies" />
+          </q-tabs>
+        </q-card-section>
+
+        <q-separator vertical />
+
+        <q-card-section class="fit">
+          <q-tab-panels
+            v-model="tab"
+            animated
+            swipeable
+            vertical
+            transition-prev="jump-up"
+            transition-next="jump-up"
+          >
+            <q-tab-panel name="mails">
+              <div class="text-h4 q-mb-md">Mails</div>
+              <p>
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
+                praesentium cumque magnam odio iure quidem, quod illum numquam
+                possimus obcaecati commodi minima assumenda consectetur culpa
+                fuga nulla ullam. In, libero.
+              </p>
+              <p>
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
+                praesentium cumque magnam odio iure quidem, quod illum numquam
+                possimus obcaecati commodi minima assumenda consectetur culpa
+                fuga nulla ullam. In, libero.
+              </p>
+            </q-tab-panel>
+
+            <q-tab-panel name="alarms">
+              <div class="text-h4 q-mb-md">Alarms</div>
+              <p>
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
+                praesentium cumque magnam odio iure quidem, quod illum numquam
+                possimus obcaecati commodi minima assumenda consectetur culpa
+                fuga nulla ullam. In, libero.
+              </p>
+              <p>
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
+                praesentium cumque magnam odio iure quidem, quod illum numquam
+                possimus obcaecati commodi minima assumenda consectetur culpa
+                fuga nulla ullam. In, libero.
+              </p>
+            </q-tab-panel>
+
+            <q-tab-panel name="movies">
+              <div class="text-h4 q-mb-md">Movies</div>
+              <p>
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
+                praesentium cumque magnam odio iure quidem, quod illum numquam
+                possimus obcaecati commodi minima assumenda consectetur culpa
+                fuga nulla ullam. In, libero.
+              </p>
+              <p>
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
+                praesentium cumque magnam odio iure quidem, quod illum numquam
+                possimus obcaecati commodi minima assumenda consectetur culpa
+                fuga nulla ullam. In, libero.
+              </p>
+              <p>
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
+                praesentium cumque magnam odio iure quidem, quod illum numquam
+                possimus obcaecati commodi minima assumenda consectetur culpa
+                fuga nulla ullam. In, libero.
+              </p>
+            </q-tab-panel>
+          </q-tab-panels>
+        </q-card-section>
+      </q-card-section>
+      <!-- <q-tabs
+        v-model="tab"
+        dense
+        class="fit"
+        vertical
+        active-color="primary"
+        indicator-color="primary"
+        align="justify"
+      >
+        <q-tab name="mails" label="Mails" />
+        <q-tab name="alarms" label="Alarms" />
+        <q-tab name="movies" label="Movies" />
+      </q-tabs>
+
+      <q-separator />
+
+      <q-tab-panels
+        v-model="tab"
+        animated
+        swipeable
+        vertical
+        transition-prev="jump-up"
+        transition-next="jump-up"
+      >
+        <q-tab-panel name="mails">
+          <div class="text-h4 q-mb-md">Mails</div>
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
+            praesentium cumque magnam odio iure quidem, quod illum numquam
+            possimus obcaecati commodi minima assumenda consectetur culpa fuga
+            nulla ullam. In, libero.
+          </p>
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
+            praesentium cumque magnam odio iure quidem, quod illum numquam
+            possimus obcaecati commodi minima assumenda consectetur culpa fuga
+            nulla ullam. In, libero.
+          </p>
+        </q-tab-panel>
+
+        <q-tab-panel name="alarms">
+          <div class="text-h4 q-mb-md">Alarms</div>
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
+            praesentium cumque magnam odio iure quidem, quod illum numquam
+            possimus obcaecati commodi minima assumenda consectetur culpa fuga
+            nulla ullam. In, libero.
+          </p>
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
+            praesentium cumque magnam odio iure quidem, quod illum numquam
+            possimus obcaecati commodi minima assumenda consectetur culpa fuga
+            nulla ullam. In, libero.
+          </p>
+        </q-tab-panel>
+
+        <q-tab-panel name="movies">
+          <div class="text-h4 q-mb-md">Movies</div>
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
+            praesentium cumque magnam odio iure quidem, quod illum numquam
+            possimus obcaecati commodi minima assumenda consectetur culpa fuga
+            nulla ullam. In, libero.
+          </p>
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
+            praesentium cumque magnam odio iure quidem, quod illum numquam
+            possimus obcaecati commodi minima assumenda consectetur culpa fuga
+            nulla ullam. In, libero.
+          </p>
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis
+            praesentium cumque magnam odio iure quidem, quod illum numquam
+            possimus obcaecati commodi minima assumenda consectetur culpa fuga
+            nulla ullam. In, libero.
+          </p>
+        </q-tab-panel>
+      </q-tab-panels> -->
     </q-card>
   </q-dialog>
 </template>
 
 <script lang="ts" setup>
-import { useStore } from '@/store';
-import { SETTINGS } from '@/store/mutation-types';
 import { computed, ref } from 'vue';
 
 const props = defineProps({
@@ -56,30 +202,11 @@ const show = computed<boolean>({
   }
 });
 
-const toolName = ref('');
-const toolUrl = ref('');
-const toolNameRef = ref<HTMLInputElement>();
-const toolUrlRef = ref<HTMLInputElement>();
-const store = useStore();
-function onConfirm() {
-  if (!toolName.value) {
-    toolNameRef.value?.focus();
-    return;
-  }
+const tab = ref('mails');
 
-  if (!toolUrl.value) {
-    toolUrlRef.value?.focus();
-    return;
-  }
-
-  store.dispatch(SETTINGS.ADD_TOOL, {
-    comment: toolName.value,
-    url: toolUrl.value
-  });
-  toolName.value = '';
-  toolUrl.value = '';
-
-  show.value = false;
+const isShowCustomDialog = ref(false);
+function showCustomDialog() {
+  isShowCustomDialog.value = true;
 }
 </script>
 

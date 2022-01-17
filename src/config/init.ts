@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-11 15:50:00
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-14 18:10:06
+ * @LastEditTime: 2022-01-17 11:41:36
  * @Description: 初始化配置
  */
 import store from '@/store';
@@ -38,6 +38,9 @@ function initUserSettings() {
   }
 
   store.dispatch(SETTINGS.SAVE_USER_SETTINGS, us);
+
+  // 配置是否使用聚焦模式
+  store.dispatch(CONTROLLERS.SET_FOCUS_MODE, us.isDefaultFocusMode);
 }
 
 /**

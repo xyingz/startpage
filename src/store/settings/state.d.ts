@@ -14,5 +14,8 @@ declare interface SettingsState {
    */
   userSettings: {
     isSaveDefaultSearchEngine: boolean;
+    toolRadius: number;
+    isDefaultFocusMode: boolean;
+    isShowInfoPanel: boolean;
   };
 }

@@ -14,7 +14,9 @@
         class="column full-width justify-end q-gutter-y-md"
         :class="`col-${$q.screen.lt.sm && isShowKeyboard ? 9 : 5}`"
       >
-        <InfoPanelComponent />
+        <InfoPanelComponent
+          v-if="store.state.settings.userSettings.isShowInfoPanel"
+        />
         <SearchBarComponent />
       </div>
 

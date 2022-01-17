@@ -88,7 +88,7 @@ function onSearch() {
 
 const inputBar = ref<HTMLInputElement>();
 onMounted(() => {
-  inputBar.value?.focus();
+  if (store.state.controllers.focusMode) inputBar.value?.focus();
 });
 
 function onFocus() {

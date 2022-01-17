@@ -10,14 +10,58 @@
 
       <q-card-section class="scroll" style="height: calc(100% - 50px)">
         <q-list bordered padding>
-          <q-item-label header>保存</q-item-label>
+          <q-item-label header>功能</q-item-label>
 
           <q-item v-ripple tag="label">
             <q-item-section>
-              <q-item-label>切换搜索引擎时是否保存为默认引擎</q-item-label>
+              <q-item-label>切换搜索引擎时保存为默认引擎</q-item-label>
             </q-item-section>
             <q-item-section side>
               <q-toggle v-model="isSaveDefaultSearchEngine" color="blue" />
+            </q-item-section>
+          </q-item>
+
+          <q-item v-ripple tag="label">
+            <q-item-section>
+              <q-item-label>启动时启用聚焦模式</q-item-label>
+            </q-item-section>
+            <q-item-section side>
+              <q-toggle v-model="isDefaultFocusMode" color="blue" />
+            </q-item-section>
+          </q-item>
+
+          <q-separator spaced />
+          <q-item-label header>显示</q-item-label>
+
+          <q-item v-ripple tag="label">
+            <q-item-section>
+              <q-item-label>信息面板</q-item-label>
+            </q-item-section>
+            <q-item-section side>
+              <q-toggle v-model="isShowInfoPanel" color="blue" />
+            </q-item-section>
+          </q-item>
+
+          <q-item>
+            <q-item-section>
+              <q-item-label>工具箱图标圆角</q-item-label>
+            </q-item-section>
+            <q-item-section>
+              <q-slider
+                v-model="toolRadius"
+                :min="0"
+                :max="50"
+                label
+                @change="onChangeToolRadius"
+              />
+            </q-item-section>
+            <q-item-section side>
+              <q-btn
+                dense
+                color="primary"
+                label="重置"
+                @click="toolRadius = 10"
+              />
             </q-item-section>
           </q-item>
 
@@ -39,9 +83,9 @@
                 purchase
               </q-item-label>
             </q-item-section>
-          </q-item>
+          </q-item> -->
 
-          <q-separator spaced />
+          <!-- <q-separator spaced />
           <q-item-label header>General</q-item-label>
 
           <q-item v-ripple tag="label">
@@ -81,9 +125,9 @@
                 Automatically add home screen widgets
               </q-item-label>
             </q-item-section>
-          </q-item>
+          </q-item> -->
 
-          <q-separator spaced />
+          <!-- <q-separator spaced />
           <q-item-label header>Notifications</q-item-label>
 
           <q-item v-ripple tag="label">
@@ -115,9 +159,9 @@
             <q-item-section side top>
               <q-toggle v-model="notif3" color="red" val="picture" />
             </q-item-section>
-          </q-item>
+          </q-item> -->
 
-          <q-separator spaced />
+          <!-- <q-separator spaced />
           <q-item-label header>Other settings</q-item-label>
 
           <q-item>
@@ -196,10 +240,47 @@ const isSaveDefaultSearchEngine = computed<boolean>({
   },
   set(value) {
     const v = { isSaveDefaultSearchEngine: value };
+    store.commit(SETTINGS.SAVE_USER_SETTINGS, v);
     saveUserSettings(v);
+  }
+});
+
+const isDefaultFocusMode = computed<boolean>({
+  get() {
+    return store.state.settings.userSettings.isDefaultFocusMode;
+  },
+  set(value) {
+    const v = { isDefaultFocusMode: value };
+    store.commit(SETTINGS.SAVE_USER_SETTINGS, v);
+    saveUserSettings(v);
+  }
+});
+
+const isShowInfoPanel = computed<boolean>({
+  get() {
+    return store.state.settings.userSettings.isShowInfoPanel;
+  },
+  set(value) {
+    const v = { isShowInfoPanel: value };
+    store.commit(SETTINGS.SAVE_USER_SETTINGS, v);
+    saveUserSettings(v);
+  }
+});
+
+const toolRadius = computed<number>({
+  get() {
+    return store.state.settings.userSettings.toolRadius || 10;
+  },
+  set(value) {
+    const v = { toolRadius: value };
     store.commit(SETTINGS.SAVE_USER_SETTINGS, v);
   }
 });
+
+function onChangeToolRadius(val: number) {
+  const v = { toolRadius: val };
+  saveUserSettings(v);
+}
 </script>
 
 <style scoped></style>

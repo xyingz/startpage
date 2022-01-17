@@ -17,7 +17,13 @@
         <q-btn label="添加工具" color="primary" @click="onCreateTool" />
       </div>
 
-      <div v-else class="tool-box">
+      <div
+        v-else
+        class="tool-box"
+        :style="`grid-gap: ${
+          $q.screen.lt.sm ? 1 : $q.screen.lt.md ? 1.5 : 3
+        }rem 1rem`"
+      >
         <transition-group name="scale">
           <template v-for="tool in tools" :key="tool.id">
             <ToolBtn :tool="tool" />
@@ -35,7 +41,7 @@
 </template>
 
 <script lang="ts">
-import { reactive, ref, watch } from 'vue';
+import { computed, onMounted, reactive, ref, watch } from 'vue';
 import { useStore } from '@/store/index';
 import { CONTROLLERS } from '@/store/mutation-types';
 import { useQuasar } from 'quasar';
@@ -49,8 +55,8 @@ const store = useStore();
 const tools = reactive<Array<Tool>>(store.state.settings.tools);
 
 const size = ref('4rem');
-const raidus = ref('10');
 const drop = ref('down');
+const radius = computed(() => store.state.settings.userSettings.toolRadius);
 
 function changeToolBoxState() {
   store.dispatch(
@@ -59,6 +65,15 @@ function changeToolBoxState() {
   );
   drop.value = store.state.controllers.isShowToolBox ? 'up' : 'down';
 }
+
+onMounted(() => {
+  if (
+    !store.state.controllers.focusMode &&
+    !store.state.controllers.isShowToolBox
+  ) {
+    changeToolBoxState();
+  }
+});
 
 watch(
   () => store.state.controllers.focusMode,
@@ -69,17 +84,13 @@ watch(
 
 const showDialog = ref(false);
 function onCreateTool() {
-  // createDialog({
-  //   title: '添加工具'
-  // });
-
   showDialog.value = true;
 }
 </script>
 
 <style lang="scss">
 $size: v-bind(size);
-$raidus: calc(v-bind(raidus) * 1%);
+$radius: calc(v-bind(radius) * 1%);
 $border: 3px;
 
 .drop-btn {
@@ -103,7 +114,6 @@ $border: 3px;
   display: grid;
   grid-auto-flow: row;
   grid-template-columns: repeat(8, 1fr);
-  grid-gap: 2rem 1rem;
   grid-auto-columns: 100%;
   justify-items: center;
   margin: 0 auto;
@@ -117,7 +127,8 @@ $border: 3px;
     .tool-box-btn {
       width: $size;
       height: $size;
-      border-radius: $raidus;
+      border-radius: $radius;
+      overflow: hidden;
     }
 
     .tool-box-name {
@@ -130,7 +141,7 @@ $border: 3px;
 
 .add-tool-btn {
   border: $border dashed #666;
-  border-radius: $raidus;
+  border-radius: $radius;
   width: calc(#{$size} - #{$border} * 2);
   height: calc(#{$size} - #{$border} * 2);
 }
@@ -153,7 +164,7 @@ $border: 3px;
 
   .add-tool-btn {
     border: $border dashed #666;
-    border-radius: $raidus;
+    border-radius: $radius;
     width: calc(#{$size} / 2 - #{$border} * 2);
     height: calc(#{$size} / 2 - #{$border} * 2);
   }

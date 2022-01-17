@@ -2,14 +2,14 @@
  * @Author: JeremyJone
  * @Date: 2022-01-12 14:50:46
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-14 18:11:52
+ * @LastEditTime: 2022-01-17 11:53:48
  * @Description: 用户可以自行配置的设置项
  */
 
-import { TOOL_LIST } from '@/config/constants';
-import { uuid } from '@/utils/common';
 import { LocalStorage } from 'quasar';
 import { Module } from 'vuex';
+import { TOOL_LIST } from '@/config/constants';
+import { uuid } from '@/utils/common';
 import {
   ADD_TOOL,
   REMOVE_TOOL,
@@ -25,7 +25,10 @@ const store: Module<SettingsState, RootState> = {
     tools: [],
     searchEngines: [],
     userSettings: {
-      isSaveDefaultSearchEngine: true
+      isSaveDefaultSearchEngine: true,
+      toolRadius: 10,
+      isDefaultFocusMode: true,
+      isShowInfoPanel: true
     }
   },
 
