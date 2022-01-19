@@ -28,7 +28,7 @@
 
         <transition name="fade">
           <div
-            v-if="store.state.controllers.focusMode"
+            v-if="!isShowKeyboard && store.state.controllers.focusMode"
             class="absolute-bottom text-grey-8"
             style="padding-bottom: 10rem"
           >
