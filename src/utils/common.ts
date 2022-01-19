@@ -4,7 +4,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-05 11:53:15
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-17 17:22:05
+ * @LastEditTime: 2022-01-19 10:12:10
  * @Description: 通用函数
  */
 
@@ -114,6 +114,11 @@ export function formatDate(
   return fmt;
 }
 
+/**
+ * 处理移动端键盘响应的事件
+ * @param showCb 呼出时回调函数
+ * @param hideCb 收起时回调函数
+ */
 export function mobileKeyboardCallback(showCb: Function, hideCb: Function) {
   if (!isDeviceMobile()) return;
 
