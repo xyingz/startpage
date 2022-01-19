@@ -18,4 +18,9 @@ export const DEFAULT_SEARCH_ENGINE_IDX = 'x-start-defaultSearchEngineIdx';
  */
 export const USER_SETTINGS = 'x-start-user-settings';
 
-export default {};
+export default [
+  TOOL_LIST,
+  SEARCH_ENGINE_LIST,
+  DEFAULT_SEARCH_ENGINE_IDX,
+  USER_SETTINGS
+];

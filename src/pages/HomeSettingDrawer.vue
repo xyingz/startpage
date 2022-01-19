@@ -65,6 +65,23 @@
             </q-item-section>
           </q-item>
 
+          <q-separator spaced />
+          <q-item-label header>重置</q-item-label>
+
+          <q-item v-ripple tag="label">
+            <q-item-section>
+              <q-item-label>恢复默认设置</q-item-label>
+            </q-item-section>
+            <q-item-section side>
+              <q-btn
+                flat
+                color="negative"
+                label="重置"
+                @click="showResetDialog"
+              />
+            </q-item-section>
+          </q-item>
+
           <!-- <q-item v-ripple clickable>
             <q-item-section>
               <q-item-label>Content filtering</q-item-label>
@@ -212,10 +229,11 @@
 </template>
 
 <script lang="ts" setup>
-import { saveUserSettings } from '@/config/set-data';
+import { clearAll, saveUserSettings } from '@/config/set-data';
 import { useStore } from '@/store';
 import { SETTINGS } from '@/store/mutation-types';
 import { computed } from 'vue';
+import { useQuasar } from 'quasar';
 
 const props = defineProps({
   showDialog: {
@@ -280,6 +298,21 @@ const toolRadius = computed<number>({
 function onChangeToolRadius(val: number) {
   const v = { toolRadius: val };
   saveUserSettings(v);
+}
+
+const $q = useQuasar();
+function showResetDialog() {
+  $q.dialog({
+    title: '警告',
+    message: '确认后系统会清除所有数据并恢复默认值，您确定继续吗?',
+    color: 'negative',
+    ok: '是的',
+    cancel: '不，我再想想'
+  }).onOk(() => {
+    clearAll();
+    // eslint-disable-next-line no-restricted-globals
+    location.reload();
+  });
 }
 </script>
 

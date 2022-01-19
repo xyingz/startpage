@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-14 17:26:25
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-17 10:27:37
+ * @LastEditTime: 2022-01-19 11:11:59
  * @Description: 保存数据到本地
  */
 
@@ -48,6 +48,16 @@ export function saveDefaultSearchEngineIdx(idx: number) {
   if (!store.state.settings.userSettings.isSaveDefaultSearchEngine) return;
 
   LocalStorage.set(DEFAULT_SEARCH_ENGINE_IDX, idx);
+}
+
+/**
+ * 清除所有内容
+ */
+export function clearAll() {
+  // All.forEach(key => {
+  //   LocalStorage.remove(key);
+  // });
+  LocalStorage.clear();
 }
 
 export default {};

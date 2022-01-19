@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-import { Quasar, Notify } from 'quasar';
+import { Quasar, Notify, Dialog } from 'quasar';
 import quasarLang from 'quasar/lang/zh-CN';
 import '@quasar/extras/material-icons/material-icons.css';
 import 'quasar/src/css/index.sass';
@@ -14,7 +14,8 @@ const app = createApp(App);
 app
   .use(Quasar, {
     plugins: {
-      Notify
+      Notify,
+      Dialog
     }, // import Quasar plugins and add here
     lang: quasarLang,
     config: {
