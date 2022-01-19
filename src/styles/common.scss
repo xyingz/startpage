@@ -10,7 +10,6 @@ body {
 }
 
 body {
-  background-image: url('https://api.dujin.org/bing/1920.php');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -38,12 +37,6 @@ body {
     &:hover {
       background-color: #{transparentize(#ccc, 0.5)};
     }
-  }
-}
-
-@media screen and (max-width: 768px) {
-  body {
-    background-image: url('https://api.dujin.org/bing/m.php');
   }
 }
 

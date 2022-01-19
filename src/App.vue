@@ -5,15 +5,26 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
+import { get } from './utils/http/requests';
 
 export default defineComponent({
   name: 'App',
-  components: {}
+
+  setup() {
+    const image = ref();
+
+    get('https://api.xiaopangying.com/image/bing').then(([, res]) => {
+      image.value = res;
+      document.body.style.backgroundImage = `url(${image.value.url})`;
+    });
+
+    return { image };
+  }
 });
 </script>
 
-<style>
+<style lang="scss">
 #app {
   text-align: center;
 }
