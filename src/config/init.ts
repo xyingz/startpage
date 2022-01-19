@@ -2,13 +2,14 @@
  * @Author: JeremyJone
  * @Date: 2022-01-11 15:50:00
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-17 11:41:36
+ * @LastEditTime: 2022-01-19 10:27:03
  * @Description: 初始化配置
  */
 import store from '@/store';
 import { CONTROLLERS, SETTINGS } from '@/store/mutation-types';
 import { LocalStorage } from 'quasar';
 import {
+  CURRENT_VERSION,
   DEFAULT_SEARCH_ENGINE_IDX,
   SEARCH_ENGINE_LIST,
   TOOL_LIST,
@@ -23,6 +24,18 @@ import {
   saveToolList,
   saveUserSettings
 } from './set-data';
+
+/**
+ * 当前版本
+ */
+const currentVersion = 1;
+
+/**
+ * 获取版本号
+ */
+function getCurrentVersion() {
+  return LocalStorage.getItem<number>(CURRENT_VERSION);
+}
 
 /**
  * 初始化用户设置项
@@ -47,10 +60,16 @@ function initUserSettings() {
  * 初始化工具列表
  */
 function initToolList() {
-  const toolListStr = LocalStorage.getItem<string>(TOOL_LIST);
+  let toolListStr = null;
+
+  const cv = getCurrentVersion();
+  if (cv !== null && cv === currentVersion) {
+    toolListStr = LocalStorage.getItem<string>(TOOL_LIST);
+  }
+
   let toolList: Array<Tool> = [];
 
-  if (toolListStr) {
+  if (toolListStr !== null) {
     toolList = JSON.parse(toolListStr);
   } else {
     toolList = tools;
@@ -100,6 +119,9 @@ export function initConfig() {
   initToolList();
   initSearchEngineList();
   initDefaultSearchEngineIdx();
+
+  // 保存当前版本号
+  LocalStorage.set(CURRENT_VERSION, currentVersion);
 }
 
 export default {};

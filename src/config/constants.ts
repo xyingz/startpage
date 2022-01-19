@@ -18,4 +18,9 @@ export const DEFAULT_SEARCH_ENGINE_IDX = 'x-start-defaultSearchEngineIdx';
  */
 export const USER_SETTINGS = 'x-start-user-settings';
 
+/**
+ * 当前版本
+ */
+export const CURRENT_VERSION = 'x-start-current-version';
+
 export default {};
