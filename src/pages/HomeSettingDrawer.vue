@@ -91,7 +91,7 @@
                 <a
                   style="display: inline"
                   target="_blank"
-                  href="https://bing.com"
+                  href="https://cn.bing.com"
                 >
                   Bing
                 </a>

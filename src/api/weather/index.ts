@@ -1,9 +1,8 @@
 import { get } from '@/utils/http/requests';
+import { weatherUrl } from '../url';
 
 export default async function getWeather() {
-  const [err, weather] = await get<{ results: Weather[] }>(
-    `https://api.seniverse.com/v3/weather/now.json?key=SwOzxhRmO3o7iDBsR&location=ip&language=zh-Hans&unit=c`
-  );
+  const [err, weather] = await get<{ results: Weather[] }>(weatherUrl);
 
   if (err || !weather) {
     if (!import.meta.env.PROD) console.error(err);

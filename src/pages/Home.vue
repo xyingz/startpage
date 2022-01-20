@@ -72,6 +72,7 @@ import { mobileKeyboardCallback, random, removeClass } from '@/utils/common';
 import { get } from '@/utils/http/requests';
 import { useQuasar } from 'quasar';
 import { isDeviceMobile } from '@/utils/check';
+import { imageUrl } from '@/api/url';
 import SettingDrawer from './HomeSettingDrawer.vue';
 
 const store = useStore();
@@ -126,30 +127,30 @@ const $q = useQuasar();
 
 // 分设备和屏幕尺寸加载不同的背景图片
 function setBackground() {
-  let imageUrl = store.state.controllers.backgroundImage?.standardUrl;
+  let imgUrl = store.state.controllers.backgroundImage?.standardUrl;
   if (isDeviceMobile()) {
     // 移动设备
-    imageUrl = store.state.controllers.backgroundImage?.standardUrl_M;
+    imgUrl = store.state.controllers.backgroundImage?.standardUrl_M;
   } else if ($q.screen.lt.md) {
     // 小尺寸屏幕
-    imageUrl = store.state.controllers.backgroundImage?.middleUrl;
+    imgUrl = store.state.controllers.backgroundImage?.middleUrl;
     if ($q.screen.height > $q.screen.width) {
       // 小尺寸下的竖屏
-      imageUrl = store.state.controllers.backgroundImage?.middleUrl_M;
+      imgUrl = store.state.controllers.backgroundImage?.middleUrl_M;
     }
   } else if ($q.screen.width > 1920) {
     // 超大尺寸品目
-    imageUrl = store.state.controllers.backgroundImage?.uhdUrl;
+    imgUrl = store.state.controllers.backgroundImage?.uhdUrl;
   } else if ($q.screen.height > $q.screen.width) {
     // 竖屏
-    imageUrl = store.state.controllers.backgroundImage?.standardUrl_M;
+    imgUrl = store.state.controllers.backgroundImage?.standardUrl_M;
   }
 
-  document.body.style.backgroundImage = `url(${imageUrl})`;
+  document.body.style.backgroundImage = `url(${imgUrl})`;
 }
 
 function getImage(rand = false, catchCb = () => {}, finallyCb = () => {}) {
-  get<BackgroundImage>(`https://api.xiaopangying.com/image/bing?random=${rand}`)
+  get<BackgroundImage>(`${imageUrl}?random=${rand}`)
     .then(([, res]) => {
       store.dispatch(CONTROLLERS.SET_BACKGROUND_IMAGE, res).then(setBackground);
     })

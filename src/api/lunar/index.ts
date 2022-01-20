@@ -1,8 +1,9 @@
 import { get } from '@/utils/http/requests';
+import { lunarUrl } from '../url';
 
 export default async function getLunar() {
   const [err, weather] = await get<{ results: { chinese_calendar: Lunar[] } }>(
-    `https://api.seniverse.com/v3/life/chinese_calendar.json?key=SwOzxhRmO3o7iDBsR`
+    lunarUrl
   );
 
   if (err || !weather) {

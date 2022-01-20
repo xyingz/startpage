@@ -56,7 +56,7 @@
                         style="width: 2rem; height: 2rem"
                       >
                         <q-img
-                          :src="`https://ico.kucat.cn/get.php?url=${tool.url}`"
+                          :src="`${iconUrl}?url=${tool.url}`"
                           :alt="tool.name"
                           ratio="1"
                           width="100%"
@@ -121,6 +121,7 @@
 import { computed, ref } from 'vue';
 import { useStore } from '@/store';
 import { SETTINGS } from '@/store/mutation-types';
+import { iconUrl } from '@/api/url';
 import AddCustomDialog from './AddCustomDialog.vue';
 
 const props = defineProps({

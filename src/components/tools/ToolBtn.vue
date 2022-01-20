@@ -16,7 +16,7 @@
       <template v-if="tool.url">
         <div class="tool-box-btn-img-wrap">
           <q-img
-            :src="`https://ico.kucat.cn/get.php?url=${tool.url}`"
+            :src="`${iconUrl}?url=${tool.url}`"
             :alt="tool.name"
             ratio="1"
             width="100%"
@@ -52,6 +52,7 @@
 import { useStore } from '@/store';
 import { CONTROLLERS, SETTINGS } from '@/store/mutation-types';
 import { useQuasar } from 'quasar';
+import { iconUrl } from '@/api/url';
 
 defineProps<{ tool: Tool }>();
 
