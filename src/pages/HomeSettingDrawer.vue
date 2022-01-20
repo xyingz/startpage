@@ -85,7 +85,7 @@
                 </div>
               </q-img>
             </q-item-section>
-            <q-item-section side style="gap: 1rem">
+            <q-item-section side style="gap: 1rem; align-items: center">
               <span>
                 图片源自
                 <a
@@ -97,13 +97,55 @@
                 </a>
               </span>
 
-              <q-btn
-                label="下载该图片"
-                flat
+              <q-btn-dropdown
+                split
                 size="sm"
-                color="primary"
-                @click="downloadImage"
-              />
+                color="secondary"
+                label="下载该图片"
+                @click="() => downloadImage('2k')"
+              >
+                <q-list dense>
+                  <q-item
+                    v-close-popup
+                    clickable
+                    @click="() => downloadImage('small')"
+                  >
+                    <q-item-section>
+                      <q-item-label>下载小图</q-item-label>
+                    </q-item-section>
+                  </q-item>
+
+                  <q-item
+                    v-close-popup
+                    clickable
+                    @click="() => downloadImage('2k')"
+                  >
+                    <q-item-section>
+                      <q-item-label>下载大图(2K)</q-item-label>
+                    </q-item-section>
+                  </q-item>
+
+                  <q-item
+                    v-close-popup
+                    clickable
+                    @click="() => downloadImage('4k')"
+                  >
+                    <q-item-section>
+                      <q-item-label>下载高清图(4K)</q-item-label>
+                    </q-item-section>
+                  </q-item>
+
+                  <q-item
+                    v-close-popup
+                    clickable
+                    @click="() => downloadImage('mobile')"
+                  >
+                    <q-item-section>
+                      <q-item-label>下载手机桌面</q-item-label>
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+              </q-btn-dropdown>
             </q-item-section>
           </q-item>
 
@@ -359,14 +401,24 @@ function showResetDialog() {
   });
 }
 
-function downloadImage() {
-  if (store.state.controllers.backgroundImage?.standardUrl) {
-    // 跨域下载图片
-    download(
-      store.state.controllers.backgroundImage.standardUrl,
-      'background.png',
-      'image/png'
-    );
+function downloadImage(size: 'small' | '2k' | '4k' | 'mobile') {
+  let url: string | undefined = '';
+  switch (size) {
+    case 'small':
+      url = store.state.controllers.backgroundImage?.smallUrl;
+      break;
+    case '4k':
+      url = store.state.controllers.backgroundImage?.uhdUrl;
+      break;
+    case 'mobile':
+      url = store.state.controllers.backgroundImage?.standardUrl_M;
+      break;
+    case '2k':
+    default:
+      url = store.state.controllers.backgroundImage?.standardUrl;
+  }
+  if (url) {
+    download(url, 'background.png', 'image/png');
   }
 }
 </script>
