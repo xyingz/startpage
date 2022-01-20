@@ -68,17 +68,17 @@ import SearchBarComponent from '@/components/SearchBar.vue';
 import ToolboxComponent from '@/components/tools/ToolBox.vue';
 import { useStore } from '@/store';
 import { CONTROLLERS } from '@/store/mutation-types';
-import { mobileKeyboardCallback, random } from '@/utils/common';
+import { mobileKeyboardCallback, random, removeClass } from '@/utils/common';
 import { get } from '@/utils/http/requests';
+import { useQuasar } from 'quasar';
+import { isDeviceMobile } from '@/utils/check';
 import SettingDrawer from './HomeSettingDrawer.vue';
 
 const store = useStore();
 
 function onFocusOut() {
   // 移除聚焦类
-  if (document.body.classList.contains('global-search-active')) {
-    document.body.classList.remove('global-search-active');
-  }
+  removeClass(document.body, 'global-search-active');
 
   // 移除聚焦模式
   if (store.state.controllers.focusMode) {
@@ -122,12 +122,36 @@ watch(
 );
 
 // 处理背景图片
+const $q = useQuasar();
+
+// 分设备和屏幕尺寸加载不同的背景图片
+function setBackground() {
+  let imageUrl = store.state.controllers.backgroundImage?.standardUrl;
+  if (isDeviceMobile()) {
+    // 移动设备
+    imageUrl = store.state.controllers.backgroundImage?.standardUrl_M;
+  } else if ($q.screen.lt.md) {
+    // 小尺寸屏幕
+    imageUrl = store.state.controllers.backgroundImage?.middleUrl;
+    if ($q.screen.height > $q.screen.width) {
+      // 小尺寸下的竖屏
+      imageUrl = store.state.controllers.backgroundImage?.middleUrl_M;
+    }
+  } else if ($q.screen.width > 1920) {
+    // 超大尺寸品目
+    imageUrl = store.state.controllers.backgroundImage?.uhdUrl;
+  } else if ($q.screen.height > $q.screen.width) {
+    // 竖屏
+    imageUrl = store.state.controllers.backgroundImage?.standardUrl_M;
+  }
+
+  document.body.style.backgroundImage = `url(${imageUrl})`;
+}
+
 function getImage(rand = false, catchCb = () => {}, finallyCb = () => {}) {
   get<BackgroundImage>(`https://api.xiaopangying.com/image/bing?random=${rand}`)
     .then(([, res]) => {
-      store.dispatch(CONTROLLERS.SET_BACKGROUND_IMAGE, res).then(() => {
-        document.body.style.backgroundImage = `url(${store.state.controllers.backgroundImage?.url})`;
-      });
+      store.dispatch(CONTROLLERS.SET_BACKGROUND_IMAGE, res).then(setBackground);
     })
     .catch(catchCb)
     .finally(finallyCb);
@@ -135,6 +159,14 @@ function getImage(rand = false, catchCb = () => {}, finallyCb = () => {}) {
 
 // 初始请求一次
 getImage();
+
+// 电脑可以调整屏幕大小，所以检测在屏幕大小发生变化时，调整背景图
+watch(
+  () => [$q.screen.width, $q.screen.height],
+  () => {
+    setBackground();
+  }
+);
 
 const loadingChangeImage = ref(false);
 function changeBgImage() {

@@ -35,10 +35,11 @@
 </template>
 
 <script lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import { CONTROLLERS } from '@/store/mutation-types';
 import { useStore } from '@/store/index';
 import { saveDefaultSearchEngineIdx } from '@/config/set-data';
+import { addClass } from '@/utils/common';
 </script>
 
 <script lang="ts" setup>
@@ -92,9 +93,19 @@ onMounted(() => {
 });
 
 function onFocus() {
-  document.body.classList.add('global-search-active');
   store.dispatch(CONTROLLERS.SET_FOCUS_MODE, true);
+  addClass(document.body, 'global-search-active');
 }
+
+watch(
+  () => store.state.controllers.focusMode,
+  val => {
+    if (val) {
+      addClass(document.body, 'global-search-active');
+      inputBar.value?.focus();
+    }
+  }
+);
 </script>
 
 <style lang="scss">

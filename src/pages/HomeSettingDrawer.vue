@@ -71,12 +71,7 @@
             </q-item-section>
             <q-item-section>
               <q-img
-                :src="
-                  store.state.controllers.backgroundImage?.url.replace(
-                    '1920x1080',
-                    '400x240'
-                  )
-                "
+                :src="store.state.controllers.backgroundImage?.thumbnailUrl"
               >
                 <div class="image-tip absolute-bottom text-caption text-center">
                   <a
@@ -282,6 +277,7 @@ import { useStore } from '@/store';
 import { SETTINGS } from '@/store/mutation-types';
 import { computed } from 'vue';
 import { useQuasar } from 'quasar';
+import { download } from '@/utils/http/requests';
 
 const props = defineProps({
   showDialog: {
@@ -364,23 +360,13 @@ function showResetDialog() {
 }
 
 function downloadImage() {
-  if (store.state.controllers.backgroundImage?.url) {
+  if (store.state.controllers.backgroundImage?.standardUrl) {
     // 跨域下载图片
-    const img = new Image();
-    img.setAttribute('crossOrigin', 'anonymous');
-    img.src = store.state.controllers.backgroundImage.url;
-    img.onload = () => {
-      const canves = document.createElement('canvas');
-      canves.width = img.width;
-      canves.height = img.height;
-      const ctx = canves.getContext('2d');
-      ctx?.drawImage(img, 0, 0, img.width, img.height);
-
-      const a = document.createElement('a');
-      a.href = canves.toDataURL('image/png');
-      a.download = 'background.png';
-      a.click();
-    };
+    download(
+      store.state.controllers.backgroundImage.standardUrl,
+      'background.png',
+      'image/png'
+    );
   }
 }
 </script>

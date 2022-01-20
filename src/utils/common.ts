@@ -4,7 +4,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-05 11:53:15
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-19 10:12:10
+ * @LastEditTime: 2022-01-20 15:39:00
  * @Description: 通用函数
  */
 
@@ -155,4 +155,19 @@ export function mobileKeyboardCallback(showCb: Function, hideCb: Function) {
  */
 export function random(arr: any[]) {
   return arr[Math.floor(Math.random() * arr.length)];
+}
+
+/**
+ * 添加 class
+ */
+export function addClass(el: HTMLElement, className: string) {
+  if (el.classList.contains(className)) return;
+  el.classList.add(className);
+}
+
+/**
+ * 移除 class
+ */
+export function removeClass(el: HTMLElement, className: string) {
+  el.classList.remove(className);
 }
