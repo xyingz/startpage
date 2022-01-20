@@ -2,13 +2,14 @@
  * @Author: JeremyJone
  * @Date: 2022-01-12 14:36:57
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-17 15:59:56
+ * @LastEditTime: 2022-01-20 10:38:44
  * @Description: 程序内部控制变量模块
  */
 
 import { Module } from 'vuex';
 import {
   GET_SEARCH_ENGINE_INDEX,
+  SET_BACKGROUND_IMAGE,
   SET_FOCUS_MODE,
   SET_REMOVE_TOOL_STATE,
   SET_SEARCH_ENGINE_IDX,
@@ -22,7 +23,8 @@ const store: Module<ControllersState, RootState> = {
     focusMode: false,
     isShowToolBox: false,
     removeToolState: false,
-    defaultEngineIdx: 0
+    defaultEngineIdx: 0,
+    backgroundImage: undefined
   },
 
   getters: {
@@ -46,6 +48,9 @@ const store: Module<ControllersState, RootState> = {
     },
     [SET_SEARCH_ENGINE_IDX](state, idx: number) {
       state.defaultEngineIdx = idx;
+    },
+    [SET_BACKGROUND_IMAGE](state, backgroundImage: BackgroundImage) {
+      state.backgroundImage = backgroundImage;
     }
   },
   actions: {
@@ -66,6 +71,9 @@ const store: Module<ControllersState, RootState> = {
         index = idx;
       }
       context.commit(SET_SEARCH_ENGINE_IDX, index);
+    },
+    [SET_BACKGROUND_IMAGE](context, backgroundImage: BackgroundImage) {
+      context.commit(SET_BACKGROUND_IMAGE, backgroundImage);
     }
   }
 };

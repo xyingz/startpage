@@ -5,22 +5,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
-import { get } from './utils/http/requests';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'App',
-
-  setup() {
-    const image = ref();
-
-    get('https://api.xiaopangying.com/image/bing').then(([, res]) => {
-      image.value = res;
-      document.body.style.backgroundImage = `url(${image.value.url})`;
-    });
-
-    return { image };
-  }
+  name: 'App'
 });
 </script>
 
@@ -36,6 +24,5 @@ footer {
   text-align: center;
   font-weight: 500;
   color: black;
-  backdrop-filter: blur(10px);
 }
 </style>

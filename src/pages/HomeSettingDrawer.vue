@@ -65,10 +65,58 @@
             </q-item-section>
           </q-item>
 
+          <q-item class="bg-image">
+            <q-item-section>
+              <q-item-label>背景图片</q-item-label>
+            </q-item-section>
+            <q-item-section>
+              <q-img
+                :src="
+                  store.state.controllers.backgroundImage?.url.replace(
+                    '1920x1080',
+                    '400x240'
+                  )
+                "
+              >
+                <div class="image-tip absolute-bottom text-caption text-center">
+                  <a
+                    target="_blank"
+                    :href="
+                      store.state.controllers.backgroundImage?.copyrightLink
+                    "
+                  >
+                    {{ store.state.controllers.backgroundImage?.copyright }}
+                  </a>
+                </div>
+              </q-img>
+            </q-item-section>
+            <q-item-section side style="gap: 1rem">
+              <span>
+                图片源自
+                <a
+                  style="display: inline"
+                  target="_blank"
+                  href="https://bing.com"
+                >
+                  Bing
+                </a>
+              </span>
+
+              <q-btn
+                label="下载该图片"
+                flat
+                size="sm"
+                color="primary"
+                @click="downloadImage"
+              />
+            </q-item-section>
+          </q-item>
+
+          <!-- 重置放在最下面 -->
           <q-separator spaced />
           <q-item-label header>重置</q-item-label>
 
-          <q-item v-ripple tag="label">
+          <q-item tag="label" @click.prevent>
             <q-item-section>
               <q-item-label>恢复默认设置</q-item-label>
             </q-item-section>
@@ -314,6 +362,45 @@ function showResetDialog() {
     location.reload();
   });
 }
+
+function downloadImage() {
+  if (store.state.controllers.backgroundImage?.url) {
+    // 跨域下载图片
+    const img = new Image();
+    img.setAttribute('crossOrigin', 'anonymous');
+    img.src = store.state.controllers.backgroundImage.url;
+    img.onload = () => {
+      const canves = document.createElement('canvas');
+      canves.width = img.width;
+      canves.height = img.height;
+      const ctx = canves.getContext('2d');
+      ctx?.drawImage(img, 0, 0, img.width, img.height);
+
+      const a = document.createElement('a');
+      a.href = canves.toDataURL('image/png');
+      a.download = 'background.png';
+      a.click();
+    };
+  }
+}
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.bg-image {
+  .image-tip {
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+
+  &:hover {
+    .image-tip {
+      opacity: 1;
+    }
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+</style>

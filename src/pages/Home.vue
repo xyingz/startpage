@@ -42,6 +42,22 @@
     </div>
 
     <SettingDrawer v-model="showSettings" />
+
+    <q-btn
+      v-show="!store.state.controllers.focusMode"
+      class="absolute-bottom-right q-mb-lg q-mr-md"
+      round
+      flat
+      icon="auto_awesome"
+      :loading="loadingChangeImage"
+      :disable="loadingChangeImage"
+      color="accent"
+      @click="changeBgImage"
+    >
+      <template #loading>
+        <q-spinner-ball />
+      </template>
+    </q-btn>
   </div>
 </template>
 
@@ -53,6 +69,7 @@ import ToolboxComponent from '@/components/tools/ToolBox.vue';
 import { useStore } from '@/store';
 import { CONTROLLERS } from '@/store/mutation-types';
 import { mobileKeyboardCallback, random } from '@/utils/common';
+import { get } from '@/utils/http/requests';
 import SettingDrawer from './HomeSettingDrawer.vue';
 
 const store = useStore();
@@ -103,6 +120,33 @@ watch(
     randomAphorisms.value = random(aphorisms.value);
   }
 );
+
+// 处理背景图片
+function getImage(rand = false, catchCb = () => {}, finallyCb = () => {}) {
+  get<BackgroundImage>(`https://api.xiaopangying.com/image/bing?random=${rand}`)
+    .then(([, res]) => {
+      store.dispatch(CONTROLLERS.SET_BACKGROUND_IMAGE, res).then(() => {
+        document.body.style.backgroundImage = `url(${store.state.controllers.backgroundImage?.url})`;
+      });
+    })
+    .catch(catchCb)
+    .finally(finallyCb);
+}
+
+// 初始请求一次
+getImage();
+
+const loadingChangeImage = ref(false);
+function changeBgImage() {
+  loadingChangeImage.value = true;
+
+  // 延长切换图片的时间，降低请求频率
+  setTimeout(() => {
+    getImage(true, undefined, () => {
+      loadingChangeImage.value = false;
+    });
+  }, 500);
+}
 </script>
 
 <style scoped lang="scss"></style>

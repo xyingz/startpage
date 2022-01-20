@@ -7,4 +7,6 @@ declare interface ControllersState {
    * 默认搜索引擎索引
    */
   defaultEngineIdx: number;
+
+  backgroundImage?: BackgroundImage;
 }
