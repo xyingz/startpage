@@ -57,6 +57,10 @@
       <template #loading>
         <q-spinner-ball />
       </template>
+
+      <q-tooltip anchor="center left" self="center right">
+        {{ store.state.controllers.backgroundImage?.copyright || 'undefined' }}
+      </q-tooltip>
     </q-btn>
   </div>
 </template>
