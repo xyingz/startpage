@@ -43,7 +43,7 @@
           </q-item>
 
           <q-item>
-            <q-item-section>
+            <q-item-section avatar>
               <q-item-label>工具箱图标圆角</q-item-label>
             </q-item-section>
             <q-item-section>
@@ -146,6 +146,24 @@
                   </q-item>
                 </q-list>
               </q-btn-dropdown>
+            </q-item-section>
+          </q-item>
+
+          <q-item>
+            <q-item-section avatar>
+              <q-item-label>背景图片模糊区间</q-item-label>
+            </q-item-section>
+            <q-item-section class="q-ml-sm">
+              <q-range
+                v-model="focusBgBlurRange"
+                label
+                markers
+                :min="0"
+                :max="30"
+                @change="onChangeFocusBgBlurRange"
+              />
+              <!-- TODO: q-range 中的 marker-lables 属性有报错，无法打包，暂时不显示 label 了 -->
+              <!-- :marker-labels="focusBgBlurRangeLabels" -->
             </q-item-section>
           </q-item>
 
@@ -317,7 +335,7 @@
 import { clearAll, saveUserSettings } from '@/config/set-data';
 import { useStore } from '@/store';
 import { SETTINGS } from '@/store/mutation-types';
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useQuasar } from 'quasar';
 import { download } from '@/utils/http/requests';
 
@@ -384,6 +402,39 @@ const toolRadius = computed<number>({
 function onChangeToolRadius(val: number) {
   const v = { toolRadius: val };
   saveUserSettings(v);
+}
+
+const focusBgBlurRange = ref({
+  min: store.state.settings.userSettings.minBlur,
+  max: store.state.settings.userSettings.maxBlur
+});
+watch(
+  () => focusBgBlurRange.value.min,
+  val => {
+    const v = { minBlur: val };
+    store.commit(SETTINGS.SAVE_USER_SETTINGS, v);
+  }
+);
+watch(
+  () => focusBgBlurRange.value.max,
+  val => {
+    const v = { maxBlur: val };
+    store.commit(SETTINGS.SAVE_USER_SETTINGS, v);
+  }
+);
+
+const focusBgBlurRangeLabels: { value: number; label: string }[] = [];
+for (let i = focusBgBlurRange.value.min; i <= focusBgBlurRange.value.max; i++) {
+  if (i % 5 === 0) {
+    focusBgBlurRangeLabels.push({ value: i, label: `${i}` });
+  }
+}
+
+function onChangeFocusBgBlurRange(value: { min: number; max: number }) {
+  saveUserSettings({
+    minBlur: value.min,
+    maxBlur: value.max
+  });
 }
 
 const $q = useQuasar();

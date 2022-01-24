@@ -71,7 +71,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import InfoPanelComponent from '@/components/InfoPanel.vue';
 import SearchBarComponent from '@/components/SearchBar.vue';
 import ToolboxComponent from '@/components/tools/ToolBox.vue';
@@ -188,18 +188,27 @@ function changeBgImage() {
     });
   }, 500);
 }
+
+const minBlur = computed(() => store.state.settings?.userSettings.minBlur || 0);
+const maxBlur = computed(
+  () => store.state.settings?.userSettings.maxBlur || 20
+);
 </script>
 
 <style scoped lang="scss">
+$min-blur: calc(v-bind(minBlur) * 1px);
+$max-blur: calc(v-bind(maxBlur) * 1px);
+
 .home-bg {
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
   transition: filter 0.2s;
+  filter: blur(#{$min-blur});
   transform: scale(1.1); // 隐藏白边
 }
 
 .home-filter {
-  filter: blur(20px);
+  filter: blur(#{$max-blur});
 }
 </style>

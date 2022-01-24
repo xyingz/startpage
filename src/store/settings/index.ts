@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-12 14:50:46
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-17 16:41:51
+ * @LastEditTime: 2022-01-24 16:58:05
  * @Description: 用户可以自行配置的设置项
  */
 
@@ -28,7 +28,9 @@ const store: Module<SettingsState, RootState> = {
       isSaveDefaultSearchEngine: true,
       toolRadius: 10,
       isDefaultFocusMode: true,
-      isShowInfoPanel: true
+      isShowInfoPanel: true,
+      minBlur: 0,
+      maxBlur: 20
     }
   },
 
