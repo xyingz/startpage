@@ -39,7 +39,6 @@ import { ref, onMounted, computed, watch } from 'vue';
 import { CONTROLLERS } from '@/store/mutation-types';
 import { useStore } from '@/store/index';
 import { saveDefaultSearchEngineIdx } from '@/config/set-data';
-import { addClass } from '@/utils/common';
 </script>
 
 <script lang="ts" setup>
@@ -94,14 +93,12 @@ onMounted(() => {
 
 function onFocus() {
   store.dispatch(CONTROLLERS.SET_FOCUS_MODE, true);
-  addClass(document.body, 'global-search-active');
 }
 
 watch(
   () => store.state.controllers.focusMode,
   val => {
     if (val) {
-      addClass(document.body, 'global-search-active');
       inputBar.value?.focus();
     }
   }

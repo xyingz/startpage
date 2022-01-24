@@ -1,5 +1,10 @@
 <template>
-  <div>
+  <div class="position-relative">
+    <div
+      class="fit absolute shadow-5 home-bg"
+      :class="{ 'home-filter': store.state.controllers.focusMode }"
+      @click.passive="onFocusOut"
+    />
     <div class="column full-height" @click.passive="onFocusOut">
       <div class="absolute-top-right q-mr-md q-mt-sm">
         <q-btn
@@ -72,7 +77,7 @@ import SearchBarComponent from '@/components/SearchBar.vue';
 import ToolboxComponent from '@/components/tools/ToolBox.vue';
 import { useStore } from '@/store';
 import { CONTROLLERS } from '@/store/mutation-types';
-import { mobileKeyboardCallback, random, removeClass } from '@/utils/common';
+import { mobileKeyboardCallback, random } from '@/utils/common';
 import { get } from '@/utils/http/requests';
 import { useQuasar } from 'quasar';
 import { isDeviceMobile } from '@/utils/check';
@@ -82,9 +87,6 @@ import SettingDrawer from './HomeSettingDrawer.vue';
 const store = useStore();
 
 function onFocusOut() {
-  // 移除聚焦类
-  removeClass(document.body, 'global-search-active');
-
   // 移除聚焦模式
   if (store.state.controllers.focusMode) {
     store.dispatch(CONTROLLERS.SET_FOCUS_MODE, false);
@@ -150,7 +152,9 @@ function setBackground() {
     imgUrl = store.state.controllers.backgroundImage?.standardUrl_M;
   }
 
-  document.body.style.backgroundImage = `url(${imgUrl})`;
+  (
+    document.querySelector('.home-bg') as HTMLElement
+  ).style.backgroundImage = `url(${imgUrl})`;
 }
 
 function getImage(rand = false, catchCb = () => {}, finallyCb = () => {}) {
@@ -186,4 +190,16 @@ function changeBgImage() {
 }
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.home-bg {
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  transition: filter 0.2s;
+  transform: scale(1.1); // 隐藏白边
+}
+
+.home-filter {
+  filter: blur(20px);
+}
+</style>

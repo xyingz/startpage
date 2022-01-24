@@ -10,12 +10,9 @@ body {
 }
 
 body {
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
   width: 100vw;
   height: 100vh;
-  transition: backdrop-filter 0.2s;
+  overflow: hidden;
 
   // ::-webkit-scrollbar 滚动条整体部分
   ::-webkit-scrollbar {
@@ -38,9 +35,4 @@ body {
       background-color: #{transparentize(#ccc, 0.5)};
     }
   }
-}
-
-.global-search-active {
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
 }
