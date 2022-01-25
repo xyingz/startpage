@@ -21,9 +21,12 @@ import { useStore } from '@/store';
 import { CONTROLLERS } from '@/store/mutation-types';
 import { useQuasar } from 'quasar';
 import { onBeforeMount, ref } from 'vue';
+import useBackgroundImage from '@/composition/use-background-image';
 
 const store = useStore();
 const $q = useQuasar();
+
+const { changeBgImage } = useBackgroundImage();
 
 const navCircleRef = ref<HTMLDivElement>();
 const navTipsRef = ref<HTMLDivElement>();
@@ -221,6 +224,7 @@ function onClickCircle(e: Event) {
 
     case 'change_bg':
       tips.value = '做得好~！';
+      changeBgImage();
       break;
 
     default:
