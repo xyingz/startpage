@@ -158,12 +158,11 @@
                 v-model="focusBgBlurRange"
                 label
                 markers
+                :marker-labels="focusBgBlurRangeLabels"
                 :min="0"
                 :max="30"
                 @change="onChangeFocusBgBlurRange"
               />
-              <!-- TODO: q-range 中的 marker-lables 属性有报错，无法打包，暂时不显示 label 了 -->
-              <!-- :marker-labels="focusBgBlurRangeLabels" -->
             </q-item-section>
           </q-item>
 
@@ -424,7 +423,7 @@ watch(
 );
 
 const focusBgBlurRangeLabels: { value: number; label: string }[] = [];
-for (let i = focusBgBlurRange.value.min; i <= focusBgBlurRange.value.max; i++) {
+for (let i = 0; i <= 30; i++) {
   if (i % 5 === 0) {
     focusBgBlurRangeLabels.push({ value: i, label: `${i}` });
   }
