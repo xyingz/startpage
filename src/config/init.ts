@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-11 15:50:00
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-25 14:31:32
+ * @LastEditTime: 2022-01-25 18:10:06
  * @Description: 初始化配置
  */
 import store from '@/store';
@@ -105,12 +105,12 @@ function checkVersion() {
 
   // 当前版本号大于保存的版本号
   if (isVersionGreaterThan(APP_VERSION, savedVersion)) {
-    // LocalStorage.set(VERSION, APP_VERSION);
+    LocalStorage.set(VERSION, APP_VERSION);
   }
 
   // 如果没有参数，则保存默认值
   if (!savedVersion) {
-    // LocalStorage.set(VERSION, APP_VERSION);
+    LocalStorage.set(VERSION, APP_VERSION);
 
     // 没有参数，可以理解为第一次登录
     store.dispatch(CONTROLLERS.SET_FIRST_VISIT, true);
