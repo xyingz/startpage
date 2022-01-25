@@ -2,17 +2,19 @@
  * @Author: JeremyJone
  * @Date: 2022-01-11 15:50:00
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-19 10:44:23
+ * @LastEditTime: 2022-01-25 14:31:32
  * @Description: 初始化配置
  */
 import store from '@/store';
 import { CONTROLLERS, SETTINGS } from '@/store/mutation-types';
+import { isVersionGreaterThan } from '@/utils/common';
 import { LocalStorage } from 'quasar';
 import {
   DEFAULT_SEARCH_ENGINE_IDX,
   SEARCH_ENGINE_LIST,
   TOOL_LIST,
-  USER_SETTINGS
+  USER_SETTINGS,
+  VERSION
 } from './constants';
 import searchEngines from './data/search-engine';
 import tools from './data/tools';
@@ -94,12 +96,35 @@ function initDefaultSearchEngineIdx() {
   }
 }
 
+/**
+ * 检查版本号并保存新版本号
+ */
+function checkVersion() {
+  const savedVersion = LocalStorage.getItem<string>(VERSION);
+  if (savedVersion === APP_VERSION) return;
+
+  // 当前版本号大于保存的版本号
+  if (isVersionGreaterThan(APP_VERSION, savedVersion)) {
+    // LocalStorage.set(VERSION, APP_VERSION);
+  }
+
+  // 如果没有参数，则保存默认值
+  if (!savedVersion) {
+    // LocalStorage.set(VERSION, APP_VERSION);
+
+    // 没有参数，可以理解为第一次登录
+    store.dispatch(CONTROLLERS.SET_FIRST_VISIT, true);
+  }
+}
+
 export function initConfig() {
   initUserSettings();
 
   initToolList();
   initSearchEngineList();
   initDefaultSearchEngineIdx();
+
+  checkVersion();
 }
 
 export default {};

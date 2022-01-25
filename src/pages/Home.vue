@@ -1,5 +1,7 @@
 <template>
   <div class="position-relative">
+    <NavPageComponent v-if="store.state.controllers.isFirstVisit" />
+
     <div
       class="fit absolute shadow-5 home-bg"
       :class="{ 'home-filter': store.state.controllers.focusMode }"
@@ -83,6 +85,7 @@ import { useQuasar } from 'quasar';
 import { isDeviceMobile } from '@/utils/check';
 import { imageUrl } from '@/api/url';
 import SettingDrawer from './HomeSettingDrawer.vue';
+import NavPageComponent from './NavPage.vue';
 
 const store = useStore();
 

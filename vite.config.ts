@@ -15,6 +15,10 @@ export default defineConfig({
       include: ['src/**/*.js', 'src/**/*.vue', 'src/**/*.ts']
     })
   ],
+  define: {
+    APP_VERSION: JSON.stringify(process.env.npm_package_version)
+  },
+
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src')

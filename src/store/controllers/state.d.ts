@@ -9,4 +9,6 @@ declare interface ControllersState {
   defaultEngineIdx: number;
 
   backgroundImage?: BackgroundImage;
+
+  isFirstVisit: boolean;
 }

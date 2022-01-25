@@ -4,7 +4,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-05 11:53:15
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-20 15:39:00
+ * @LastEditTime: 2022-01-25 10:59:02
  * @Description: 通用函数
  */
 
@@ -170,4 +170,27 @@ export function addClass(el: HTMLElement, className: string) {
  */
 export function removeClass(el: HTMLElement, className: string) {
   el.classList.remove(className);
+}
+
+/**
+ * 判断版本是否高于某个版本
+ */
+export function isVersionGreaterThan(
+  version?: string | null,
+  compareVersion?: string | null
+) {
+  if (!version) return false;
+
+  if (!compareVersion) {
+    compareVersion = APP_VERSION;
+  }
+
+  const v = version.split('.');
+  const c = compareVersion.split('.');
+
+  for (let i = 0; i < v.length; i++) {
+    if (parseInt(v[i], 10) > parseInt(c[i], 10)) return true;
+    if (parseInt(v[i], 10) < parseInt(c[i], 10)) return false;
+  }
+  return false;
 }

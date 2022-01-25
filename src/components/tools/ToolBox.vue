@@ -59,7 +59,10 @@ const store = useStore();
 const tools = reactive<Array<Tool>>(store.state.settings.tools);
 
 const size = ref('4rem');
-const drop = ref('down');
+// const drop = ref('down');
+const drop = computed(() => {
+  return store.state.controllers.isShowToolBox ? 'up' : 'down';
+});
 const radius = computed(() => store.state.settings.userSettings.toolRadius);
 
 function changeToolBoxState() {
@@ -67,7 +70,7 @@ function changeToolBoxState() {
     CONTROLLERS.SET_SHOW_TOOLBOX,
     !store.state.controllers.isShowToolBox
   );
-  drop.value = store.state.controllers.isShowToolBox ? 'up' : 'down';
+  // drop.value = store.state.controllers.isShowToolBox ? 'up' : 'down';
 }
 
 onMounted(() => {

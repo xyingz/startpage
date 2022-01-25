@@ -4,6 +4,7 @@ export const SET_REMOVE_TOOL_STATE = 'SET_REMOVE_TOOL_STATE';
 export const SET_SEARCH_ENGINE_IDX = 'SET_SEARCH_ENGINE_IDX';
 export const GET_SEARCH_ENGINE_INDEX = 'SEARCH_ENGINE_INDEX';
 export const SET_BACKGROUND_IMAGE = 'SET_BACKGROUND_IMAGE';
+export const SET_FIRST_VISIT = 'SET_FIRST_VISIT';
 
 const controllers = 'controllers';
 export const CONTROLLERS = {
@@ -12,7 +13,8 @@ export const CONTROLLERS = {
   SET_REMOVE_TOOL_STATE: `${controllers}/${SET_REMOVE_TOOL_STATE}`,
   SET_SEARCH_ENGINE_IDX: `${controllers}/${SET_SEARCH_ENGINE_IDX}`,
   GET_SEARCH_ENGINE_INDEX: `${controllers}/${GET_SEARCH_ENGINE_INDEX}`,
-  SET_BACKGROUND_IMAGE: `${controllers}/${SET_BACKGROUND_IMAGE}`
+  SET_BACKGROUND_IMAGE: `${controllers}/${SET_BACKGROUND_IMAGE}`,
+  SET_FIRST_VISIT: `${controllers}/${SET_FIRST_VISIT}`
 };
 
 export const ADD_TOOL = 'ADD_TOOL';

@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-12 14:36:57
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-20 10:38:44
+ * @LastEditTime: 2022-01-25 11:05:22
  * @Description: 程序内部控制变量模块
  */
 
@@ -10,6 +10,7 @@ import { Module } from 'vuex';
 import {
   GET_SEARCH_ENGINE_INDEX,
   SET_BACKGROUND_IMAGE,
+  SET_FIRST_VISIT,
   SET_FOCUS_MODE,
   SET_REMOVE_TOOL_STATE,
   SET_SEARCH_ENGINE_IDX,
@@ -24,7 +25,8 @@ const store: Module<ControllersState, RootState> = {
     isShowToolBox: false,
     removeToolState: false,
     defaultEngineIdx: 0,
-    backgroundImage: undefined
+    backgroundImage: undefined,
+    isFirstVisit: false
   },
 
   getters: {
@@ -51,6 +53,9 @@ const store: Module<ControllersState, RootState> = {
     },
     [SET_BACKGROUND_IMAGE](state, backgroundImage: BackgroundImage) {
       state.backgroundImage = backgroundImage;
+    },
+    [SET_FIRST_VISIT](state, isFirstVisit: boolean) {
+      state.isFirstVisit = isFirstVisit;
     }
   },
   actions: {
@@ -74,6 +79,9 @@ const store: Module<ControllersState, RootState> = {
     },
     [SET_BACKGROUND_IMAGE](context, backgroundImage: BackgroundImage) {
       context.commit(SET_BACKGROUND_IMAGE, backgroundImage);
+    },
+    [SET_FIRST_VISIT](context, isFirstVisit: boolean) {
+      context.commit(SET_FIRST_VISIT, isFirstVisit);
     }
   }
 };
