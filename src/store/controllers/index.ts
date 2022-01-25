@@ -2,18 +2,21 @@
  * @Author: JeremyJone
  * @Date: 2022-01-12 14:36:57
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-25 11:05:22
+ * @LastEditTime: 2022-01-25 18:01:50
  * @Description: 程序内部控制变量模块
  */
 
 import { Module } from 'vuex';
 import {
   GET_SEARCH_ENGINE_INDEX,
+  SET_ADD_CUSTOM_TOOL_DIALOG_VISIBLE,
+  SET_ADD_TOOL_DIALOG_VISIBLE,
   SET_BACKGROUND_IMAGE,
   SET_FIRST_VISIT,
   SET_FOCUS_MODE,
   SET_REMOVE_TOOL_STATE,
   SET_SEARCH_ENGINE_IDX,
+  SET_SETTING_DIALOG_VISIBLE,
   SET_SHOW_TOOLBOX
 } from '../mutation-types';
 
@@ -26,7 +29,10 @@ const store: Module<ControllersState, RootState> = {
     removeToolState: false,
     defaultEngineIdx: 0,
     backgroundImage: undefined,
-    isFirstVisit: false
+    isFirstVisit: false,
+    showAddToolDialog: false,
+    showAddCustomToolDialog: false,
+    showSettingDialog: false
   },
 
   getters: {
@@ -56,6 +62,15 @@ const store: Module<ControllersState, RootState> = {
     },
     [SET_FIRST_VISIT](state, isFirstVisit: boolean) {
       state.isFirstVisit = isFirstVisit;
+    },
+    [SET_ADD_TOOL_DIALOG_VISIBLE](state, isShow: boolean) {
+      state.showAddToolDialog = isShow;
+    },
+    [SET_ADD_CUSTOM_TOOL_DIALOG_VISIBLE](state, isShow: boolean) {
+      state.showAddCustomToolDialog = isShow;
+    },
+    [SET_SETTING_DIALOG_VISIBLE](state, isShow: boolean) {
+      state.showSettingDialog = isShow;
     }
   },
   actions: {
@@ -82,6 +97,15 @@ const store: Module<ControllersState, RootState> = {
     },
     [SET_FIRST_VISIT](context, isFirstVisit: boolean) {
       context.commit(SET_FIRST_VISIT, isFirstVisit);
+    },
+    [SET_ADD_TOOL_DIALOG_VISIBLE](context, isShow: boolean) {
+      context.commit(SET_ADD_TOOL_DIALOG_VISIBLE, isShow);
+    },
+    [SET_ADD_CUSTOM_TOOL_DIALOG_VISIBLE](context, isShow: boolean) {
+      context.commit(SET_ADD_CUSTOM_TOOL_DIALOG_VISIBLE, isShow);
+    },
+    [SET_SETTING_DIALOG_VISIBLE](context, isShow: boolean) {
+      context.commit(SET_SETTING_DIALOG_VISIBLE, isShow);
     }
   }
 };

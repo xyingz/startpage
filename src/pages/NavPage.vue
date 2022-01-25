@@ -18,7 +18,7 @@
 
 <script lang="ts" setup>
 import { useStore } from '@/store';
-import { CONTROLLERS } from '@/store/mutation-types';
+import { CONTROLLERS, SETTINGS } from '@/store/mutation-types';
 import { useQuasar } from 'quasar';
 import { onBeforeMount, ref } from 'vue';
 import useBackgroundImage from '@/composition/use-background-image';
@@ -37,6 +37,7 @@ const tips = ref(
 onBeforeMount(() => {
   // 在挂载就绪之前需要一些操作
   store.dispatch(CONTROLLERS.SET_FOCUS_MODE, true);
+  store.dispatch(CONTROLLERS.SET_ADD_TOOL_DIALOG_VISIBLE, false);
 });
 
 // 是否允许点击导航圆点
@@ -52,8 +53,13 @@ const stepName = ref([
   'not_focus_mode',
   'tools_btn',
   'tools_panel',
+  'add_tool_panel',
+  'add_tool_example',
+  'add_custom_tool',
+  'add_custom_tool_panel',
   'change_bg',
   'settings',
+  'settings_panel',
   'end'
 ]);
 const step = ref(-1);
@@ -145,8 +151,55 @@ function nextNav() {
         width = '90%';
         height = '40%';
         radius = '10px';
-        tips.value = '工具箱中可以添加你喜欢的任意网站导航';
+        tips.value =
+          '工具箱是导航网站的快捷通道之一。点击“+”可以添加您喜欢的任意网站';
         textTop = '34%';
+        textLeft = 'calc(50% - 100px)';
+        break;
+
+      case 'add_tool_panel': // 添加工具对话框
+        top = '0';
+        left = '20%';
+        width = '60%';
+        height = '60%';
+        radius = '10px';
+        tips.value = '点击 “添加” 可以快速添加一个网站导航。试一下';
+        textTop = '60%';
+        store.dispatch(CONTROLLERS.SET_ADD_TOOL_DIALOG_VISIBLE, true);
+        break;
+
+      case 'add_tool_example': // 添加一个工具
+        top = '28%';
+        left = 'calc(50% + 160px)';
+        width = '100px';
+        height = '60px';
+        radius = '10px';
+        tips.value = '点击 “添加” 按钮';
+        textTop = '24%';
+        textLeft = 'calc(50% + 100px)';
+        isClickableCircle.value = true;
+        break;
+
+      case 'add_custom_tool': // 添加自定义工具
+        top = '2%';
+        left = 'calc(50% - 285px)';
+        width = '70px';
+        height = '70px';
+        radius = '50%';
+        tips.value = '除了推荐网站，还可以添加自定义网站';
+        textTop = '10%';
+        textLeft = 'calc(50% - 100px)';
+        break;
+
+      case 'add_custom_tool_panel': // 自定义添加工具面板
+        store.dispatch(CONTROLLERS.SET_ADD_CUSTOM_TOOL_DIALOG_VISIBLE, true);
+        top = 'calc(50% - 160px)';
+        left = '20%';
+        width = '60%';
+        height = '320px';
+        radius = '10px';
+        tips.value = '自定义网站时，只需要添加网址，并起一个名字即可，很方便';
+        textTop = '70%';
         textLeft = 'calc(50% - 100px)';
         break;
 
@@ -162,6 +215,10 @@ function nextNav() {
         break;
 
       case 'change_bg': // 切换背景
+        // 切换背景之前要关闭添加工具对话框
+        store.dispatch(CONTROLLERS.SET_ADD_CUSTOM_TOOL_DIALOG_VISIBLE, false);
+        store.dispatch(CONTROLLERS.SET_ADD_TOOL_DIALOG_VISIBLE, false);
+
         top = 'calc(100% - 80px)';
         left = 'calc(100% - 70px)';
         tips.value = '点击这里可以切换背景图片';
@@ -178,7 +235,22 @@ function nextNav() {
         textLeft = 'calc(100% - 150px)';
         break;
 
+      case 'settings_panel': // 设置面板
+        store.dispatch(CONTROLLERS.SET_SETTING_DIALOG_VISIBLE, true);
+        top = '0';
+        left = '20%';
+        width = '60%';
+        height = '100%';
+        radius = '10px';
+        tips.value = '在设置面板中可以个性化您的起始页';
+        textTop = '50%';
+        textLeft = '90%';
+        break;
+
       case 'end': // 结束
+        // 结束前先关闭添加工具对话框
+        store.dispatch(CONTROLLERS.SET_SETTING_DIALOG_VISIBLE, false);
+
         top = '0';
         left = 'calc(50% - 35px)';
         tips.value =
@@ -223,8 +295,17 @@ function onClickCircle(e: Event) {
       break;
 
     case 'change_bg':
-      tips.value = '做得好~！';
       changeBgImage();
+      tips.value = '做得好~！';
+      break;
+
+    case 'add_tool_example':
+      store.dispatch(SETTINGS.ADD_TOOL, {
+        id: 'BBA139347B80',
+        url: 'https://web.wechat.com/?lang=zh_CN',
+        name: '微信网页版'
+      });
+      tips.value = '做得好~！';
       break;
 
     default:
@@ -237,7 +318,7 @@ function onClickCircle(e: Event) {
 
 <style scoped lang="scss">
 .nav-page {
-  z-index: 10;
+  z-index: 7000;
 
   .nav-circle {
     position: absolute;

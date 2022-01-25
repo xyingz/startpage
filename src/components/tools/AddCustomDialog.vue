@@ -38,25 +38,19 @@
 
 <script lang="ts" setup>
 import { useStore } from '@/store';
-import { SETTINGS } from '@/store/mutation-types';
+import { CONTROLLERS, SETTINGS } from '@/store/mutation-types';
 import { useQuasar } from 'quasar';
 import { computed, ref } from 'vue';
 
-const $q = useQuasar();
+const store = useStore();
 
-const props = defineProps({
-  showDialog: {
-    default: false,
-    type: Boolean
-  }
-});
-const emits = defineEmits(['update:modelValue']);
+const $q = useQuasar();
 const show = computed<boolean>({
   get() {
-    return props.showDialog;
+    return store.state.controllers.showAddCustomToolDialog;
   },
   set(value) {
-    emits('update:modelValue', value);
+    store.dispatch(CONTROLLERS.SET_ADD_CUSTOM_TOOL_DIALOG_VISIBLE, value);
   }
 });
 
@@ -65,7 +59,6 @@ const toolUrl = ref('');
 const toolNameRef = ref<HTMLInputElement>();
 const toolUrlRef = ref<HTMLInputElement>();
 const dialogRef = ref();
-const store = useStore();
 function onConfirm() {
   if (!toolName.value) {
     toolNameRef.value?.focus();

@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-12 14:50:46
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-24 16:58:05
+ * @LastEditTime: 2022-01-25 17:36:16
  * @Description: 用户可以自行配置的设置项
  */
 
@@ -39,7 +39,8 @@ const store: Module<SettingsState, RootState> = {
       state.tools = tools;
     },
     [ADD_TOOL](state, tool: Tool) {
-      if (state.tools.length < 24) {
+      const index = state.tools.findIndex(item => item.id === tool.id);
+      if (index === -1 && state.tools.length < 24) {
         state.tools.push({
           id: tool.id ?? uuid(12),
           url: tool.url,

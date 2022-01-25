@@ -13,11 +13,6 @@ const tools: Array<Tool> = [
     id: '55EE1ECDB03B',
     url: 'https://mail.163.com/',
     name: '163邮箱'
-  },
-  {
-    id: 'BBA139347B80',
-    url: 'https://web.wechat.com/?lang=zh_CN',
-    name: '微信网页版'
   }
 ];
 

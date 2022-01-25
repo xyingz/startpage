@@ -41,7 +41,7 @@
     </div>
   </transition>
 
-  <AddDialog v-model="showDialog" />
+  <AddDialog />
 </template>
 
 <script lang="ts">
@@ -89,9 +89,8 @@ watch(
   }
 );
 
-const showDialog = ref(false);
 function onCreateTool() {
-  showDialog.value = true;
+  store.dispatch(CONTROLLERS.SET_ADD_TOOL_DIALOG_VISIBLE, true);
 }
 </script>
 

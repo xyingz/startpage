@@ -14,7 +14,9 @@
           round
           size="sm"
           icon="settings"
-          @click="() => (showSettings = true)"
+          @click="
+            () => store.dispatch(CONTROLLERS.SET_SETTING_DIALOG_VISIBLE, true)
+          "
         />
       </div>
       <div
@@ -48,7 +50,7 @@
       </div>
     </div>
 
-    <SettingDrawer v-model="showSettings" />
+    <SettingDrawer />
 
     <q-btn
       v-show="!store.state.controllers.focusMode"
@@ -97,8 +99,6 @@ function onFocusOut() {
     store.dispatch(CONTROLLERS.SET_REMOVE_TOOL_STATE, false);
   }
 }
-
-const showSettings = ref(false);
 
 // 判断手机端的软键盘是否弹出，从而在聚焦模式下减少下方的高度
 const isShowKeyboard = ref(false);

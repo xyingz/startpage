@@ -333,28 +333,22 @@
 <script lang="ts" setup>
 import { clearAll, saveUserSettings } from '@/config/set-data';
 import { useStore } from '@/store';
-import { SETTINGS } from '@/store/mutation-types';
+import { CONTROLLERS, SETTINGS } from '@/store/mutation-types';
 import { computed, ref, watch } from 'vue';
 import { useQuasar } from 'quasar';
 import { download } from '@/utils/http/requests';
 
-const props = defineProps({
-  showDialog: {
-    default: false,
-    type: Boolean
-  }
-});
-const emits = defineEmits(['update:modelValue']);
+const store = useStore();
+
 const show = computed<boolean>({
   get() {
-    return props.showDialog;
+    return store.state.controllers.showSettingDialog;
   },
   set(value) {
-    emits('update:modelValue', value);
+    store.dispatch(CONTROLLERS.SET_SETTING_DIALOG_VISIBLE, value);
   }
 });
 
-const store = useStore();
 const isSaveDefaultSearchEngine = computed<boolean>({
   get() {
     return store.state.settings.userSettings.isSaveDefaultSearchEngine;

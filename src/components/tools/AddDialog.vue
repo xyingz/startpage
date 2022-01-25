@@ -113,39 +113,32 @@
       </q-card-section>
     </q-card>
 
-    <AddCustomDialog v-model="isShowCustomDialog" />
+    <AddCustomDialog />
   </q-dialog>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue';
 import { useStore } from '@/store';
-import { SETTINGS } from '@/store/mutation-types';
+import { CONTROLLERS, SETTINGS } from '@/store/mutation-types';
 import { iconUrl } from '@/api/url';
 import AddCustomDialog from './AddCustomDialog.vue';
 
-const props = defineProps({
-  showDialog: {
-    default: false,
-    type: Boolean
-  }
-});
-const emits = defineEmits(['update:modelValue']);
+const store = useStore();
+
 const show = computed<boolean>({
   get() {
-    return props.showDialog;
+    return store.state.controllers.showAddToolDialog;
   },
   set(value) {
-    emits('update:modelValue', value);
+    store.dispatch(CONTROLLERS.SET_ADD_TOOL_DIALOG_VISIBLE, value);
   }
 });
 
-const isShowCustomDialog = ref(false);
 function showCustomDialog() {
-  isShowCustomDialog.value = true;
+  store.dispatch(CONTROLLERS.SET_ADD_CUSTOM_TOOL_DIALOG_VISIBLE, true);
 }
 
-const store = useStore();
 function checkAdded(tool: Tool) {
   return store.state.settings.tools.find(t => t.id === tool.id);
 }
