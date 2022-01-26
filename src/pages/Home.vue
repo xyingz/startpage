@@ -1,6 +1,8 @@
 <template>
   <div class="position-relative">
-    <NavPageComponent v-if="store.state.controllers.isFirstVisit" />
+    <BeginnerTourComponent
+      v-if="!isDeviceMobile() && store.state.controllers.showBeginnerTour"
+    />
 
     <div
       class="fit absolute shadow-5 x-home-bg"
@@ -83,8 +85,9 @@ import { useStore } from '@/store';
 import { CONTROLLERS } from '@/store/mutation-types';
 import { mobileKeyboardCallback, random } from '@/utils/common';
 import useBackgroundImage from '@/composition/use-background-image';
+import { isDeviceMobile } from '@/utils/check';
 import SettingDrawer from './HomeSettingDrawer.vue';
-import NavPageComponent from './NavPage.vue';
+import BeginnerTourComponent from './BeginnerTourPage.vue';
 
 const store = useStore();
 

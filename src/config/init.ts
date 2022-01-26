@@ -113,7 +113,7 @@ function checkVersion() {
     LocalStorage.set(VERSION, APP_VERSION);
 
     // 没有参数，可以理解为第一次登录
-    store.dispatch(CONTROLLERS.SET_FIRST_VISIT, true);
+    store.dispatch(CONTROLLERS.SET_SHOW_BEGINNER_TOUR, true);
   }
 }
 

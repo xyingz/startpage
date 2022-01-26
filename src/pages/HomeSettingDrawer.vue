@@ -166,9 +166,25 @@
             </q-item-section>
           </q-item>
 
-          <!-- 重置放在最下面 -->
+          <!-- 系统基础功能放在最下面 -->
           <q-separator spaced />
-          <q-item-label header>重置</q-item-label>
+          <q-item-label header>系统</q-item-label>
+
+          <q-item
+            v-if="!isDeviceMobile()"
+            v-ripple
+            tag="label"
+            @click="
+              () => store.dispatch(CONTROLLERS.SET_SHOW_BEGINNER_TOUR, true)
+            "
+          >
+            <q-item-section>
+              <q-item-label>查看新手教程</q-item-label>
+            </q-item-section>
+            <q-item-section side>
+              <q-btn flat color="primary" label="查看" />
+            </q-item-section>
+          </q-item>
 
           <q-item tag="label" @click.prevent>
             <q-item-section>
@@ -337,6 +353,7 @@ import { CONTROLLERS, SETTINGS } from '@/store/mutation-types';
 import { computed, ref, watch } from 'vue';
 import { useQuasar } from 'quasar';
 import { download } from '@/utils/http/requests';
+import { isDeviceMobile } from '@/utils/check';
 
 const store = useStore();
 

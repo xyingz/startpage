@@ -11,7 +11,9 @@
       outline
       rounded
       class="q-mt-md"
-      @click.stop="() => store.dispatch(CONTROLLERS.SET_FIRST_VISIT, false)"
+      @click.stop="
+        () => store.dispatch(CONTROLLERS.SET_SHOW_BEGINNER_TOUR, false)
+      "
     />
   </div>
 </template>
@@ -38,6 +40,7 @@ onBeforeMount(() => {
   // 在挂载就绪之前需要一些操作
   store.dispatch(CONTROLLERS.SET_FOCUS_MODE, true);
   store.dispatch(CONTROLLERS.SET_ADD_TOOL_DIALOG_VISIBLE, false);
+  store.dispatch(CONTROLLERS.SET_SETTING_DIALOG_VISIBLE, false);
 });
 
 // 是否允许点击导航圆点
@@ -88,11 +91,11 @@ function nextNav() {
       case 'start':
         tips.value = '点击这里可以随时退出新手导航';
         textTop = '50px';
-        textLeft = 'calc(50% + 170px)';
+        textLeft = '60%';
         break;
 
       case 'focus_mode': // 聚焦模式
-        top = 'calc(50% - 300px)';
+        top = 'calc(42% - 220px)';
         left = '15%';
         width = '70%';
         height = '240px';
@@ -102,29 +105,29 @@ function nextNav() {
         break;
 
       case 'time_panel': // 日期
-        top = 'calc(50% - 285px)';
+        top = 'calc(42% - 210px)';
         left = 'calc(50% - 210px)';
         width = '250px';
         height = '100px';
         radius = '10px';
         tips.value = '这里显示的是当前时间';
-        textTop = 'calc(50% - 325px)';
-        textLeft = 'calc(50% - 150px)';
+        textTop = 'calc(42% - 285px)';
+        textLeft = '40%';
         break;
 
       case 'info_panel': // 信息面板
-        top = 'calc(50% - 285px)';
+        top = 'calc(42% - 210px)';
         left = 'calc(50% + 20px)';
         width = '200px';
         height = '100px';
         radius = '10px';
         tips.value = '这里显示的是当前日期、农历，以及天气信息等';
-        textTop = 'calc(50% - 355px)';
-        textLeft = 'calc(50% + 150px)';
+        textTop = 'calc(42% - 285px)';
+        textLeft = '60%';
         break;
 
       case 'search': // 搜索框
-        top = 'calc(50% - 195px)';
+        top = 'calc(42% - 120px)';
         left = '15%';
         width = '70%';
         height = '120px';
@@ -134,19 +137,18 @@ function nextNav() {
         break;
 
       case 'tools_btn': // 扩展工具按钮
-        top = 'calc(50% - 90px)';
+        top = 'calc(42% - 15px)';
         left = 'calc(50% - 50px)';
         width = '100px';
         height = '50px';
         radius = '10px';
         tips.value = '在非聚焦模式下，可以使用扩展工具栏。点击按钮可以打开它';
-        textTop = '50%';
-        textLeft = 'calc(50% - 100px)';
+        textTop = 'calc(42% + 70px)';
         isClickableCircle.value = true;
         break;
 
       case 'tools_panel': // 扩展工具箱
-        top = 'calc(50% - 100px)';
+        top = 'calc(42% - 15px)';
         left = '5%';
         width = '90%';
         height = '40%';
@@ -154,7 +156,6 @@ function nextNav() {
         tips.value =
           '工具箱是导航网站的快捷通道之一。点击“+”可以添加您喜欢的任意网站';
         textTop = '34%';
-        textLeft = 'calc(50% - 100px)';
         break;
 
       case 'add_tool_panel': // 添加工具对话框
@@ -169,26 +170,24 @@ function nextNav() {
         break;
 
       case 'add_tool_example': // 添加一个工具
-        top = '28%';
+        top = '265px';
         left = 'calc(50% + 160px)';
         width = '100px';
         height = '60px';
         radius = '10px';
         tips.value = '点击 “添加” 按钮';
         textTop = '24%';
-        textLeft = 'calc(50% + 100px)';
         isClickableCircle.value = true;
         break;
 
       case 'add_custom_tool': // 添加自定义工具
-        top = '2%';
-        left = 'calc(50% - 285px)';
+        top = '20px';
+        left = 'calc(50% - 280px)';
         width = '70px';
         height = '70px';
         radius = '50%';
         tips.value = '除了推荐网站，还可以添加自定义网站';
-        textTop = '10%';
-        textLeft = 'calc(50% - 100px)';
+        textTop = '120px';
         break;
 
       case 'add_custom_tool_panel': // 自定义添加工具面板
@@ -200,7 +199,6 @@ function nextNav() {
         radius = '10px';
         tips.value = '自定义网站时，只需要添加网址，并起一个名字即可，很方便';
         textTop = '70%';
-        textLeft = 'calc(50% - 100px)';
         break;
 
       case 'not_focus_mode': // 关闭聚焦
@@ -210,7 +208,7 @@ function nextNav() {
         height = '100px';
         tips.value = '点击任意空白位置可以关闭聚焦模式';
         textTop = 'calc(50% + 40px)';
-        textLeft = 'calc(50% + 200px)';
+        textLeft = '60%';
         isClickableCircle.value = true;
         break;
 
@@ -223,7 +221,7 @@ function nextNav() {
         left = 'calc(100% - 70px)';
         tips.value = '点击这里可以切换背景图片';
         textTop = 'calc(100% - 100px)';
-        textLeft = 'calc(100% - 200px)';
+        textLeft = '80%';
         isClickableCircle.value = true;
         break;
 
@@ -232,7 +230,7 @@ function nextNav() {
         left = 'calc(100% - 70px)';
         tips.value = '点击这里可以打开设置面板';
         textTop = '70px';
-        textLeft = 'calc(100% - 150px)';
+        textLeft = '80%';
         break;
 
       case 'settings_panel': // 设置面板
@@ -259,7 +257,7 @@ function nextNav() {
         break;
 
       default:
-        store.dispatch(CONTROLLERS.SET_FIRST_VISIT, false);
+        store.dispatch(CONTROLLERS.SET_SHOW_BEGINNER_TOUR, false);
         break;
     }
 
@@ -327,7 +325,7 @@ function onClickCircle(e: Event) {
     width: 0;
     height: 0;
     border-radius: 50%;
-    box-shadow: 0 0 0 2000px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 0 0 4000px rgba(0, 0, 0, 0.7);
     transition-property: top, left, width, height, border-radius;
     transition-duration: 0.5s;
   }

@@ -10,7 +10,10 @@ declare interface ControllersState {
 
   backgroundImage?: BackgroundImage;
 
-  isFirstVisit: boolean;
+  /**
+   * 是否显示新手教程导航
+   */
+  showBeginnerTour: boolean;
 
   /**
    * 是否显示添加工具对话框

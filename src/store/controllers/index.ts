@@ -12,7 +12,7 @@ import {
   SET_ADD_CUSTOM_TOOL_DIALOG_VISIBLE,
   SET_ADD_TOOL_DIALOG_VISIBLE,
   SET_BACKGROUND_IMAGE,
-  SET_FIRST_VISIT,
+  SET_SHOW_BEGINNER_TOUR,
   SET_FOCUS_MODE,
   SET_REMOVE_TOOL_STATE,
   SET_SEARCH_ENGINE_IDX,
@@ -29,7 +29,7 @@ const store: Module<ControllersState, RootState> = {
     removeToolState: false,
     defaultEngineIdx: 0,
     backgroundImage: undefined,
-    isFirstVisit: false,
+    showBeginnerTour: false,
     showAddToolDialog: false,
     showAddCustomToolDialog: false,
     showSettingDialog: false
@@ -60,8 +60,8 @@ const store: Module<ControllersState, RootState> = {
     [SET_BACKGROUND_IMAGE](state, backgroundImage: BackgroundImage) {
       state.backgroundImage = backgroundImage;
     },
-    [SET_FIRST_VISIT](state, isFirstVisit: boolean) {
-      state.isFirstVisit = isFirstVisit;
+    [SET_SHOW_BEGINNER_TOUR](state, showBeginnerTour: boolean) {
+      state.showBeginnerTour = showBeginnerTour;
     },
     [SET_ADD_TOOL_DIALOG_VISIBLE](state, isShow: boolean) {
       state.showAddToolDialog = isShow;
@@ -95,8 +95,8 @@ const store: Module<ControllersState, RootState> = {
     [SET_BACKGROUND_IMAGE](context, backgroundImage: BackgroundImage) {
       context.commit(SET_BACKGROUND_IMAGE, backgroundImage);
     },
-    [SET_FIRST_VISIT](context, isFirstVisit: boolean) {
-      context.commit(SET_FIRST_VISIT, isFirstVisit);
+    [SET_SHOW_BEGINNER_TOUR](context, showBeginnerTour: boolean) {
+      context.commit(SET_SHOW_BEGINNER_TOUR, showBeginnerTour);
     },
     [SET_ADD_TOOL_DIALOG_VISIBLE](context, isShow: boolean) {
       context.commit(SET_ADD_TOOL_DIALOG_VISIBLE, isShow);
