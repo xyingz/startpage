@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-17 14:09:41
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-17 16:39:38
+ * @LastEditTime: 2022-01-26 15:22:04
  * @Description: 初始化工具列表
  */
 
@@ -161,6 +161,14 @@ const labels = {
   },
 
   /**
+   * 开发
+   */
+  development: {
+    en: 'development',
+    cn: '开发'
+  },
+
+  /**
    * 其他 */
   other: {
     en: 'other',
@@ -237,21 +245,31 @@ const tools = [
     url: 'https://www.npmjs.com',
     name: 'npm',
     comment: 'Node.js 包管理工具',
-    label: [labels.utilitity, labels.digital]
+    label: [labels.utilitity, labels.digital, labels.development]
   },
   {
     id: uuid(12),
     url: 'https://juejin.im',
     name: '掘金',
     comment: '中国最大的开源技术社区',
-    label: [labels.sociality, labels.reading, labels.digital]
+    label: [
+      labels.sociality,
+      labels.reading,
+      labels.digital,
+      labels.development
+    ]
   },
   {
     id: uuid(12),
     url: 'https://segmentfault.com',
     name: 'SegmentFault',
     comment: '中国领先的开发者技术社区',
-    label: [labels.sociality, labels.reading, labels.digital]
+    label: [
+      labels.sociality,
+      labels.reading,
+      labels.digital,
+      labels.development
+    ]
   },
   {
     id: uuid(12),
@@ -265,34 +283,71 @@ const tools = [
     url: 'https://www.csdn.net',
     name: 'CSDN',
     comment: '中国最大的IT社区',
-    label: [labels.sociality, labels.reading]
+    label: [labels.sociality, labels.reading, labels.development]
   },
   {
     id: uuid(12),
     url: 'https://github.com',
     name: 'GitHub',
     comment: '开源代码托管平台',
-    label: [labels.utilitity, labels.digital, labels.sociality]
+    label: [
+      labels.utilitity,
+      labels.digital,
+      labels.sociality,
+      labels.development
+    ]
   },
   {
     id: uuid(12),
     url: 'https://gitee.com',
     name: '码云Gitee',
     comment: '中国开源代码托管平台',
-    label: [labels.utilitity, labels.digital, labels.sociality]
+    label: [
+      labels.utilitity,
+      labels.digital,
+      labels.sociality,
+      labels.development
+    ]
   },
   {
     id: uuid(12),
     url: 'https://stackoverflow.com',
     name: 'StackOverflow',
     comment: '最权威的IT技术问答社区',
-    label: [labels.digital, labels.sociality, labels.science, labels.education]
+    label: [
+      labels.digital,
+      labels.sociality,
+      labels.science,
+      labels.education,
+      labels.development
+    ]
   },
   {
     id: uuid(12),
     url: 'https://greasyfork.org/zh-CN/scripts',
     name: '油猴脚本',
     comment: '油猴脚本是一个开源脚本管理平台',
+    label: [labels.utilitity, labels.digital, labels.development]
+  },
+  {
+    id: uuid(12),
+    url: 'https://www.bejson.com/',
+    name: '在线 JSON 校验格式化工具',
+    comment: '超好用的 JSON 校验、格式化、转换平台。还有各种其他小工具',
+    label: [labels.utilitity, labels.digital, labels.development]
+  },
+  {
+    id: uuid(12),
+    url: 'https://chrome.google.com/webstore/category/extensions',
+    name: 'Chrome 扩展',
+    comment: 'Google Chrome 扩展应用商店',
+    label: [labels.utilitity, labels.digital]
+  },
+  {
+    id: uuid(12),
+    url: 'https://microsoftedge.microsoft.com/',
+    name: 'Microsoft Edge 扩展',
+    comment: 'Microsoft Edge 扩展应用商店',
     label: [labels.utilitity, labels.digital]
   }
 ];

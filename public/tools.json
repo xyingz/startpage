@@ -39,42 +39,77 @@
       ]
     },
     {
-      "id": "4D4AEBC4556E",
+      "id": "AF566CC0CFA2",
       "url": "https://www.npmjs.com",
       "name": "npm",
       "comment": "Node.js 包管理工具",
       "label": [
         "实用工具",
-        "数码"
+        "数码",
+        "开发"
       ]
     },
     {
-      "id": "F6BEB5FCBCCB",
+      "id": "3D50D1624D2C",
       "url": "https://github.com",
       "name": "GitHub",
       "comment": "开源代码托管平台",
       "label": [
         "实用工具",
         "数码",
-        "社交"
+        "社交",
+        "开发"
       ]
     },
     {
-      "id": "9AEC4B846A77",
+      "id": "51C5DABE1DEF",
       "url": "https://gitee.com",
       "name": "码云Gitee",
       "comment": "中国开源代码托管平台",
       "label": [
         "实用工具",
         "数码",
-        "社交"
+        "社交",
+        "开发"
       ]
     },
     {
-      "id": "50E815A6FEB6",
+      "id": "2574F68755AF",
       "url": "https://greasyfork.org/zh-CN/scripts",
       "name": "油猴脚本",
       "comment": "油猴脚本是一个开源脚本管理平台",
+      "label": [
+        "实用工具",
+        "数码",
+        "开发"
+      ]
+    },
+    {
+      "id": "308CA848617C",
+      "url": "https://www.bejson.com/",
+      "name": "在线 JSON 校验格式化工具",
+      "comment": "超好用的 JSON 校验、格式化、转换平台。还有各种其他小工具",
+      "label": [
+        "实用工具",
+        "数码",
+        "开发"
+      ]
+    },
+    {
+      "id": "CEA98530CE5A",
+      "url": "https://chrome.google.com/webstore/category/extensions",
+      "name": "Chrome 扩展",
+      "comment": "Google Chrome 扩展应用商店",
+      "label": [
+        "实用工具",
+        "数码"
+      ]
+    },
+    {
+      "id": "C2388F346FCC",
+      "url": "https://microsoftedge.microsoft.com/",
+      "name": "Microsoft Edge 扩展",
+      "comment": "Microsoft Edge 扩展应用商店",
       "label": [
         "实用工具",
         "数码"
@@ -95,7 +130,7 @@
   ],
   "购物": [
     {
-      "id": "A05E34074EEF",
+      "id": "1CD7491B0716",
       "url": "https://www.jd.com",
       "name": "京东",
       "comment": "专业的综合网上购物商城",
@@ -104,7 +139,7 @@
       ]
     },
     {
-      "id": "171984F0DF1D",
+      "id": "1A68E3D92A8A",
       "url": "https://www.taobao.com",
       "name": "淘宝",
       "comment": "中国最大的网上购物商城",
@@ -115,7 +150,7 @@
   ],
   "视频": [
     {
-      "id": "C909DFEE0289",
+      "id": "5F51CFE07B69",
       "url": "https://www.bilibili.com",
       "name": "Bilibili",
       "comment": "国内知名视频弹幕网站",
@@ -126,7 +161,7 @@
   ],
   "社交": [
     {
-      "id": "14EBE2B6C7FA",
+      "id": "21ED9AE8B626",
       "url": "https://www.weibo.com",
       "name": "微博",
       "comment": "中国最大的网络社交媒体",
@@ -135,7 +170,7 @@
       ]
     },
     {
-      "id": "F1A263D1FDB2",
+      "id": "674AFBA5B34C",
       "url": "https://www.zhihu.com",
       "name": "知乎",
       "comment": "中国最大的问答社区",
@@ -156,29 +191,31 @@
       ]
     },
     {
-      "id": "1F1E91AA5475",
+      "id": "2A444C2B3A90",
       "url": "https://juejin.im",
       "name": "掘金",
       "comment": "中国最大的开源技术社区",
       "label": [
         "社交",
         "阅读",
-        "数码"
+        "数码",
+        "开发"
       ]
     },
     {
-      "id": "E8E87D256415",
+      "id": "B34299CA5196",
       "url": "https://segmentfault.com",
       "name": "SegmentFault",
       "comment": "中国领先的开发者技术社区",
       "label": [
         "社交",
         "阅读",
-        "数码"
+        "数码",
+        "开发"
       ]
     },
     {
-      "id": "2389F187B399",
+      "id": "8FE0668961C3",
       "url": "https://www.jianshu.com",
       "name": "简书",
       "comment": "一个优质的创作社区",
@@ -188,39 +225,42 @@
       ]
     },
     {
-      "id": "216BCA552405",
+      "id": "4AA0DE390900",
       "url": "https://www.csdn.net",
       "name": "CSDN",
       "comment": "中国最大的IT社区",
       "label": [
         "社交",
-        "阅读"
+        "阅读",
+        "开发"
       ]
     },
     {
-      "id": "F6BEB5FCBCCB",
+      "id": "3D50D1624D2C",
       "url": "https://github.com",
       "name": "GitHub",
       "comment": "开源代码托管平台",
       "label": [
         "实用工具",
         "数码",
-        "社交"
+        "社交",
+        "开发"
       ]
     },
     {
-      "id": "9AEC4B846A77",
+      "id": "51C5DABE1DEF",
       "url": "https://gitee.com",
       "name": "码云Gitee",
       "comment": "中国开源代码托管平台",
       "label": [
         "实用工具",
         "数码",
-        "社交"
+        "社交",
+        "开发"
       ]
     },
     {
-      "id": "D732063A7C0A",
+      "id": "DE022E3A8BEE",
       "url": "https://stackoverflow.com",
       "name": "StackOverflow",
       "comment": "最权威的IT技术问答社区",
@@ -228,13 +268,14 @@
         "数码",
         "社交",
         "科学",
-        "教育"
+        "教育",
+        "开发"
       ]
     }
   ],
   "阅读": [
     {
-      "id": "F1A263D1FDB2",
+      "id": "674AFBA5B34C",
       "url": "https://www.zhihu.com",
       "name": "知乎",
       "comment": "中国最大的问答社区",
@@ -245,29 +286,31 @@
       ]
     },
     {
-      "id": "1F1E91AA5475",
+      "id": "2A444C2B3A90",
       "url": "https://juejin.im",
       "name": "掘金",
       "comment": "中国最大的开源技术社区",
       "label": [
         "社交",
         "阅读",
-        "数码"
+        "数码",
+        "开发"
       ]
     },
     {
-      "id": "E8E87D256415",
+      "id": "B34299CA5196",
       "url": "https://segmentfault.com",
       "name": "SegmentFault",
       "comment": "中国领先的开发者技术社区",
       "label": [
         "社交",
         "阅读",
-        "数码"
+        "数码",
+        "开发"
       ]
     },
     {
-      "id": "2389F187B399",
+      "id": "8FE0668961C3",
       "url": "https://www.jianshu.com",
       "name": "简书",
       "comment": "一个优质的创作社区",
@@ -277,19 +320,20 @@
       ]
     },
     {
-      "id": "216BCA552405",
+      "id": "4AA0DE390900",
       "url": "https://www.csdn.net",
       "name": "CSDN",
       "comment": "中国最大的IT社区",
       "label": [
         "社交",
-        "阅读"
+        "阅读",
+        "开发"
       ]
     }
   ],
   "新闻": [
     {
-      "id": "F1A263D1FDB2",
+      "id": "674AFBA5B34C",
       "url": "https://www.zhihu.com",
       "name": "知乎",
       "comment": "中国最大的问答社区",
@@ -302,61 +346,66 @@
   ],
   "数码": [
     {
-      "id": "4D4AEBC4556E",
+      "id": "AF566CC0CFA2",
       "url": "https://www.npmjs.com",
       "name": "npm",
       "comment": "Node.js 包管理工具",
       "label": [
         "实用工具",
-        "数码"
+        "数码",
+        "开发"
       ]
     },
     {
-      "id": "1F1E91AA5475",
+      "id": "2A444C2B3A90",
       "url": "https://juejin.im",
       "name": "掘金",
       "comment": "中国最大的开源技术社区",
       "label": [
         "社交",
         "阅读",
-        "数码"
+        "数码",
+        "开发"
       ]
     },
     {
-      "id": "E8E87D256415",
+      "id": "B34299CA5196",
       "url": "https://segmentfault.com",
       "name": "SegmentFault",
       "comment": "中国领先的开发者技术社区",
       "label": [
         "社交",
         "阅读",
-        "数码"
+        "数码",
+        "开发"
       ]
     },
     {
-      "id": "F6BEB5FCBCCB",
+      "id": "3D50D1624D2C",
       "url": "https://github.com",
       "name": "GitHub",
       "comment": "开源代码托管平台",
       "label": [
         "实用工具",
         "数码",
-        "社交"
+        "社交",
+        "开发"
       ]
     },
     {
-      "id": "9AEC4B846A77",
+      "id": "51C5DABE1DEF",
       "url": "https://gitee.com",
       "name": "码云Gitee",
       "comment": "中国开源代码托管平台",
       "label": [
         "实用工具",
         "数码",
-        "社交"
+        "社交",
+        "开发"
       ]
     },
     {
-      "id": "D732063A7C0A",
+      "id": "DE022E3A8BEE",
       "url": "https://stackoverflow.com",
       "name": "StackOverflow",
       "comment": "最权威的IT技术问答社区",
@@ -364,23 +413,126 @@
         "数码",
         "社交",
         "科学",
-        "教育"
+        "教育",
+        "开发"
       ]
     },
     {
-      "id": "50E815A6FEB6",
+      "id": "2574F68755AF",
       "url": "https://greasyfork.org/zh-CN/scripts",
       "name": "油猴脚本",
       "comment": "油猴脚本是一个开源脚本管理平台",
+      "label": [
+        "实用工具",
+        "数码",
+        "开发"
+      ]
+    },
+    {
+      "id": "308CA848617C",
+      "url": "https://www.bejson.com/",
+      "name": "在线 JSON 校验格式化工具",
+      "comment": "超好用的 JSON 校验、格式化、转换平台。还有各种其他小工具",
+      "label": [
+        "实用工具",
+        "数码",
+        "开发"
+      ]
+    },
+    {
+      "id": "CEA98530CE5A",
+      "url": "https://chrome.google.com/webstore/category/extensions",
+      "name": "Chrome 扩展",
+      "comment": "Google Chrome 扩展应用商店",
+      "label": [
+        "实用工具",
+        "数码"
+      ]
+    },
+    {
+      "id": "C2388F346FCC",
+      "url": "https://microsoftedge.microsoft.com/",
+      "name": "Microsoft Edge 扩展",
+      "comment": "Microsoft Edge 扩展应用商店",
       "label": [
         "实用工具",
         "数码"
       ]
     }
   ],
-  "科学": [
+  "开发": [
     {
-      "id": "D732063A7C0A",
+      "id": "AF566CC0CFA2",
+      "url": "https://www.npmjs.com",
+      "name": "npm",
+      "comment": "Node.js 包管理工具",
+      "label": [
+        "实用工具",
+        "数码",
+        "开发"
+      ]
+    },
+    {
+      "id": "2A444C2B3A90",
+      "url": "https://juejin.im",
+      "name": "掘金",
+      "comment": "中国最大的开源技术社区",
+      "label": [
+        "社交",
+        "阅读",
+        "数码",
+        "开发"
+      ]
+    },
+    {
+      "id": "B34299CA5196",
+      "url": "https://segmentfault.com",
+      "name": "SegmentFault",
+      "comment": "中国领先的开发者技术社区",
+      "label": [
+        "社交",
+        "阅读",
+        "数码",
+        "开发"
+      ]
+    },
+    {
+      "id": "4AA0DE390900",
+      "url": "https://www.csdn.net",
+      "name": "CSDN",
+      "comment": "中国最大的IT社区",
+      "label": [
+        "社交",
+        "阅读",
+        "开发"
+      ]
+    },
+    {
+      "id": "3D50D1624D2C",
+      "url": "https://github.com",
+      "name": "GitHub",
+      "comment": "开源代码托管平台",
+      "label": [
+        "实用工具",
+        "数码",
+        "社交",
+        "开发"
+      ]
+    },
+    {
+      "id": "51C5DABE1DEF",
+      "url": "https://gitee.com",
+      "name": "码云Gitee",
+      "comment": "中国开源代码托管平台",
+      "label": [
+        "实用工具",
+        "数码",
+        "社交",
+        "开发"
+      ]
+    },
+    {
+      "id": "DE022E3A8BEE",
       "url": "https://stackoverflow.com",
       "name": "StackOverflow",
       "comment": "最权威的IT技术问答社区",
@@ -388,13 +540,51 @@
         "数码",
         "社交",
         "科学",
-        "教育"
+        "教育",
+        "开发"
+      ]
+    },
+    {
+      "id": "2574F68755AF",
+      "url": "https://greasyfork.org/zh-CN/scripts",
+      "name": "油猴脚本",
+      "comment": "油猴脚本是一个开源脚本管理平台",
+      "label": [
+        "实用工具",
+        "数码",
+        "开发"
+      ]
+    },
+    {
+      "id": "308CA848617C",
+      "url": "https://www.bejson.com/",
+      "name": "在线 JSON 校验格式化工具",
+      "comment": "超好用的 JSON 校验、格式化、转换平台。还有各种其他小工具",
+      "label": [
+        "实用工具",
+        "数码",
+        "开发"
+      ]
+    }
+  ],
+  "科学": [
+    {
+      "id": "DE022E3A8BEE",
+      "url": "https://stackoverflow.com",
+      "name": "StackOverflow",
+      "comment": "最权威的IT技术问答社区",
+      "label": [
+        "数码",
+        "社交",
+        "科学",
+        "教育",
+        "开发"
       ]
     }
   ],
   "教育": [
     {
-      "id": "D732063A7C0A",
+      "id": "DE022E3A8BEE",
       "url": "https://stackoverflow.com",
       "name": "StackOverflow",
       "comment": "最权威的IT技术问答社区",
@@ -402,7 +592,8 @@
         "数码",
         "社交",
         "科学",
-        "教育"
+        "教育",
+        "开发"
       ]
     }
   ]
