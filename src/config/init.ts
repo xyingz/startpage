@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-11 15:50:00
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-25 18:10:06
+ * @LastEditTime: 2022-01-26 16:38:23
  * @Description: 初始化配置
  */
 import store from '@/store';

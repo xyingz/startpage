@@ -17,7 +17,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import getLunar from '@/api/lunar';
+import { Solar } from 'lunar-typescript';
 import getWeather from '@/api/weather';
 import { formatDate } from '@/utils/common';
 import TimeComponent from './time/Time.vue';
@@ -31,19 +31,24 @@ getWeather().then(res => {
   }
 });
 
-const dateStr = ref('');
-const lunarStr = ref('');
-const ganzhiStr = ref('');
-getLunar().then(res => {
-  let date: Date | string = new Date();
-  if (typeof res !== 'string') {
-    date = res[0].date;
-    lunarStr.value = `${res[0].lunar_month_name}${res[0].lunar_day_name}`;
-    ganzhiStr.value = `${res[0].ganzhi_year}年 ${res[0].ganzhi_month}月 ${res[0].ganzhi_day}日 ${res[0].lunar_festival}`;
-  }
+const dateStr = ref(formatDate(new Date(), 'yyyy-MM-dd'));
 
-  dateStr.value = formatDate(date, 'yyyy-MM-dd');
-});
+const solar = Solar.fromDate(new Date());
+const lunarStr = `${solar.getLunar().getMonthInChinese()}月${solar
+  .getLunar()
+  .getDayInChinese()}`;
+const ganzhiStr = `${solar.getLunar().getYearInGanZhi()}(${solar
+  .getLunar()
+  .getYearShengXiao()})年 ${solar.getLunar().getMonthInGanZhi()}月 ${solar
+  .getLunar()
+  .getDayInGanZhi()}日 ${solar.getLunar().getJieQi()} ${solar
+  .getLunar()
+  .getFestivals()
+  .concat(solar.getLunar().getOtherFestivals())
+  .join(',')} ${solar
+  .getFestivals()
+  .concat(solar.getOtherFestivals())
+  .join(',')}`;
 </script>
 
 <style scoped lang="scss">
