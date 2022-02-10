@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-11 15:50:00
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-02-10 16:56:49
+ * @LastEditTime: 2022-02-10 17:42:21
  * @Description: 初始化配置
  */
 import store from '@/store';
@@ -123,7 +123,18 @@ function checkVersion() {
  */
 function checkBackgroundImage() {
   const bgInfo = LocalStorage.getItem<string>(TODAY_BG);
-  if (bgInfo) store.dispatch(SETTINGS.SET_TODAY_BG, JSON.parse(bgInfo));
+  if (bgInfo) {
+    const bg: TodayBgImageInfo = JSON.parse(bgInfo);
+    // 判断是否需要每日更新，如果是的话，每天第一次登录删掉字段即可
+    if (
+      bg.needUpdate &&
+      new Date(bg.savedTime).getDate() !== new Date().getDate()
+    ) {
+      LocalStorage.remove(TODAY_BG);
+    } else {
+      store.dispatch(SETTINGS.SET_TODAY_BG, bg);
+    }
+  }
 }
 
 export function initConfig() {
