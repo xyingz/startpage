@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-14 17:26:25
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-02-10 17:22:35
+ * @LastEditTime: 2022-02-10 18:00:24
  * @Description: 保存数据到本地
  */
 
@@ -54,8 +54,8 @@ export function saveDefaultSearchEngineIdx(idx: number) {
 /**
  * 保存今日背景
  */
-export function saveTodayBg(bg: TodayBgImageInfo) {
-  LocalStorage.set(TODAY_BG, JSON.stringify(bg));
+export function saveTodayBg(bg: TodayBgImageInfo | undefined) {
+  if (bg) LocalStorage.set(TODAY_BG, JSON.stringify(bg));
 }
 
 /**

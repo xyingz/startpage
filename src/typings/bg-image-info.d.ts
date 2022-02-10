@@ -1,8 +1,8 @@
 declare interface TodayBgImageInfo {
   /**
-   * 是否需要更新
+   * 是否保留当前
    */
-  needUpdate?: boolean;
+  isSavedCurrent?: boolean;
 
   /**
    * 是否为用户自定义

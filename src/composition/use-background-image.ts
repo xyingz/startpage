@@ -92,7 +92,7 @@ export default () => {
           // 保存图片信息
           if (res) {
             saveTodayBg({
-              needUpdate: true,
+              isSavedCurrent: false,
               isCustom: false,
               savedTime: new Date(),
               image: res

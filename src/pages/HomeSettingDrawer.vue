@@ -166,6 +166,18 @@
             </q-item-section>
           </q-item>
 
+          <q-item>
+            <q-item-section>
+              <q-item-label>切换背景后保存</q-item-label>
+              <q-item-label caption>
+                开启后会一直保留切换的背景图片。默认切换后次日更新
+              </q-item-label>
+            </q-item-section>
+            <q-item-section side>
+              <q-toggle v-model="isSaveBackgroundImage" color="blue" />
+            </q-item-section>
+          </q-item>
+
           <!-- 系统基础功能放在最下面 -->
           <q-separator spaced />
           <q-item-label header>系统</q-item-label>
@@ -347,7 +359,7 @@
 </template>
 
 <script lang="ts" setup>
-import { clearAll, saveUserSettings } from '@/config/set-data';
+import { clearAll, saveTodayBg, saveUserSettings } from '@/config/set-data';
 import { useStore } from '@/store';
 import { CONTROLLERS, SETTINGS } from '@/store/mutation-types';
 import { computed, ref, watch } from 'vue';
@@ -396,6 +408,17 @@ const isShowInfoPanel = computed<boolean>({
     const v = { isShowInfoPanel: value };
     store.commit(SETTINGS.SAVE_USER_SETTINGS, v);
     saveUserSettings(v);
+  }
+});
+
+const isSaveBackgroundImage = computed<boolean>({
+  get() {
+    return !!store.state.settings.todayBgImageInfo?.isSavedCurrent;
+  },
+  set(value) {
+    const v = { isSavedCurrent: value };
+    store.commit(SETTINGS.SET_TODAY_BG, v);
+    saveTodayBg(store.state.settings.todayBgImageInfo);
   }
 });
 
