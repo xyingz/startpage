@@ -29,6 +29,7 @@ export const REMOVE_TOOL = 'REMOVE_TOOL';
 export const SET_TOOL_LIST = 'SET_TOOL_LIST';
 export const SET_SEARCH_ENGINE_LIST = 'SET_SEARCH_ENGINE_LIST';
 export const SAVE_USER_SETTINGS = 'SAVE_USER_SETTINGS';
+export const SET_TODAY_BG = 'SET_TODAY_BG';
 
 const settings = 'settings';
 export const SETTINGS = {
@@ -36,7 +37,8 @@ export const SETTINGS = {
   REMOVE_TOOL: `${settings}/${REMOVE_TOOL}`,
   SET_TOOL_LIST: `${settings}/${SET_TOOL_LIST}`,
   SET_SEARCH_ENGINE_LIST: `${settings}/${SET_SEARCH_ENGINE_LIST}`,
-  SAVE_USER_SETTINGS: `${settings}/${SAVE_USER_SETTINGS}`
+  SAVE_USER_SETTINGS: `${settings}/${SAVE_USER_SETTINGS}`,
+  SET_TODAY_BG: `${settings}/${SET_TODAY_BG}`
 };
 
 export default {};

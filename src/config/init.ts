@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-11 15:50:00
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-26 16:38:23
+ * @LastEditTime: 2022-02-10 16:56:49
  * @Description: 初始化配置
  */
 import store from '@/store';
@@ -14,7 +14,8 @@ import {
   SEARCH_ENGINE_LIST,
   TOOL_LIST,
   USER_SETTINGS,
-  VERSION
+  VERSION,
+  TODAY_BG
 } from './constants';
 import searchEngines from './data/search-engine';
 import tools from './data/tools';
@@ -117,6 +118,14 @@ function checkVersion() {
   }
 }
 
+/**
+ * 检查背景图片是否需要更新
+ */
+function checkBackgroundImage() {
+  const bgInfo = LocalStorage.getItem<string>(TODAY_BG);
+  if (bgInfo) store.dispatch(SETTINGS.SET_TODAY_BG, JSON.parse(bgInfo));
+}
+
 export function initConfig() {
   initUserSettings();
 
@@ -124,6 +133,7 @@ export function initConfig() {
   initSearchEngineList();
   initDefaultSearchEngineIdx();
 
+  checkBackgroundImage();
   checkVersion();
 }
 

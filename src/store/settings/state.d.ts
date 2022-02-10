@@ -13,4 +13,9 @@ declare interface SettingsState {
    * 用户设置项
    */
   userSettings: UserSettings;
+
+  /**
+   * 用户设置了背景图片
+   */
+  todayBgImageInfo?: TodayBgImageInfo;
 }

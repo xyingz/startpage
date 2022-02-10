@@ -131,10 +131,10 @@ watch(
   }
 );
 
-const { getImage, changeBgImage, loadingChangeImage } = useBackgroundImage();
+const { initImage, changeBgImage, loadingChangeImage } = useBackgroundImage();
 
-// 初始请求一次
-getImage();
+// 初始背景图片
+initImage();
 
 const minBlur = computed(() => store.state.settings?.userSettings.minBlur || 0);
 const maxBlur = computed(

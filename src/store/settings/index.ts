@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-12 14:50:46
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-25 17:36:16
+ * @LastEditTime: 2022-02-10 17:20:30
  * @Description: 用户可以自行配置的设置项
  */
 
@@ -15,6 +15,7 @@ import {
   REMOVE_TOOL,
   SAVE_USER_SETTINGS,
   SET_SEARCH_ENGINE_LIST,
+  SET_TODAY_BG,
   SET_TOOL_LIST
 } from '../mutation-types';
 
@@ -65,6 +66,13 @@ const store: Module<SettingsState, RootState> = {
     },
     [SAVE_USER_SETTINGS](state, settings: object) {
       Object.assign(state.userSettings, settings);
+    },
+    [SET_TODAY_BG](state, info: TodayBgImageInfo) {
+      if (!state.todayBgImageInfo) {
+        state.todayBgImageInfo = info;
+      } else {
+        state.todayBgImageInfo = Object.assign(state.todayBgImageInfo, info);
+      }
     }
   },
   actions: {
@@ -83,6 +91,9 @@ const store: Module<SettingsState, RootState> = {
     },
     [SAVE_USER_SETTINGS](context, settings: object) {
       context.commit(SAVE_USER_SETTINGS, settings);
+    },
+    [SET_TODAY_BG](context, info: TodayBgImageInfo) {
+      context.commit(SET_TODAY_BG, info);
     }
   }
 };

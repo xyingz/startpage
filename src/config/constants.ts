@@ -23,10 +23,16 @@ export const USER_SETTINGS = 'x-start-user-settings';
  */
 export const VERSION = 'x-start-version';
 
+/**
+ * 当前背景图片信息
+ */
+export const TODAY_BG = 'x-start-today-background';
+
 export default [
   TOOL_LIST,
   SEARCH_ENGINE_LIST,
   DEFAULT_SEARCH_ENGINE_IDX,
   USER_SETTINGS,
-  VERSION
+  VERSION,
+  TODAY_BG
 ];

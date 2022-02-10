@@ -5,6 +5,7 @@ import { CONTROLLERS } from '@/store/mutation-types';
 import { useQuasar } from 'quasar';
 import { isDeviceMobile } from '@/utils/check';
 import { get } from '@/utils/http/requests';
+import { saveTodayBg } from '@/config/set-data';
 
 export default () => {
   const store = useStore();
@@ -38,15 +39,37 @@ export default () => {
     ).style.backgroundImage = `url(${imgUrl})`;
   }
 
-  function getImage(rand = false, catchCb = () => {}, finallyCb = () => {}) {
+  function getImage(
+    rand = false,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    successCb = (_res: BackgroundImage | undefined) => {},
+    catchCb = () => {},
+    finallyCb = () => {}
+  ) {
     get<BackgroundImage>(`${imageUrl}?random=${rand}`)
       .then(([, res]) => {
         store
           .dispatch(CONTROLLERS.SET_BACKGROUND_IMAGE, res)
           .then(setBackground);
+
+        successCb(res);
       })
       .catch(catchCb)
       .finally(finallyCb);
+  }
+
+  function initImage() {
+    // 初始化背景图片。如果本地没有信息，直接获取。如果有，就从本地加载
+    if (!store.state.settings.todayBgImageInfo) {
+      getImage();
+    } else {
+      store
+        .dispatch(
+          CONTROLLERS.SET_BACKGROUND_IMAGE,
+          store.state.settings.todayBgImageInfo.image
+        )
+        .then(setBackground);
+    }
   }
 
   // 电脑可以调整屏幕大小，所以检测在屏幕大小发生变化时，调整背景图
@@ -63,14 +86,29 @@ export default () => {
 
     // 延长切换图片的时间，降低请求频率
     setTimeout(() => {
-      getImage(true, undefined, () => {
-        loadingChangeImage.value = false;
-      });
+      getImage(
+        true,
+        res => {
+          // 保存图片信息
+          if (res) {
+            saveTodayBg({
+              needUpdate: true,
+              isCustom: false,
+              savedTime: new Date(),
+              image: res
+            } as TodayBgImageInfo);
+          }
+        },
+        undefined,
+        () => {
+          loadingChangeImage.value = false;
+        }
+      );
     }, 500);
   }
 
   return {
-    getImage,
+    initImage,
     changeBgImage,
     loadingChangeImage
   };
