@@ -60,15 +60,18 @@ export default () => {
 
   function initImage() {
     // 初始化背景图片。如果本地没有信息，直接获取。如果有，就从本地加载
-    if (!store.state.settings.todayBgImageInfo) {
-      getImage();
-    } else {
+    if (
+      store.state.settings.todayBgImageInfo?.isSavedCurrent &&
+      store.state.settings.todayBgImageInfo?.image
+    ) {
       store
         .dispatch(
           CONTROLLERS.SET_BACKGROUND_IMAGE,
           store.state.settings.todayBgImageInfo.image
         )
         .then(setBackground);
+    } else {
+      getImage();
     }
   }
 
@@ -90,10 +93,12 @@ export default () => {
         true,
         res => {
           // 保存图片信息
-          if (res) {
+          if (res && store.state.settings.todayBgImageInfo?.isSavedCurrent) {
             saveTodayBg({
-              isSavedCurrent: false,
-              isCustom: false,
+              isSavedCurrent:
+                store.state.settings.todayBgImageInfo?.isSavedCurrent ?? false,
+              isCustom:
+                store.state.settings.todayBgImageInfo?.isCustom ?? false,
               savedTime: new Date(),
               image: res
             } as TodayBgImageInfo);

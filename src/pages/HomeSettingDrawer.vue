@@ -416,7 +416,21 @@ const isSaveBackgroundImage = computed<boolean>({
     return !!store.state.settings.todayBgImageInfo?.isSavedCurrent;
   },
   set(value) {
-    const v = { isSavedCurrent: value };
+    const v: TodayBgImageInfo = {
+      isSavedCurrent: value,
+      savedTime: new Date()
+    };
+
+    // 如果没有图片信息，则保存当前图片
+    if (value && !store.state.settings.todayBgImageInfo?.image) {
+      v.image = store.state.controllers.backgroundImage;
+    }
+
+    // 如果为 false，则删除图片信息
+    if (!value) {
+      v.image = undefined;
+    }
+
     store.commit(SETTINGS.SET_TODAY_BG, v);
     saveTodayBg(store.state.settings.todayBgImageInfo);
   }
