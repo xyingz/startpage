@@ -102,6 +102,8 @@
                 size="sm"
                 color="secondary"
                 label="下载该图片"
+                :loading="isDownloading"
+                :disable-dropdown="isDownloading"
                 @click="() => downloadImage('2k')"
               >
                 <q-list dense>
@@ -499,6 +501,7 @@ function showResetDialog() {
   });
 }
 
+const isDownloading = ref(false);
 function downloadImage(size: 'small' | '2k' | '4k' | 'mobile') {
   let url: string | undefined = '';
   switch (size) {
@@ -516,7 +519,25 @@ function downloadImage(size: 'small' | '2k' | '4k' | 'mobile') {
       url = store.state.controllers.backgroundImage?.standardUrl;
   }
   if (url) {
-    download(url, 'background.png', 'image/png');
+    isDownloading.value = true;
+    download(url, 'background.png', 'image/png')
+      .then(() => {
+        $q.notify({
+          position: 'center',
+          color: 'positive',
+          message: '下载成功'
+        });
+      })
+      .catch(() => {
+        $q.notify({
+          position: 'center',
+          color: 'negative',
+          message: '下载失败'
+        });
+      })
+      .finally(() => {
+        isDownloading.value = false;
+      });
   }
 }
 </script>
