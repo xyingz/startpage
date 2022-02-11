@@ -6,6 +6,6 @@ describe('Test', () => {
 
   it('load compoent', () => {
     const html = wrapper.text();
-    expect(html).toContain('JeremyJone');
+    expect(html).toContain('XiaoPangYing');
   });
 });

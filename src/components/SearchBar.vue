@@ -11,7 +11,7 @@
       bg-color="white"
       :placeholder="placeholderText"
       aria-placeholder="搜索框"
-      @keypress.enter="onSearch"
+      @keypress.enter="() => onSearch()"
       @focusin="onFocus"
     >
       <template #append>
