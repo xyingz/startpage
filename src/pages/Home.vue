@@ -11,6 +11,14 @@
     />
     <div class="column full-height" @click.passive="onFocusOut">
       <div class="absolute-top-right q-mr-md q-mt-sm">
+        <q-btn flat round size="sm" icon="favorite_border" @click.stop>
+          <q-tooltip anchor="bottom start" self="center end">
+            如果喜欢本页面，可以设为主页。
+            <br />
+            也可以按 <em>Ctrl+D</em> 快速添加到收藏夹~
+          </q-tooltip>
+        </q-btn>
+
         <q-btn
           flat
           round
@@ -40,11 +48,19 @@
         <transition name="fade">
           <div
             v-if="!isShowKeyboard && store.state.controllers.focusMode"
-            class="absolute-bottom text-grey-8"
-            style="padding-bottom: 10rem"
+            class="absolute-bottom text-grey-6"
+            style="margin-bottom: 10rem"
           >
             <sup>『</sup> {{ randomAphorisms?.content }} <sub>』</sub>
-            <q-tooltip :delay="500">
+            <q-tooltip
+              :delay="500"
+              anchor="top middle"
+              self="bottom middle"
+              transition-show="scale"
+              transition-hide="scale"
+              class="shadow-5"
+              style="background-color: #75757555"
+            >
               {{ randomAphorisms?.source }} {{ randomAphorisms?.author }}
             </q-tooltip>
           </div>
