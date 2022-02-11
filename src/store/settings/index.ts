@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-12 14:50:46
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-02-10 17:57:02
+ * @LastEditTime: 2022-02-11 16:47:29
  * @Description: 用户可以自行配置的设置项
  */
 
@@ -10,11 +10,14 @@ import { LocalStorage } from 'quasar';
 import { Module } from 'vuex';
 import { TOOL_LIST } from '@/config/constants';
 import { uuid } from '@/utils/common';
+import GlobalConfig from '@/config/global';
 import {
   ADD_TOOL,
+  CLEAR_SEAECH_RECORD,
   REMOVE_TOOL,
   SAVE_USER_SETTINGS,
   SET_SEARCH_ENGINE_LIST,
+  SET_SEARCH_RECORD,
   SET_TODAY_BG,
   SET_TOOL_LIST
 } from '../mutation-types';
@@ -25,8 +28,10 @@ const store: Module<SettingsState, RootState> = {
   state: {
     tools: [],
     searchEngines: [],
+    searchRecord: [],
     userSettings: {
       isSaveDefaultSearchEngine: true,
+      isSaveSearchRecord: true,
       toolRadius: 10,
       isDefaultFocusMode: true,
       isShowInfoPanel: true,
@@ -73,6 +78,24 @@ const store: Module<SettingsState, RootState> = {
       } else {
         state.todayBgImageInfo = Object.assign(state.todayBgImageInfo, info);
       }
+    },
+    [SET_SEARCH_RECORD](state, record: string | Array<string>) {
+      const list = state.searchRecord ?? [];
+      if (Array.isArray(record)) {
+        list.push(...record);
+      } else {
+        list.push(record);
+      }
+
+      // 只保留最新的记录
+      if (list?.length > GlobalConfig.searchRecordLength) {
+        list.splice(0, list.length - GlobalConfig.searchRecordLength);
+      }
+
+      state.searchRecord = list;
+    },
+    [CLEAR_SEAECH_RECORD](state) {
+      state.searchRecord = [];
     }
   },
   actions: {
@@ -94,6 +117,12 @@ const store: Module<SettingsState, RootState> = {
     },
     [SET_TODAY_BG](context, info: TodayBgImageInfo) {
       context.commit(SET_TODAY_BG, info);
+    },
+    [SET_SEARCH_RECORD](context, record: string | Array<string>) {
+      context.commit(SET_SEARCH_RECORD, record);
+    },
+    [CLEAR_SEAECH_RECORD](context) {
+      context.commit(CLEAR_SEAECH_RECORD);
     }
   }
 };

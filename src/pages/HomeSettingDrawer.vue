@@ -30,6 +30,27 @@
             </q-item-section>
           </q-item>
 
+          <q-item v-ripple tag="label">
+            <q-item-section>
+              <q-item-label>保存搜索记录</q-item-label>
+              <q-item-label caption>
+                搜索记录最多可以保存 {{ GlobalConfig.searchRecordLength }} 条
+              </q-item-label>
+            </q-item-section>
+            <q-item-section side>
+              <div>
+                <q-btn
+                  flat
+                  size="sm"
+                  color="negative"
+                  label="清空"
+                  @click="clearSearchRecord"
+                />
+                <q-toggle v-model="isSaveSearchRecord" color="blue" />
+              </div>
+            </q-item-section>
+          </q-item>
+
           <q-separator spaced />
           <q-item-label header>显示</q-item-label>
 
@@ -361,13 +382,19 @@
 </template>
 
 <script lang="ts" setup>
-import { clearAll, saveTodayBg, saveUserSettings } from '@/config/set-data';
+import {
+  clearAll,
+  saveSearchRecord,
+  saveTodayBg,
+  saveUserSettings
+} from '@/config/set-data';
 import { useStore } from '@/store';
 import { CONTROLLERS, SETTINGS } from '@/store/mutation-types';
 import { computed, ref, watch } from 'vue';
 import { useQuasar } from 'quasar';
 import { download } from '@/utils/http/requests';
 import { isDeviceMobile } from '@/utils/check';
+import GlobalConfig from '@/config/global';
 
 const store = useStore();
 
@@ -401,6 +428,21 @@ const isDefaultFocusMode = computed<boolean>({
     saveUserSettings(v);
   }
 });
+
+const isSaveSearchRecord = computed<boolean>({
+  get() {
+    return store.state.settings.userSettings.isSaveSearchRecord;
+  },
+  set(value) {
+    const v = { isSaveSearchRecord: value };
+    store.commit(SETTINGS.SAVE_USER_SETTINGS, v);
+    saveUserSettings(v);
+  }
+});
+
+function clearSearchRecord() {
+  store.dispatch(SETTINGS.CLEAR_SEAECH_RECORD).then(saveSearchRecord);
+}
 
 const isShowInfoPanel = computed<boolean>({
   get() {

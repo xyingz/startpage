@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-14 17:26:25
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-02-10 18:00:24
+ * @LastEditTime: 2022-02-11 16:40:56
  * @Description: 保存数据到本地
  */
 
@@ -11,6 +11,7 @@ import { LocalStorage } from 'quasar';
 import {
   DEFAULT_SEARCH_ENGINE_IDX,
   SEARCH_ENGINE_LIST,
+  SEARCH_RECORD,
   TODAY_BG,
   TOOL_LIST,
   USER_SETTINGS
@@ -56,6 +57,16 @@ export function saveDefaultSearchEngineIdx(idx: number) {
  */
 export function saveTodayBg(bg: TodayBgImageInfo | undefined) {
   if (bg) LocalStorage.set(TODAY_BG, JSON.stringify(bg));
+}
+
+/**
+ * 保存搜索记录
+ */
+export function saveSearchRecord() {
+  LocalStorage.set(
+    SEARCH_RECORD,
+    JSON.stringify(store.state.settings.searchRecord)
+  );
 }
 
 /**

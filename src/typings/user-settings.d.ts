@@ -5,6 +5,11 @@ declare interface UserSettings {
   isSaveDefaultSearchEngine: boolean;
 
   /**
+   * 是否保存搜索记录
+   */
+  isSaveSearchRecord: boolean;
+
+  /**
    * 默认工具图标圆角
    */
   toolRadius: number;

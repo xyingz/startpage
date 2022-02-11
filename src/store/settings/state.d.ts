@@ -18,4 +18,9 @@ declare interface SettingsState {
    * 用户设置了背景图片
    */
   todayBgImageInfo?: TodayBgImageInfo;
+
+  /**
+   * 搜索历史记录
+   */
+  searchRecord?: Array<string>;
 }

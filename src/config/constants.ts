@@ -28,11 +28,17 @@ export const VERSION = 'x-start-version';
  */
 export const TODAY_BG = 'x-start-today-background';
 
+/**
+ * 搜索历史记录
+ */
+export const SEARCH_RECORD = 'x-start-search-record';
+
 export default [
   TOOL_LIST,
   SEARCH_ENGINE_LIST,
   DEFAULT_SEARCH_ENGINE_IDX,
   USER_SETTINGS,
   VERSION,
-  TODAY_BG
+  TODAY_BG,
+  SEARCH_RECORD
 ];

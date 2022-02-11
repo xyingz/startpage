@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-11 15:50:00
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-02-10 17:44:49
+ * @LastEditTime: 2022-02-11 16:43:26
  * @Description: 初始化配置
  */
 import store from '@/store';
@@ -15,7 +15,8 @@ import {
   TOOL_LIST,
   USER_SETTINGS,
   VERSION,
-  TODAY_BG
+  TODAY_BG,
+  SEARCH_RECORD
 } from './constants';
 import searchEngines from './data/search-engine';
 import tools from './data/tools';
@@ -34,11 +35,11 @@ function initUserSettings() {
   const settings = LocalStorage.getItem<string>(USER_SETTINGS);
   const us = userSettings;
 
+  // 为了方便每次新加功能可以正常实现，每次打开都将已保存的内容与默认设置合并
   if (settings) {
     Object.assign(us, JSON.parse(settings));
-  } else {
-    saveUserSettings(us);
   }
+  saveUserSettings(us);
 
   store.dispatch(SETTINGS.SAVE_USER_SETTINGS, us);
 
@@ -137,12 +138,24 @@ function checkBackgroundImage() {
   }
 }
 
+/**
+ * 加载搜索记录
+ */
+function initSearchRecord() {
+  const searchRecordStr = LocalStorage.getItem<string>(SEARCH_RECORD);
+  if (searchRecordStr) {
+    const searchRecord: Array<string> = JSON.parse(searchRecordStr);
+    store.dispatch(SETTINGS.SET_SEARCH_RECORD, searchRecord);
+  }
+}
+
 export function initConfig() {
   initUserSettings();
 
   initToolList();
   initSearchEngineList();
   initDefaultSearchEngineIdx();
+  initSearchRecord();
 
   checkBackgroundImage();
   checkVersion();

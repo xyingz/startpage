@@ -50,6 +50,7 @@
             v-if="!isShowKeyboard && store.state.controllers.focusMode"
             class="absolute-bottom text-grey-6"
             style="margin-bottom: 10rem"
+            @click.stop
           >
             <sup>『</sup> {{ randomAphorisms?.content }} <sub>』</sub>
             <q-tooltip

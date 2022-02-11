@@ -17,6 +17,20 @@
       <template #append>
         <q-btn flat rounded icon="search" color="primary" @click="onSearch" />
       </template>
+
+      <q-menu ref="searchRecordPopup" no-focus fit dark>
+        <q-list dense>
+          <q-item
+            v-for="(record, index) in searchRecord"
+            :key="`${record}-${index}`"
+            v-close-popup
+            clickable
+            @click="() => onSearchRecord(record)"
+          >
+            <q-item-section>{{ record }}</q-item-section>
+          </q-item>
+        </q-list>
+      </q-menu>
     </q-input>
 
     <q-slide-transition>
@@ -36,9 +50,12 @@
 
 <script lang="ts">
 import { ref, onMounted, computed, watch } from 'vue';
-import { CONTROLLERS } from '@/store/mutation-types';
+import { CONTROLLERS, SETTINGS } from '@/store/mutation-types';
 import { useStore } from '@/store/index';
-import { saveDefaultSearchEngineIdx } from '@/config/set-data';
+import {
+  saveDefaultSearchEngineIdx,
+  saveSearchRecord
+} from '@/config/set-data';
 </script>
 
 <script lang="ts" setup>
@@ -74,10 +91,19 @@ const placeholderText = computed(() => {
 });
 
 const searchText = ref('');
-function onSearch() {
+function onSearch(isRecord: boolean = true) {
+  console.log('search', searchText.value);
+
   if (!searchText.value) {
     inputBar.value?.focus();
     return;
+  }
+
+  // 保存搜索记录
+  if (isRecord && store.state.settings.userSettings.isSaveSearchRecord) {
+    store
+      .dispatch(SETTINGS.SET_SEARCH_RECORD, searchText.value)
+      .then(saveSearchRecord);
   }
 
   if (activeEngine.value) {
@@ -86,12 +112,22 @@ function onSearch() {
   }
 }
 
+function onSearchRecord(record: string) {
+  searchText.value = record;
+  onSearch(false);
+}
+
 const inputBar = ref<HTMLInputElement>();
+const searchRecordPopup = ref();
 onMounted(() => {
   if (store.state.controllers.focusMode) inputBar.value?.focus();
 });
 
 function onFocus() {
+  if (!searchText.value) {
+    searchRecordPopup.value?.hide();
+  }
+
   store.dispatch(CONTROLLERS.SET_FOCUS_MODE, true);
 }
 
@@ -101,6 +137,18 @@ watch(
     if (val) {
       inputBar.value?.focus();
     }
+  }
+);
+
+// 实时搜索记录
+const searchRecord = ref(store.state.settings.searchRecord);
+watch(
+  () => searchText.value,
+  val => {
+    searchRecord.value = store.state.settings.searchRecord?.filter(
+      record => record.indexOf(val) !== -1
+    );
+    searchRecordPopup.value.show();
   }
 );
 </script>
