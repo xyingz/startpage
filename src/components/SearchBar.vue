@@ -15,7 +15,13 @@
       @focusin="onFocus"
     >
       <template #append>
-        <q-btn flat rounded icon="search" color="primary" @click="onSearch" />
+        <q-btn
+          flat
+          rounded
+          icon="search"
+          color="primary"
+          @click="() => onSearch()"
+        />
       </template>
 
       <q-menu ref="searchRecordPopup" no-focus fit dark>
@@ -92,8 +98,6 @@ const placeholderText = computed(() => {
 
 const searchText = ref('');
 function onSearch(isRecord: boolean = true) {
-  console.log('search', searchText.value);
-
   if (!searchText.value) {
     inputBar.value?.focus();
     return;
