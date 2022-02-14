@@ -39,6 +39,64 @@ export default () => {
     ).style.backgroundImage = `url(${imgUrl})`;
   }
 
+  function checkImageCached(url: string) {
+    const img = new Image();
+    img.src = url;
+    return img.complete;
+  }
+
+  // 后台获取所有大小图片，后续可以通过缓存得到
+  function cacheImages() {
+    if (
+      store.state.controllers.backgroundImage?.standardUrl &&
+      !checkImageCached(store.state.controllers.backgroundImage.standardUrl)
+    ) {
+      get(store.state.controllers.backgroundImage.standardUrl);
+    }
+
+    if (
+      store.state.controllers.backgroundImage?.standardUrl_M &&
+      !checkImageCached(store.state.controllers.backgroundImage.standardUrl_M)
+    ) {
+      get(store.state.controllers.backgroundImage.standardUrl_M);
+    }
+
+    if (
+      store.state.controllers.backgroundImage?.middleUrl &&
+      !checkImageCached(store.state.controllers.backgroundImage.middleUrl)
+    ) {
+      get(store.state.controllers.backgroundImage.middleUrl);
+    }
+
+    if (
+      store.state.controllers.backgroundImage?.middleUrl_M &&
+      !checkImageCached(store.state.controllers.backgroundImage.middleUrl_M)
+    ) {
+      get(store.state.controllers.backgroundImage.middleUrl_M);
+    }
+
+    if (
+      store.state.controllers.backgroundImage?.uhdUrl &&
+      !checkImageCached(store.state.controllers.backgroundImage.uhdUrl)
+    ) {
+      get(store.state.controllers.backgroundImage.uhdUrl);
+    }
+
+    if (
+      store.state.controllers.backgroundImage?.smallUrl &&
+      !checkImageCached(store.state.controllers.backgroundImage.smallUrl)
+    ) {
+      get(store.state.controllers.backgroundImage.smallUrl);
+    }
+
+    if (
+      store.state.controllers.backgroundImage?.smallUrl_M &&
+      !checkImageCached(store.state.controllers.backgroundImage.smallUrl_M)
+    ) {
+      get(store.state.controllers.backgroundImage.smallUrl_M);
+    }
+  }
+
   function getImage(
     rand = false,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -50,7 +108,9 @@ export default () => {
       .then(([, res]) => {
         store
           .dispatch(CONTROLLERS.SET_BACKGROUND_IMAGE, res)
-          .then(setBackground);
+          .then(setBackground)
+          // 2秒后开始自动缓存背景图片
+          .then(() => setTimeout(cacheImages, 2000));
 
         successCb(res);
       })
