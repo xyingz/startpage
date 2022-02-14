@@ -52,7 +52,9 @@
             style="margin-bottom: 10rem"
             @click.stop
           >
-            <sup>『</sup> {{ randomAphorisms?.content }} <sub>』</sub>
+            <span class="x-home-aphorisms" @click.stop="onCopyAphorisms">
+              <sup>『</sup> {{ randomAphorisms?.content }} <sub>』</sub>
+            </span>
             <q-tooltip
               :delay="500"
               anchor="top middle"
@@ -103,6 +105,7 @@ import { CONTROLLERS } from '@/store/mutation-types';
 import { mobileKeyboardCallback, random } from '@/utils/common';
 import useBackgroundImage from '@/composition/use-background-image';
 import { isDeviceMobile } from '@/utils/check';
+import { copyToClipboard, useQuasar } from 'quasar';
 import SettingDrawer from './HomeSettingDrawer.vue';
 import BeginnerTourComponent from './BeginnerTourPage.vue';
 
@@ -148,6 +151,17 @@ watch(
   }
 );
 
+const $q = useQuasar();
+function onCopyAphorisms() {
+  copyToClipboard(randomAphorisms.value.content).then(() => {
+    $q.notify({
+      message: '已复制到剪贴板',
+      position: 'center',
+      timeout: 2000
+    });
+  });
+}
+
 const { initImage, changeBgImage, loadingChangeImage } = useBackgroundImage();
 
 // 初始背景图片
@@ -174,5 +188,14 @@ $max-blur: calc(v-bind(maxBlur) * 1px);
 
 .x-home-filter {
   filter: blur(#{$max-blur});
+}
+
+.x-home-aphorisms {
+  transition: filter 0.5s;
+  cursor: default;
+
+  &:hover {
+    filter: brightness(1.5);
+  }
 }
 </style>
