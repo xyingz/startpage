@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-12 14:50:46
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-02-11 16:47:29
+ * @LastEditTime: 2022-02-14 12:05:23
  * @Description: 用户可以自行配置的设置项
  */
 
@@ -14,6 +14,7 @@ import GlobalConfig from '@/config/global';
 import {
   ADD_TOOL,
   CLEAR_SEAECH_RECORD,
+  DELETE_SEARCH_RECORD,
   REMOVE_TOOL,
   SAVE_USER_SETTINGS,
   SET_SEARCH_ENGINE_LIST,
@@ -82,8 +83,12 @@ const store: Module<SettingsState, RootState> = {
     [SET_SEARCH_RECORD](state, record: string | Array<string>) {
       const list = state.searchRecord ?? [];
       if (Array.isArray(record)) {
-        list.push(...record);
-      } else {
+        record.forEach(r => {
+          if (list.indexOf(r) === -1) {
+            list.push(r);
+          }
+        });
+      } else if (list.indexOf(record) === -1) {
         list.push(record);
       }
 
@@ -96,6 +101,15 @@ const store: Module<SettingsState, RootState> = {
     },
     [CLEAR_SEAECH_RECORD](state) {
       state.searchRecord = [];
+    },
+    [DELETE_SEARCH_RECORD](state, record: string) {
+      const list = state.searchRecord ?? [];
+      const index = list.findIndex(item => item === record);
+      if (index !== -1) {
+        list.splice(index, 1);
+      }
+
+      state.searchRecord = list;
     }
   },
   actions: {
@@ -123,6 +137,9 @@ const store: Module<SettingsState, RootState> = {
     },
     [CLEAR_SEAECH_RECORD](context) {
       context.commit(CLEAR_SEAECH_RECORD);
+    },
+    [DELETE_SEARCH_RECORD](context, record: string) {
+      context.commit(DELETE_SEARCH_RECORD, record);
     }
   }
 };

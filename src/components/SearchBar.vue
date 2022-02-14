@@ -12,17 +12,11 @@
       input-style="color: black"
       :placeholder="placeholderText"
       aria-placeholder="搜索框"
-      @keypress.enter="() => onSearch()"
+      @keypress.enter="onSearch"
       @focusin="onFocus"
     >
       <template #append>
-        <q-btn
-          flat
-          rounded
-          icon="search"
-          color="primary"
-          @click="() => onSearch()"
-        />
+        <q-btn flat rounded icon="search" color="primary" @click="onSearch" />
       </template>
 
       <q-menu v-model="showSearchRecord" no-focus fit dark>
@@ -34,7 +28,30 @@
             clickable
             @click="() => onSearchRecord(record)"
           >
-            <q-item-section>{{ record }}</q-item-section>
+            <q-item-section>
+              <q-item-label>{{ record }}</q-item-label>
+            </q-item-section>
+            <q-item-section side>
+              <q-btn
+                flat
+                dense
+                round
+                size="sm"
+                icon="close"
+                @click.stop="() => onDeleteRecord(record)"
+              />
+            </q-item-section>
+          </q-item>
+
+          <q-item
+            v-if="searchRecord?.length"
+            v-close-popup
+            clickable
+            @click="onClear"
+          >
+            <q-item-section>
+              <q-item-label class="text-center">清除所有记录</q-item-label>
+            </q-item-section>
           </q-item>
         </q-list>
       </q-menu>
@@ -98,14 +115,14 @@ const placeholderText = computed(() => {
 });
 
 const searchText = ref('');
-function onSearch(isRecord: boolean = true) {
+function onSearch() {
   if (!searchText.value) {
     inputBar.value?.focus();
     return;
   }
 
   // 保存搜索记录
-  if (isRecord && store.state.settings.userSettings.isSaveSearchRecord) {
+  if (store.state.settings.userSettings.isSaveSearchRecord) {
     store
       .dispatch(SETTINGS.SET_SEARCH_RECORD, searchText.value)
       .then(saveSearchRecord);
@@ -119,7 +136,11 @@ function onSearch(isRecord: boolean = true) {
 
 function onSearchRecord(record: string) {
   searchText.value = record;
-  onSearch(false);
+
+  if (activeEngine.value) {
+    window.open(activeEngine.value.url + searchText.value);
+    searchText.value = '';
+  }
 }
 
 const inputBar = ref<HTMLInputElement>();
@@ -147,6 +168,17 @@ watch(
 
 // 实时搜索记录
 const searchRecord = ref(store.state.settings.searchRecord);
+// 深度监听，发现变化及时更新
+watch(
+  () => store.state.settings.searchRecord,
+  val => {
+    searchRecord.value = val;
+  },
+  {
+    deep: true
+  }
+);
+
 watch(
   () => searchText.value,
   val => {
@@ -162,6 +194,14 @@ watch(
     }
   }
 );
+
+function onDeleteRecord(record: string) {
+  store.dispatch(SETTINGS.DELETE_SEARCH_RECORD, record).then(saveSearchRecord);
+}
+
+function onClear() {
+  store.dispatch(SETTINGS.CLEAR_SEAECH_RECORD).then(saveSearchRecord);
+}
 </script>
 
 <style lang="scss">

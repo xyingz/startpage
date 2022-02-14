@@ -32,6 +32,7 @@ export const SAVE_USER_SETTINGS = 'SAVE_USER_SETTINGS';
 export const SET_TODAY_BG = 'SET_TODAY_BG';
 export const SET_SEARCH_RECORD = 'SET_SEARCH_RECORD';
 export const CLEAR_SEAECH_RECORD = 'CLEAR_SEAECH_RECORD';
+export const DELETE_SEARCH_RECORD = 'DELETE_SEARCH_RECORD';
 
 const settings = 'settings';
 export const SETTINGS = {
@@ -42,7 +43,8 @@ export const SETTINGS = {
   SAVE_USER_SETTINGS: `${settings}/${SAVE_USER_SETTINGS}`,
   SET_TODAY_BG: `${settings}/${SET_TODAY_BG}`,
   SET_SEARCH_RECORD: `${settings}/${SET_SEARCH_RECORD}`,
-  CLEAR_SEAECH_RECORD: `${settings}/${CLEAR_SEAECH_RECORD}`
+  CLEAR_SEAECH_RECORD: `${settings}/${CLEAR_SEAECH_RECORD}`,
+  DELETE_SEARCH_RECORD: `${settings}/${DELETE_SEARCH_RECORD}`
 };
 
 export default {};
