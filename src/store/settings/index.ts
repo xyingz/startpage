@@ -89,7 +89,7 @@ const store: Module<SettingsState, RootState> = {
           }
         });
       } else if (list.indexOf(record) === -1) {
-        list.push(record);
+        list.unshift(record);
       }
 
       // 只保留最新的记录
