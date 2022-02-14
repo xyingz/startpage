@@ -9,6 +9,7 @@
       rounded
       class="search-bar"
       bg-color="white"
+      input-style="color: black"
       :placeholder="placeholderText"
       aria-placeholder="搜索框"
       @keypress.enter="() => onSearch()"
@@ -24,7 +25,7 @@
         />
       </template>
 
-      <q-menu ref="searchRecordPopup" no-focus fit dark>
+      <q-menu v-model="showSearchRecord" no-focus fit dark>
         <q-list dense>
           <q-item
             v-for="(record, index) in searchRecord"
@@ -122,14 +123,14 @@ function onSearchRecord(record: string) {
 }
 
 const inputBar = ref<HTMLInputElement>();
-const searchRecordPopup = ref();
+const showSearchRecord = ref(false);
 onMounted(() => {
   if (store.state.controllers.focusMode) inputBar.value?.focus();
 });
 
 function onFocus() {
   if (!searchText.value) {
-    searchRecordPopup.value?.hide();
+    showSearchRecord.value = false;
   }
 
   store.dispatch(CONTROLLERS.SET_FOCUS_MODE, true);
@@ -152,7 +153,13 @@ watch(
     searchRecord.value = store.state.settings.searchRecord?.filter(
       record => record.indexOf(val) !== -1
     );
-    searchRecordPopup.value.show();
+
+    // 没有字符时隐藏搜索记录
+    if (searchRecord.value?.length && searchText.value.length) {
+      showSearchRecord.value = true;
+    } else {
+      showSearchRecord.value = false;
+    }
   }
 );
 </script>
