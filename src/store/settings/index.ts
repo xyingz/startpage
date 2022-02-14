@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-12 14:50:46
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-02-14 12:05:23
+ * @LastEditTime: 2022-02-14 17:29:05
  * @Description: 用户可以自行配置的设置项
  */
 
@@ -84,12 +84,21 @@ const store: Module<SettingsState, RootState> = {
       const list = state.searchRecord ?? [];
       if (Array.isArray(record)) {
         record.forEach(r => {
-          if (list.indexOf(r) === -1) {
+          const i = list.indexOf(r);
+          if (i === -1) {
+            list.push(r);
+          } else {
+            list.splice(i, 1);
             list.push(r);
           }
         });
-      } else if (list.indexOf(record) === -1) {
-        list.unshift(record);
+      } else {
+        const i = list.indexOf(record);
+        if (i === -1) list.unshift(record);
+        else {
+          list.splice(i, 1);
+          list.unshift(record);
+        }
       }
 
       // 只保留最新的记录
