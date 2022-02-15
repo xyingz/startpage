@@ -33,4 +33,9 @@ declare interface UserSettings {
    * 背景图片最大模糊值
    */
   maxBlur: number;
+
+  /**
+   * 搜索后保留输入内容
+   */
+  isSaveInput: boolean;
 }

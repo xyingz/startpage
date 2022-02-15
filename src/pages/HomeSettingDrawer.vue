@@ -15,6 +15,9 @@
           <q-item v-ripple tag="label">
             <q-item-section>
               <q-item-label>切换搜索引擎时保存为默认引擎</q-item-label>
+              <q-item-label caption>
+                关闭后将不会跟随切换而保存，每次打开都默认为第一个搜索引擎
+              </q-item-label>
             </q-item-section>
             <q-item-section side>
               <q-toggle v-model="isSaveDefaultSearchEngine" color="blue" />
@@ -24,6 +27,9 @@
           <q-item v-ripple tag="label">
             <q-item-section>
               <q-item-label>启动时启用聚焦模式</q-item-label>
+              <q-item-label caption>
+                启用聚焦模式可以更加快速的进行搜索
+              </q-item-label>
             </q-item-section>
             <q-item-section side>
               <q-toggle v-model="isDefaultFocusMode" color="blue" />
@@ -51,12 +57,25 @@
             </q-item-section>
           </q-item>
 
+          <q-item v-ripple tag="label">
+            <q-item-section>
+              <q-item-label>搜索时保留输入内容</q-item-label>
+              <q-item-label caption>默认每次搜索后输入框清空</q-item-label>
+            </q-item-section>
+            <q-item-section side>
+              <q-toggle v-model="isSaveInput" color="blue" />
+            </q-item-section>
+          </q-item>
+
           <q-separator spaced />
           <q-item-label header>显示</q-item-label>
 
           <q-item v-ripple tag="label">
             <q-item-section>
               <q-item-label>信息面板</q-item-label>
+              <q-item-label caption>
+                界面上显示时间、日期等信息的面板
+              </q-item-label>
             </q-item-section>
             <q-item-section side>
               <q-toggle v-model="isShowInfoPanel" color="blue" />
@@ -435,6 +454,17 @@ const isSaveSearchRecord = computed<boolean>({
   },
   set(value) {
     const v = { isSaveSearchRecord: value };
+    store.commit(SETTINGS.SAVE_USER_SETTINGS, v);
+    saveUserSettings(v);
+  }
+});
+
+const isSaveInput = computed<boolean>({
+  get() {
+    return store.state.settings.userSettings.isSaveInput;
+  },
+  set(value) {
+    const v = { isSaveInput: value };
     store.commit(SETTINGS.SAVE_USER_SETTINGS, v);
     saveUserSettings(v);
   }

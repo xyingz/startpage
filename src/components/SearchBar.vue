@@ -210,7 +210,10 @@ function handleSearch() {
 
     if (search) {
       window.open(search.url + searchText.value + (search.params ?? ''));
-      searchText.value = '';
+
+      if (!store.state.settings.userSettings.isSaveInput) {
+        searchText.value = '';
+      }
     }
   }
 }

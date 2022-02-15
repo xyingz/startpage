@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-14 17:56:31
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-02-11 16:03:30
+ * @LastEditTime: 2022-02-15 15:59:17
  * @Description: 设置项默认值
  */
 
@@ -13,7 +13,8 @@ export const userSettings: UserSettings = {
   isDefaultFocusMode: true,
   isShowInfoPanel: true,
   minBlur: 0,
-  maxBlur: 20
+  maxBlur: 20,
+  isSaveInput: false
 };
 
 export default {};
