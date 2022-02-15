@@ -1,5 +1,19 @@
 <template>
   <div class="column items-center" @click.stop>
+    <q-slide-transition>
+      <q-btn-toggle
+        v-if="!store.state.controllers.isShowToolBox"
+        v-model="activedEngineName"
+        class="x-search-bar-engine-toggle-wrap"
+        toggle-color="primary"
+        :glossy="store.state.controllers.focusMode"
+        rounded
+        :options="engines"
+        @update:model-value="value => onSelectEngine(value)"
+        @dblclick="onOpenOfficial"
+      />
+    </q-slide-transition>
+
     <q-input
       ref="inputBarRef"
       v-model="searchText"
@@ -17,6 +31,38 @@
       @keydown.down.exact="onKeyDown"
       @focusin="onFocus"
     >
+      <!-- 如果有其他搜索url，提供选择 -->
+      <template
+        v-if="activeEngine?.searchs?.length && activeEngine.searchs.length > 1"
+        #prepend
+      >
+        <q-btn-dropdown
+          flat
+          rounded
+          color="black"
+          dense
+          :label="searchType"
+          @click.prevent.stop
+        >
+          <q-list dense>
+            <template
+              v-for="(search, index) in activeEngine?.searchs"
+              :key="index"
+            >
+              <q-item
+                v-close-popup
+                clickable
+                @click="() => onChangeSearchType(search)"
+              >
+                <q-item-section>
+                  <q-item-label>{{ search.name }}</q-item-label>
+                </q-item-section>
+              </q-item>
+            </template>
+          </q-list>
+        </q-btn-dropdown>
+      </template>
+
       <template #append>
         <q-btn flat rounded icon="search" color="primary" @click="onSearch" />
       </template>
@@ -59,19 +105,6 @@
         </q-list>
       </q-menu>
     </q-input>
-
-    <q-slide-transition>
-      <q-btn-toggle
-        v-if="!store.state.controllers.isShowToolBox"
-        v-model="activedEngineName"
-        class="x-search-bar-engine-toggle-wrap"
-        toggle-color="primary"
-        :glossy="store.state.controllers.focusMode"
-        rounded
-        :options="engines"
-        @update:model-value="value => onSelectEngine(value)"
-      />
-    </q-slide-transition>
   </div>
 </template>
 
@@ -93,31 +126,98 @@ const engines = store.state.settings.searchEngines.map(engine => ({
   icon: `img:${import.meta.env.PROD ? '' : './src'}/assets/icons/${
     engine.icon
   }.svg`,
-  url: engine.url,
   slot: engine.name,
-  comment: engine.comment
+  comment: engine.comment,
+  website: engine.website,
+  searchs: engine.searchs
 }));
 
+/**
+ * 当前搜索引擎名称。用于切换按钮
+ */
 const activedEngineName = ref(
   engines[store.getters[CONTROLLERS.GET_SEARCH_ENGINE_INDEX]]?.value
 );
+/**
+ * 当前搜索引擎，所有关于搜索引擎的内容都从这里获取
+ */
 const activeEngine = computed(() =>
   engines.find(eng => eng.value === activedEngineName.value)
 );
+/**
+ * 当前搜索引擎的搜索类型，默认第一个
+ */
+const searchType = ref(activeEngine.value?.searchs?.[0].name ?? '网页');
+function onChangeSearchType(url: {
+  url: string;
+  name: string;
+  params?: string;
+}) {
+  searchType.value = url.name;
+  inputBarRef.value?.focus();
+}
 
+/**
+ * 切换搜索引擎
+ * @param engine 搜索引擎
+ */
 function onSelectEngine(engine: any) {
   activedEngineName.value = engine;
   inputBarRef.value?.focus();
 
   // 保存搜索引擎
   saveDefaultSearchEngineIdx(engines.findIndex(eng => eng.value === engine));
+
+  // 切换搜索引擎后，重新检查一下搜索 type
+  if (
+    !activeEngine.value?.searchs?.find(
+      search => search.name === searchType.value
+    )
+  ) {
+    searchType.value = activeEngine.value?.searchs?.[0].name ?? '网页';
+  }
+}
+
+/**
+ * 跳转到官方页面
+ */
+function onOpenOfficial() {
+  window.open(activeEngine.value?.website);
 }
 
 const placeholderText = computed(() => {
   return `使用 ${activeEngine.value?.comment} 搜索` || '开始搜索';
 });
 
+/**
+ * 搜索文本
+ */
 const searchText = ref('');
+
+/**
+ * 搜索标准动作。所有搜索动作最后都调用这个方法实施搜索
+ */
+function handleSearch() {
+  if (activeEngine.value?.searchs) {
+    // 获取搜索链接
+    const index = activeEngine.value.searchs.findIndex(
+      search => search.name === searchType.value
+    );
+    let search = activeEngine.value.searchs[0];
+    if (index !== -1) {
+      search = activeEngine.value.searchs[index];
+    }
+
+    if (search) {
+      window.open(search.url + searchText.value + (search.params ?? ''));
+      searchText.value = '';
+    }
+  }
+}
+
+/**
+ * 常规搜索事件。通过按钮或键盘触发的事件
+ */
 function onSearch() {
   searchText.value = searchText.value.trim();
 
@@ -133,21 +233,21 @@ function onSearch() {
       .then(saveSearchRecord);
   }
 
-  if (activeEngine.value) {
-    window.open(activeEngine.value.url + searchText.value);
-    searchText.value = '';
-  }
+  handleSearch();
 }
 
+/**
+ * 搜索记录事件。点击或选择搜索记录触发的事件
+ * @param record 搜索记录
+ */
 function onSearchRecord(record: string) {
   searchText.value = record;
-
-  if (activeEngine.value) {
-    window.open(activeEngine.value.url + searchText.value);
-    searchText.value = '';
-  }
+  handleSearch();
 }
 
+/**
+ * Element 相关
+ */
 const inputBarRef = ref();
 const showSearchRecord = ref(false);
 onMounted(() => {
@@ -334,7 +434,7 @@ function onEnter() {
 .x-search-bar {
   width: 50%;
   min-width: 300px;
-  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
 }
 
 .x-search-bar-engine-toggle-wrap {

@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-11 15:50:00
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-02-11 16:43:26
+ * @LastEditTime: 2022-02-15 11:52:22
  * @Description: 初始化配置
  */
 import store from '@/store';
@@ -68,15 +68,22 @@ function initToolList() {
 /**
  * 初始化搜索引擎列表
  */
-function initSearchEngineList() {
-  const searchListStr = LocalStorage.getItem<string>(SEARCH_ENGINE_LIST);
+function initSearchEngineList(updated: boolean) {
   let searchList: Array<SearchEngine> = [];
 
-  if (searchListStr) {
-    searchList = JSON.parse(searchListStr);
-  } else {
+  // 1.0.1 修改了搜索引擎内容，需要更新
+  if (updated && APP_VERSION === '1.0.1') {
     searchList = searchEngines;
     saveSearchEngineList(searchList);
+  } else {
+    const searchListStr = LocalStorage.getItem<string>(SEARCH_ENGINE_LIST);
+
+    if (searchListStr) {
+      searchList = JSON.parse(searchListStr);
+    } else {
+      searchList = searchEngines;
+      saveSearchEngineList(searchList);
+    }
   }
 
   // 设置搜索引擎列表
@@ -102,8 +109,11 @@ function initDefaultSearchEngineIdx() {
  * 检查版本号并保存新版本号
  */
 function checkVersion() {
+  // 测试用，需要删除
+  LocalStorage.set(VERSION, '1.0.0');
+
   const savedVersion = LocalStorage.getItem<string>(VERSION);
-  if (savedVersion === APP_VERSION) return;
+  if (savedVersion === APP_VERSION) return false;
 
   // 当前版本号大于保存的版本号
   if (isVersionGreaterThan(APP_VERSION, savedVersion)) {
@@ -117,6 +127,8 @@ function checkVersion() {
     // 没有参数，可以理解为第一次登录
     store.dispatch(CONTROLLERS.SET_SHOW_BEGINNER_TOUR, true);
   }
+
+  return true;
 }
 
 /**
@@ -150,15 +162,16 @@ function initSearchRecord() {
 }
 
 export function initConfig() {
+  const updated = checkVersion();
+
   initUserSettings();
 
   initToolList();
-  initSearchEngineList();
+  initSearchEngineList(updated);
   initDefaultSearchEngineIdx();
   initSearchRecord();
 
   checkBackgroundImage();
-  checkVersion();
 }
 
 export default {};
