@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-12 14:50:46
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-02-14 17:29:05
+ * @LastEditTime: 2022-02-15 17:23:30
  * @Description: 用户可以自行配置的设置项
  */
 
@@ -11,6 +11,7 @@ import { Module } from 'vuex';
 import { TOOL_LIST } from '@/config/constants';
 import { uuid } from '@/utils/common';
 import GlobalConfig from '@/config/global';
+import { userSettings } from '@/config/data/user-settings';
 import {
   ADD_TOOL,
   CLEAR_SEAECH_RECORD,
@@ -30,15 +31,7 @@ const store: Module<SettingsState, RootState> = {
     tools: [],
     searchEngines: [],
     searchRecord: [],
-    userSettings: {
-      isSaveDefaultSearchEngine: true,
-      isSaveSearchRecord: true,
-      toolRadius: 10,
-      isDefaultFocusMode: true,
-      isShowInfoPanel: true,
-      minBlur: 0,
-      maxBlur: 20
-    }
+    userSettings
   },
 
   mutations: {

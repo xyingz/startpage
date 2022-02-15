@@ -29,4 +29,9 @@ declare interface ControllersState {
    * 是否显示设置对话框
    */
   showSettingDialog: boolean;
+
+  /**
+   * 是否显示管理搜索引擎对话框
+   */
+  showManageSearchDialog: boolean;
 }

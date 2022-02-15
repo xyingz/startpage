@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-12 14:36:57
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-02-11 09:58:59
+ * @LastEditTime: 2022-02-15 16:20:03
  * @Description: 程序内部控制变量模块
  */
 
@@ -17,7 +17,8 @@ import {
   SET_REMOVE_TOOL_STATE,
   SET_SEARCH_ENGINE_IDX,
   SET_SETTING_DIALOG_VISIBLE,
-  SET_SHOW_TOOLBOX
+  SET_SHOW_TOOLBOX,
+  SET_MANAGE_SEARCH_DIALOG_VISIBLE
 } from '../mutation-types';
 
 const store: Module<ControllersState, RootState> = {
@@ -32,7 +33,8 @@ const store: Module<ControllersState, RootState> = {
     showBeginnerTour: false,
     showAddToolDialog: false,
     showAddCustomToolDialog: false,
-    showSettingDialog: false
+    showSettingDialog: false,
+    showManageSearchDialog: false
   },
 
   getters: {
@@ -71,6 +73,9 @@ const store: Module<ControllersState, RootState> = {
     },
     [SET_SETTING_DIALOG_VISIBLE](state, isShow: boolean) {
       state.showSettingDialog = isShow;
+    },
+    [SET_MANAGE_SEARCH_DIALOG_VISIBLE](state, isShow: boolean) {
+      state.showManageSearchDialog = isShow;
     }
   },
   actions: {
@@ -106,6 +111,9 @@ const store: Module<ControllersState, RootState> = {
     },
     [SET_SETTING_DIALOG_VISIBLE](context, isShow: boolean) {
       context.commit(SET_SETTING_DIALOG_VISIBLE, isShow);
+    },
+    [SET_MANAGE_SEARCH_DIALOG_VISIBLE](context, isShow: boolean) {
+      context.commit(SET_MANAGE_SEARCH_DIALOG_VISIBLE, isShow);
     }
   }
 };

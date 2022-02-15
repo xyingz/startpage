@@ -18,7 +18,8 @@
         "test:unit": "jest --passWithNoTests",
         "commit": "git-cz",
         "init:tools": "node ./scripts/init-tools.js",
-        "init:aphorisms": "node ./scripts/init-aphorisms.js"
+        "init:aphorisms": "node ./scripts/init-aphorisms.js",
+        "init:searchs": "node ./scripts/init-searchs.js"
     },
     "lint-staged": {
         "*.{vue,js,ts,jsx,tsx}": [

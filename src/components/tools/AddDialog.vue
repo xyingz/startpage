@@ -118,7 +118,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useStore } from '@/store';
 import { CONTROLLERS, SETTINGS } from '@/store/mutation-types';
 import { iconUrl } from '@/api/url';
@@ -146,13 +146,20 @@ function checkAdded(tool: Tool) {
 const toolList = ref<{ [key: string]: Tool[] }>({});
 const labels = ref<string[]>();
 const tab = ref<string>();
-fetch('/tools.json')
-  .then(res => res.json())
-  .then(data => {
-    toolList.value = data;
-    labels.value = Object.keys(data);
-    tab.value = labels.value?.[0];
-  });
+watch(
+  () => show.value,
+  value => {
+    if (value) {
+      fetch('/tools.json')
+        .then(res => res.json())
+        .then(data => {
+          toolList.value = data;
+          labels.value = Object.keys(data);
+          tab.value = labels.value?.[0];
+        });
+    }
+  }
+);
 
 function addTool(tool: Tool) {
   store.dispatch(SETTINGS.ADD_TOOL, tool);

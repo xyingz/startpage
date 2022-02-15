@@ -112,6 +112,7 @@
 import { ref, onMounted, computed, watch } from 'vue';
 import { CONTROLLERS, SETTINGS } from '@/store/mutation-types';
 import { useStore } from '@/store/index';
+import { iconUrl } from '@/api/url';
 import {
   saveDefaultSearchEngineIdx,
   saveSearchRecord
@@ -121,29 +122,46 @@ import {
 <script lang="ts" setup>
 const store = useStore();
 
-const engines = store.state.settings.searchEngines.map(engine => ({
-  value: engine.name,
-  icon: `img:${import.meta.env.PROD ? '' : './src'}/assets/icons/${
-    engine.icon
-  }.svg`,
-  slot: engine.name,
-  comment: engine.comment,
-  website: engine.website,
-  searchs: engine.searchs
-}));
+const engines = computed(() =>
+  store.state.settings.searchEngines.map(engine => ({
+    value: engine.name,
+    icon: engine.icon
+      ? `img:${import.meta.env.PROD ? '' : './src'}/assets/icons/${
+          engine.icon
+        }.svg`
+      : `img:${iconUrl}?url=${engine.website}`,
+    slot: engine.name,
+    comment: engine.comment,
+    website: engine.website,
+    searchs: engine.searchs
+  }))
+);
 
 /**
  * 当前搜索引擎名称。用于切换按钮
  */
 const activedEngineName = ref(
-  engines[store.getters[CONTROLLERS.GET_SEARCH_ENGINE_INDEX]]?.value
+  engines.value[store.getters[CONTROLLERS.GET_SEARCH_ENGINE_INDEX]]?.value
 );
 /**
  * 当前搜索引擎，所有关于搜索引擎的内容都从这里获取
  */
-const activeEngine = computed(() =>
-  engines.find(eng => eng.value === activedEngineName.value)
+const activeEngine = computed(() => {
+  let engine = engines.value.find(eng => eng.value === activedEngineName.value);
+
+  if (!engine) {
+    engine = engines.value?.[0];
+  }
+  return engine;
+});
+// 写在 computed 中有副作用，通过 watch 来更新
+watch(
+  () => activeEngine.value,
+  val => {
+    activedEngineName.value = val.value;
+  }
 );
+
 /**
  * 当前搜索引擎的搜索类型，默认第一个
  */
@@ -166,7 +184,9 @@ function onSelectEngine(engine: any) {
   inputBarRef.value?.focus();
 
   // 保存搜索引擎
-  saveDefaultSearchEngineIdx(engines.findIndex(eng => eng.value === engine));
+  saveDefaultSearchEngineIdx(
+    engines.value.findIndex(eng => eng.value === engine)
+  );
 
   // 切换搜索引擎后，重新检查一下搜索 type
   if (

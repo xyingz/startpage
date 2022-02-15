@@ -106,6 +106,7 @@ import { mobileKeyboardCallback, random } from '@/utils/common';
 import useBackgroundImage from '@/composition/use-background-image';
 import { isDeviceMobile } from '@/utils/check';
 import { copyToClipboard, useQuasar } from 'quasar';
+
 import SettingDrawer from './HomeSettingDrawer.vue';
 import BeginnerTourComponent from './BeginnerTourPage.vue';
 

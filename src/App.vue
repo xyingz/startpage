@@ -12,13 +12,17 @@
       反馈
     </a>
   </footer>
+
+  <ManageSearchDialog />
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import ManageSearchDialog from '@/components/ManageSearchDialog.vue';
 
 export default defineComponent({
-  name: 'App'
+  name: 'App',
+  components: { ManageSearchDialog }
 });
 </script>
 

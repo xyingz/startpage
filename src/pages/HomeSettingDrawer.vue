@@ -12,6 +12,27 @@
         <q-list bordered padding>
           <q-item-label header>功能</q-item-label>
 
+          <q-item>
+            <q-item-section>
+              <q-item-label>管理搜索引擎</q-item-label>
+            </q-item-section>
+            <q-item-section side>
+              <q-btn
+                v-close-popup
+                size="sm"
+                color="primary"
+                label="管理"
+                @click="
+                  () =>
+                    store.dispatch(
+                      CONTROLLERS.SET_MANAGE_SEARCH_DIALOG_VISIBLE,
+                      true
+                    )
+                "
+              />
+            </q-item-section>
+          </q-item>
+
           <q-item v-ripple tag="label">
             <q-item-section>
               <q-item-label>切换搜索引擎时保存为默认引擎</q-item-label>
@@ -208,7 +229,7 @@
             </q-item-section>
           </q-item>
 
-          <q-item>
+          <q-item v-ripple tag="label">
             <q-item-section>
               <q-item-label>切换背景后保存</q-item-label>
               <q-item-label caption>
@@ -224,23 +245,23 @@
           <q-separator spaced />
           <q-item-label header>系统</q-item-label>
 
-          <q-item
-            v-if="!isDeviceMobile()"
-            v-ripple
-            tag="label"
-            @click="
-              () => store.dispatch(CONTROLLERS.SET_SHOW_BEGINNER_TOUR, true)
-            "
-          >
+          <q-item v-if="!isDeviceMobile()">
             <q-item-section>
               <q-item-label>查看新手教程</q-item-label>
             </q-item-section>
             <q-item-section side>
-              <q-btn flat color="primary" label="查看" />
+              <q-btn
+                flat
+                color="primary"
+                label="查看"
+                @click="
+                  () => store.dispatch(CONTROLLERS.SET_SHOW_BEGINNER_TOUR, true)
+                "
+              />
             </q-item-section>
           </q-item>
 
-          <q-item tag="label" @click.prevent>
+          <q-item @click.prevent>
             <q-item-section>
               <q-item-label>恢复默认设置</q-item-label>
             </q-item-section>
