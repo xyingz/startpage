@@ -4,7 +4,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-05 11:53:15
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-25 10:59:02
+ * @LastEditTime: 2022-02-17 16:33:53
  * @Description: 通用函数
  */
 
@@ -193,4 +193,21 @@ export function isVersionGreaterThan(
     if (parseInt(v[i], 10) < parseInt(c[i], 10)) return false;
   }
   return false;
+}
+
+/**
+ * 正确的间隔器。每次休眠后都会重新计算
+ * @param cb 间隔回调函数
+ * @param time 间隔时间 单位：ms
+ */
+export function realInterval(cb: Function, time = 1000) {
+  let interval = setInterval(cb, time);
+
+  document.onvisibilitychange = () => {
+    if (document.visibilityState === 'visible') {
+      interval = setInterval(cb, time);
+    } else {
+      clearInterval(interval);
+    }
+  };
 }

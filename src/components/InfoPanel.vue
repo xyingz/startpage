@@ -16,39 +16,56 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { Solar } from 'lunar-typescript';
 import getWeather from '@/api/weather';
-import { formatDate } from '@/utils/common';
+import { formatDate, realInterval } from '@/utils/common';
 import TimeComponent from './time/Time.vue';
 
 const weatherStr = ref('');
-getWeather().then(res => {
-  if (typeof res === 'string') {
-    weatherStr.value = res;
-  } else {
-    weatherStr.value = `${res[0].location.name} 当前：${res[0].now.temperature}°C ${res[0].now.text}`;
-  }
-});
+function getCurrentWeather() {
+  getWeather().then(res => {
+    if (typeof res === 'string') {
+      weatherStr.value = res;
+    } else {
+      weatherStr.value = `${res[0].location.name} 当前：${res[0].now.temperature}°C ${res[0].now.text}`;
+    }
+  });
+}
+getCurrentWeather();
+
+// 一小时更新一次
+realInterval(getCurrentWeather, 60 * 60 * 1000);
 
 const dateStr = ref(formatDate(new Date(), 'yyyy-MM-dd'));
+realInterval(() => {
+  dateStr.value = formatDate(new Date(), 'yyyy-MM-dd');
+});
 
-const solar = Solar.fromDate(new Date());
-const lunarStr = `${solar.getLunar().getMonthInChinese()}月${solar
-  .getLunar()
-  .getDayInChinese()}`;
-const ganzhiStr = `${solar.getLunar().getYearInGanZhi()}(${solar
-  .getLunar()
-  .getYearShengXiao()})年 ${solar.getLunar().getMonthInGanZhi()}月 ${solar
-  .getLunar()
-  .getDayInGanZhi()}日 ${solar.getLunar().getJieQi()} ${solar
-  .getLunar()
-  .getFestivals()
-  .concat(solar.getLunar().getOtherFestivals())
-  .join(',')} ${solar
-  .getFestivals()
-  .concat(solar.getOtherFestivals())
-  .join(',')}`;
+const solar = computed(() => Solar.fromDate(new Date()));
+const lunarStr = computed(
+  () =>
+    `${solar.value.getLunar().getMonthInChinese()}月${solar.value
+      .getLunar()
+      .getDayInChinese()}`
+);
+const ganzhiStr = computed(
+  () =>
+    `${solar.value.getLunar().getYearInGanZhi()}(${solar.value
+      .getLunar()
+      .getYearShengXiao()})年 ${solar.value
+      .getLunar()
+      .getMonthInGanZhi()}月 ${solar.value
+      .getLunar()
+      .getDayInGanZhi()}日 ${solar.value.getLunar().getJieQi()} ${solar.value
+      .getLunar()
+      .getFestivals()
+      .concat(solar.value.getLunar().getOtherFestivals())
+      .join(',')} ${solar.value
+      .getFestivals()
+      .concat(solar.value.getOtherFestivals())
+      .join(',')}`
+);
 </script>
 
 <style scoped lang="scss">

@@ -3,6 +3,7 @@
 </template>
 
 <script lang="ts">
+import { realInterval } from '@/utils/common';
 import { defineComponent, Ref, ref } from 'vue';
 import Clock from './flip/Clock.vue';
 
@@ -11,9 +12,10 @@ export default defineComponent({
 
   setup() {
     const time = ref<Date>(new Date()) as Ref<Date>;
-    setInterval(() => {
+
+    realInterval(() => {
       time.value = new Date();
-    }, 1000);
+    });
 
     return {
       time
