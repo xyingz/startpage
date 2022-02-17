@@ -3,7 +3,7 @@
 
   <footer>
     CopyRight @
-    <a href="https://www.xiaopangying.com" target="_blank">XiaoPangYing</a>
+    <a href="https://www.xiaopangying.com" target="_blank">XiaoPangYing.COM</a>
     <span> | </span>
     <a
       href="https://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=support%40xiaopangying.com&subject=StartPage%20feedback"
@@ -11,18 +11,33 @@
     >
       反馈
     </a>
+    <span> | </span>
+    <a href="javascript:void(0);" @click="openFunctionalIntroDialog">功能</a>
   </footer>
 
   <ManageSearchDialog />
+  <FuncionalIntroDialog v-model="showFunctionalIntro" />
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import ManageSearchDialog from '@/components/ManageSearchDialog.vue';
+import FuncionalIntroDialog from '@/pages/FunctionalIntroDialog.vue';
 
 export default defineComponent({
   name: 'App',
-  components: { ManageSearchDialog }
+  components: { ManageSearchDialog, FuncionalIntroDialog },
+
+  setup() {
+    const showFunctionalIntro = ref(false);
+
+    return {
+      showFunctionalIntro,
+      openFunctionalIntroDialog: () => {
+        showFunctionalIntro.value = true;
+      }
+    };
+  }
 });
 </script>
 
