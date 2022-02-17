@@ -11,7 +11,13 @@
       </q-card-section>
 
       <q-card-section>
-        <q-list>
+        <div class="text-caption text-grey">
+          修改搜索引擎可能会重置您的默认选择
+          <br />
+          最少需要 1 个，最多可以添加
+          {{ GlobalConfig.searchEngineMaxLength }} 个
+        </div>
+        <q-list bordered>
           <template v-for="search in searchList" :key="search.name">
             <q-item tag="label">
               <q-item-section avatar>

@@ -149,8 +149,10 @@ const activedEngineName = ref(
 const activeEngine = computed(() => {
   let engine = engines.value.find(eng => eng.value === activedEngineName.value);
 
+  // 如果重新设置了搜索引擎，可能会出现索引找不到的情况，则用默认的0即可，并且重置索引
   if (!engine) {
     engine = engines.value?.[0];
+    saveDefaultSearchEngineIdx(0);
   }
   return engine;
 });
