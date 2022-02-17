@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-17 17:23:21
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-25 10:15:00
+ * @LastEditTime: 2022-02-17 11:37:43
  * @Description: 初始化格言警句
  */
 
@@ -85,7 +85,7 @@ const json = [
     source: '《玉楼春》'
   },
   {
-    content: '忽贪意外之财，勿饮过量之酒',
+    content: '勿贪意外之财，勿饮过量之酒',
     author: '朱伯庐',
     source: '《治家格言》'
   }
