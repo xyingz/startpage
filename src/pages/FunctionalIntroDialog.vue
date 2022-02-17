@@ -83,9 +83,21 @@ const intro = `# 搜索
 <style lang="scss" scoped>
 .x-dialog-bg {
   color: aliceblue;
-  background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(10px);
   box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.5);
   cursor: default;
+}
+
+@supports ((backdrop-filter: none) or (-webkit-backdrop-filter: none)) {
+  .x-dialog-bg {
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+}
+
+@supports not ((backdrop-filter: none) or (-webkit-backdrop-filter: none)) {
+  .x-dialog-bg {
+    background-color: rgb(50, 50, 50);
+  }
 }
 </style>
