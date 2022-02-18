@@ -90,7 +90,11 @@ watch(
     const nextTime = formatDate(props.time, 'HHmmss');
 
     for (let i = 0; i < flippers.length; i++) {
-      if (nowTime[i] !== nextTime[i]) {
+      if (
+        nowTime[i] !== nextTime[i] ||
+        nowTime[i] !== flippers[i]?.value?.frontText ||
+        nextTime[i] !== flippers[i]?.value?.backText
+      ) {
         if (props.direction === 'up')
           flippers[i]?.value?.flipUp(nowTime[i], nextTime[i]);
         else flippers[i]?.value?.flipDown(nowTime[i], nextTime[i]);

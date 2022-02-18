@@ -59,6 +59,8 @@ function setBack(text: number) {
 }
 
 defineExpose({
+  frontText,
+  backText,
   flipDown,
   flipUp,
   setFront,

@@ -4,7 +4,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-05 11:53:15
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-02-17 16:33:53
+ * @LastEditTime: 2022-02-18 11:11:29
  * @Description: 通用函数
  */
 
@@ -199,12 +199,15 @@ export function isVersionGreaterThan(
  * 正确的间隔器。每次休眠后都会重新计算
  * @param cb 间隔回调函数
  * @param time 间隔时间 单位：ms
+ * @param immediate 是否立即执行一次
  */
-export function realInterval(cb: Function, time = 1000) {
+export function realInterval(cb: Function, time = 1000, immediate = true) {
+  if (immediate) cb();
   let interval = setInterval(cb, time);
 
   document.onvisibilitychange = () => {
     if (document.visibilityState === 'visible') {
+      if (immediate) cb();
       interval = setInterval(cb, time);
     } else {
       clearInterval(interval);

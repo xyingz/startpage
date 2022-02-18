@@ -34,13 +34,13 @@ function getCurrentWeather() {
 }
 getCurrentWeather();
 
-// 一小时更新一次
-realInterval(getCurrentWeather, 60 * 60 * 1000);
-
 const dateStr = ref(formatDate(new Date(), 'yyyy-MM-dd'));
+
+// 一小时更新一次
 realInterval(() => {
   dateStr.value = formatDate(new Date(), 'yyyy-MM-dd');
-});
+  getCurrentWeather();
+}, 60 * 60 * 1000);
 
 const solar = computed(() => Solar.fromDate(new Date()));
 const lunarStr = computed(
