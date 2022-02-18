@@ -41,7 +41,7 @@
               </q-item-label>
             </q-item-section>
             <q-item-section side>
-              <q-toggle v-model="isSaveDefaultSearchEngine" color="blue" />
+              <q-toggle v-model="isSaveDefaultSearchEngine" color="primary" />
             </q-item-section>
           </q-item>
 
@@ -53,7 +53,7 @@
               </q-item-label>
             </q-item-section>
             <q-item-section side>
-              <q-toggle v-model="isDefaultFocusMode" color="blue" />
+              <q-toggle v-model="isDefaultFocusMode" color="primary" />
             </q-item-section>
           </q-item>
 
@@ -73,7 +73,7 @@
                   label="清空"
                   @click="clearSearchRecord"
                 />
-                <q-toggle v-model="isSaveSearchRecord" color="blue" />
+                <q-toggle v-model="isSaveSearchRecord" color="primary" />
               </div>
             </q-item-section>
           </q-item>
@@ -84,7 +84,7 @@
               <q-item-label caption>默认每次搜索后输入框清空</q-item-label>
             </q-item-section>
             <q-item-section side>
-              <q-toggle v-model="isSaveInput" color="blue" />
+              <q-toggle v-model="isSaveInput" color="primary" />
             </q-item-section>
           </q-item>
 
@@ -99,7 +99,7 @@
               </q-item-label>
             </q-item-section>
             <q-item-section side>
-              <q-toggle v-model="isShowInfoPanel" color="blue" />
+              <q-toggle v-model="isShowInfoPanel" color="primary" />
             </q-item-section>
           </q-item>
 
@@ -237,7 +237,7 @@
               </q-item-label>
             </q-item-section>
             <q-item-section side>
-              <q-toggle v-model="isSaveBackgroundImage" color="blue" />
+              <q-toggle v-model="isSaveBackgroundImage" color="primary" />
             </q-item-section>
           </q-item>
 
@@ -345,7 +345,7 @@
               <q-item-label>Battery too low</q-item-label>
             </q-item-section>
             <q-item-section side>
-              <q-toggle v-model="notif1" color="blue" val="battery" />
+              <q-toggle v-model="notif1" color="primary" val="battery" />
             </q-item-section>
           </q-item>
 
