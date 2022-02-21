@@ -62,6 +62,20 @@ export default () => {
     }
 
     if (
+      store.state.controllers.backgroundImage?.thumbnailUrl &&
+      !checkImageCached(store.state.controllers.backgroundImage.thumbnailUrl)
+    ) {
+      get(store.state.controllers.backgroundImage.thumbnailUrl);
+    }
+
+    if (
+      store.state.controllers.backgroundImage?.thumbnailUrl_M &&
+      !checkImageCached(store.state.controllers.backgroundImage.thumbnailUrl_M)
+    ) {
+      get(store.state.controllers.backgroundImage.thumbnailUrl_M);
+    }
+
+    if (
       store.state.controllers.backgroundImage?.middleUrl &&
       !checkImageCached(store.state.controllers.backgroundImage.middleUrl)
     ) {
