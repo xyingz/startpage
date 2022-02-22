@@ -4,77 +4,94 @@
       v-if="!isDeviceMobile() && store.state.controllers.showBeginnerTour"
     />
 
+    <!-- 背景虚化遮罩层 -->
     <div
       class="fit absolute shadow-5 x-home-bg"
-      :class="{ 'x-home-filter': store.state.controllers.focusMode }"
+      :class="{
+        'x-home-filter': store.state.controllers.focusMode,
+        'x-home-filter-watch': watchBgImage
+      }"
       @click.passive="onFocusOut"
     />
-    <div class="column full-height" @click.passive="onFocusOut">
-      <div class="absolute-top-right q-mr-md q-mt-sm">
-        <q-btn flat round size="sm" icon="favorite_border" @click.stop>
-          <q-tooltip anchor="bottom start" self="center end">
-            如果喜欢本页面，可以设为主页。
-            <br />
-            也可以按 <em>Ctrl+D</em> 快速添加到收藏夹~
-          </q-tooltip>
-        </q-btn>
 
-        <q-btn
-          flat
-          round
-          size="sm"
-          icon="settings"
-          @click="
-            () => store.dispatch(CONTROLLERS.SET_SETTING_DIALOG_VISIBLE, true)
-          "
-        />
-      </div>
+    <transition name="fade">
       <div
-        class="column full-width justify-end q-gutter-y-md"
-        :class="`col-${$q.screen.lt.sm && isShowKeyboard ? 9 : 5}`"
+        v-show="!watchBgImage"
+        class="column full-height"
+        @click.passive="onFocusOut"
       >
-        <InfoPanelComponent
-          v-if="store.state.settings.userSettings.isShowInfoPanel"
-        />
-        <SearchBarComponent />
-      </div>
-
-      <div
-        class="q-py-md"
-        :class="`col-${$q.screen.lt.sm && isShowKeyboard ? 3 : 7}`"
-      >
-        <ToolboxComponent />
-
-        <transition name="fade">
-          <div
-            v-if="!isShowKeyboard && store.state.controllers.focusMode"
-            class="absolute-bottom text-grey-6"
-            style="margin-bottom: 10rem"
-            @click.stop
-          >
-            <span class="x-home-aphorisms" @click.stop="onCopyAphorisms">
-              <sup>『</sup> {{ randomAphorisms?.content }} <sub>』</sub>
-            </span>
-            <q-tooltip
-              :delay="500"
-              anchor="top middle"
-              self="bottom middle"
-              transition-show="scale"
-              transition-hide="scale"
-              class="shadow-5"
-              style="background-color: #75757555"
-            >
-              {{ randomAphorisms?.source }} {{ randomAphorisms?.author }}
+        <!-- 右上角功能区 -->
+        <div class="absolute-top-right q-mr-md q-mt-sm">
+          <q-btn flat round size="sm" icon="favorite_border" @click.stop>
+            <q-tooltip anchor="bottom start" self="center end">
+              如果喜欢本页面，可以设为主页。
+              <br />
+              也可以按 <em>Ctrl+D</em> 快速添加到收藏夹~
             </q-tooltip>
-          </div>
-        </transition>
+          </q-btn>
+
+          <q-btn
+            flat
+            round
+            size="sm"
+            icon="settings"
+            @click="
+              () => store.dispatch(CONTROLLERS.SET_SETTING_DIALOG_VISIBLE, true)
+            "
+          />
+        </div>
+
+        <!-- 信息、搜索区 -->
+        <div
+          class="column full-width justify-end q-gutter-y-md"
+          :class="`col-${$q.screen.lt.sm && isShowKeyboard ? 9 : 5}`"
+        >
+          <InfoPanelComponent
+            v-if="store.state.settings.userSettings.isShowInfoPanel"
+          />
+          <SearchBarComponent />
+        </div>
+
+        <!-- 工具箱区域 -->
+        <div
+          class="q-py-md"
+          :class="`col-${$q.screen.lt.sm && isShowKeyboard ? 3 : 7}`"
+        >
+          <ToolboxComponent />
+
+          <transition name="fade">
+            <div
+              v-if="!isShowKeyboard && store.state.controllers.focusMode"
+              class="absolute-bottom text-grey-6"
+              style="margin-bottom: 10rem"
+              @click.stop
+            >
+              <span class="x-home-aphorisms" @click.stop="onCopyAphorisms">
+                <sup>『</sup> {{ randomAphorisms?.content }} <sub>』</sub>
+              </span>
+              <q-tooltip
+                :delay="500"
+                anchor="top middle"
+                self="bottom middle"
+                transition-show="scale"
+                transition-hide="scale"
+                class="shadow-5"
+                style="background-color: #75757555"
+              >
+                {{ randomAphorisms?.source }} {{ randomAphorisms?.author }}
+              </q-tooltip>
+            </div>
+          </transition>
+        </div>
       </div>
-    </div>
+    </transition>
 
     <SettingDrawer />
 
+    <!-- 右下角切换图片按钮 -->
     <q-btn
       v-show="!store.state.controllers.focusMode"
+      v-hover="hoverHandler"
       class="absolute-bottom-right q-mb-lg q-mr-md"
       round
       flat
@@ -95,8 +112,8 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-import { computed, ref, watch } from 'vue';
+<script lang="ts">
+import { defineComponent, computed, ref, watch } from 'vue';
 import InfoPanelComponent from '@/components/InfoPanel.vue';
 import SearchBarComponent from '@/components/SearchBar.vue';
 import ToolboxComponent from '@/components/tools/ToolBox.vue';
@@ -107,9 +124,18 @@ import useBackgroundImage from '@/composition/use-background-image';
 import { isDeviceMobile } from '@/utils/check';
 import { copyToClipboard, useQuasar } from 'quasar';
 
+import HoverDirective from '@/directives/hover';
 import SettingDrawer from './HomeSettingDrawer.vue';
 import BeginnerTourComponent from './BeginnerTourPage.vue';
 
+export default defineComponent({
+  directives: {
+    hover: HoverDirective
+  }
+});
+</script>
+
+<script lang="ts" setup>
 const store = useStore();
 
 function onFocusOut() {
@@ -172,6 +198,17 @@ const minBlur = computed(() => store.state.settings?.userSettings.minBlur || 0);
 const maxBlur = computed(
   () => store.state.settings?.userSettings.maxBlur || 20
 );
+
+const watchBgImage = ref(false);
+const hoverHandler = {
+  enter: () => {
+    watchBgImage.value = true;
+  },
+  leave: () => {
+    watchBgImage.value = false;
+  },
+  delay: 1000
+};
 </script>
 
 <style scoped lang="scss">
@@ -189,6 +226,10 @@ $max-blur: calc(v-bind(maxBlur) * 1px);
 
 .x-home-filter {
   filter: blur(#{$max-blur});
+}
+
+.x-home-filter-watch {
+  filter: none !important;
 }
 
 .x-home-aphorisms {

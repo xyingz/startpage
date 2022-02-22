@@ -73,18 +73,6 @@ const searchEngines: Array<SearchEngine> = [
         url: 'https://www.google.com/maps?q='
       }
     ]
-  },
-  {
-    name: 'magi',
-    icon: 'magi',
-    comment: 'Magi（搜人、事、物、概念，或者直接提问）',
-    website: 'https://magi.com/',
-    searchs: [
-      {
-        name: '网页',
-        url: 'https://magi.com/search?q='
-      }
-    ]
   }
 ];
 
