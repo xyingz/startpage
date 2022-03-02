@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-20 16:57:49
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-01-26 17:05:36
+ * @LastEditTime: 2022-03-02 10:21:29
  * @Description: url 配置
  */
 
@@ -15,5 +15,9 @@ export const weatherUrl = `https://api.seniverse.com/v3/weather/now.json?key=${k
 
 export const iconUrl = `https://ico.kucat.cn/get.php`;
 export const imageUrl = `https://api.xiaopangying.com/image/bing`;
+
+// 搜索建议url
+// export const suggestionUrl = `https://suggestion.baidu.com/su?p=3&ie=UTF-8&cb=&wd=`;
+export const suggestionUrl = `https://api.xiaopangying.com/search/suggest?wd=`;
 
 export default {};

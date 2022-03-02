@@ -70,6 +70,25 @@
       <q-menu v-model="showSearchRecord" no-focus fit dark>
         <q-list dense>
           <q-item
+            v-for="(suggestion, index) in searchSuggestion"
+            :key="`${suggestion}-${index}`"
+            v-close-popup
+            class="x-search-record"
+            clickable
+            @click="() => onSearchRecord(suggestion)"
+          >
+            <q-item-section>
+              <q-item-label>{{ suggestion }}</q-item-label>
+            </q-item-section>
+          </q-item>
+
+          <q-item v-if="searchSuggestion.length && searchRecord?.length">
+            <q-item-section>
+              <q-separator />
+            </q-item-section>
+          </q-item>
+
+          <q-item
             v-for="(record, index) in searchRecord"
             :key="`${record}-${index}`"
             v-close-popup
@@ -112,11 +131,12 @@
 import { ref, onMounted, computed, watch } from 'vue';
 import { CONTROLLERS, SETTINGS } from '@/store/mutation-types';
 import { useStore } from '@/store/index';
-import { iconUrl } from '@/api/url';
+import { iconUrl, suggestionUrl } from '@/api/url';
 import {
   saveDefaultSearchEngineIdx,
   saveSearchRecord
 } from '@/config/set-data';
+import { get } from '@/utils/http/requests';
 </script>
 
 <script lang="ts" setup>
@@ -296,8 +316,14 @@ watch(
   }
 );
 
-// 实时搜索记录
-const searchRecord = ref(store.state.settings.searchRecord);
+// 实时搜索记录。只显示10条
+const privateRecord = ref(store.state.settings.searchRecord?.slice(0, 10));
+const searchRecord = computed({
+  get: () => privateRecord.value,
+  set: val => {
+    privateRecord.value = val?.slice(0, 10);
+  }
+});
 // 深度监听，发现变化及时更新
 watch(
   () => store.state.settings.searchRecord,
@@ -309,6 +335,10 @@ watch(
   }
 );
 
+// 实时搜索建议
+const searchSuggestion = ref<string[]>([]);
+
+// 监听输入变化
 watch(
   () => searchText.value,
   val => {
@@ -316,8 +346,17 @@ watch(
       record => record.indexOf(val) !== -1
     );
 
+    get<any>(`${suggestionUrl}${val}`).then(res => {
+      if (res[1]) {
+        searchSuggestion.value = res[1].suggests;
+      }
+    });
+
     // 没有字符时隐藏搜索记录
-    if (searchRecord.value?.length && searchText.value.length) {
+    if (
+      (searchSuggestion.value || searchRecord.value?.length) &&
+      searchText.value.length
+    ) {
       showSearchRecord.value = true;
     } else {
       showSearchRecord.value = false;
