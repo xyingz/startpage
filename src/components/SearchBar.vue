@@ -515,6 +515,7 @@ function onEnter() {
       }
     }
     searchText.value = selectList[index] ?? '';
+    onSearch();
   }
 }
 </script>
