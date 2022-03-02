@@ -495,7 +495,7 @@ function onEnter() {
     }
     searchText.value = searchRecord.value?.[index] ?? '';
     onSearch();
-  } else if (!showSearchRecord.value) {
+  } else if (!showSearchRecord.value || selectedRecordItem.value === -1) {
     onSearch();
   } else {
     // 搜索选择的内容
