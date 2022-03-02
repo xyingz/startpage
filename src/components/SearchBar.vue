@@ -75,7 +75,7 @@
             v-close-popup
             class="x-search-record"
             clickable
-            @click="() => onSearchRecord(suggestion)"
+            @click="() => onClickRecord(suggestion)"
           >
             <q-item-section>
               <q-item-label>{{ suggestion }}</q-item-label>
@@ -94,7 +94,7 @@
             v-close-popup
             class="x-search-record"
             clickable
-            @click="() => onSearchRecord(record)"
+            @click="() => onClickRecord(record)"
           >
             <q-item-section>
               <q-item-label>{{ record }}</q-item-label>
@@ -285,8 +285,16 @@ function onSearch() {
  * 搜索记录事件。点击或选择搜索记录触发的事件
  * @param record 搜索记录
  */
-function onSearchRecord(record: string) {
+function onClickRecord(record: string) {
   searchText.value = record;
+
+  // 保存搜索记录
+  if (store.state.settings.userSettings.isSaveSearchRecord) {
+    store
+      .dispatch(SETTINGS.SET_SEARCH_RECORD, searchText.value)
+      .then(saveSearchRecord);
+  }
+
   handleSearch();
 }
 
@@ -317,9 +325,14 @@ watch(
 );
 
 // 实时搜索记录。只显示10条
-const privateRecord = ref(store.state.settings.searchRecord?.slice(0, 10));
+const privateRecord = ref(store.state.settings.searchRecord);
 const searchRecord = computed({
-  get: () => privateRecord.value,
+  get: () =>
+    store.state.settings.searchRecord
+      ?.filter(
+        record => !searchText.value || record.indexOf(searchText.value) !== -1
+      )
+      .slice(0, 10),
   set: val => {
     privateRecord.value = val?.slice(0, 10);
   }
@@ -346,6 +359,7 @@ watch(
       record => record.indexOf(val) !== -1
     );
 
+    // 获取建议
     get<any>(`${suggestionUrl}${val}`).then(res => {
       if (res[1]) {
         searchSuggestion.value = res[1].suggests;
@@ -366,13 +380,18 @@ watch(
 
 function onDeleteRecord(record: string) {
   store.dispatch(SETTINGS.DELETE_SEARCH_RECORD, record).then(saveSearchRecord);
+  inputBarRef.value?.focus();
+  if (searchSuggestion.value || searchRecord.value?.length)
+    showSearchRecord.value = true;
 }
 
 function onClear() {
   store.dispatch(SETTINGS.CLEAR_SEAECH_RECORD).then(saveSearchRecord);
+  inputBarRef.value?.focus();
+  if (searchSuggestion.value) showSearchRecord.value = true;
 }
 
-// 按下键，显示搜索记录。如果已经显示，则可以上下选择内容
+// 按下键，显示搜索 建议 / 记录。如果已经显示，则可以上下选择内容
 const selectedRecordItem = ref(-1);
 const selectedDirection = ref<'up' | 'down'>('down');
 
@@ -381,11 +400,11 @@ watch(
   value => {
     if (!value) {
       selectedRecordItem.value = -1;
-    }
+    } else if (!searchText.value) searchSuggestion.value = [];
   }
 );
 
-// 按键下，选择搜索记录
+// 按键下，选择搜索 建议 / 记录
 function onKeyDown() {
   if (!showSearchRecord.value) {
     showSearchRecord.value = true;
@@ -420,7 +439,7 @@ function onKeyDown() {
   }
 }
 
-// 按键上，选择搜索记录
+// 按键上，选择搜索 建议 / 记录
 function onKeyUp() {
   if (!showSearchRecord.value) return;
 
@@ -457,8 +476,8 @@ function onKeyUp() {
 /*  1、没有输入搜索内容，搜索记录关闭，因为是空值，直接返回
 /*  2、没有输入搜索内容，搜索记录打开，没有选择任何内容，直接返回
 /*  3、没有输入搜索内容，搜索记录打开，选择了搜索记录，直接搜索选择内容
-/*  4、输入了搜索内容，搜索记录关闭，直接搜索输入内容
-/*  5、输入了搜索内容，搜索记录打开，这时候是把对应的搜索记录内容填充到输入框中，关闭搜索记录框。此时如果再次按下回车键，则会搜索输入内容
+/*  4、输入了搜索内容，没有选择搜索建议/记录，直接搜索输入内容
+/*  5、输入了搜索内容，选择了搜索建议/记录，选择后按下回车搜索选择的内容
  */
 function onEnter() {
   if (!searchText.value.trim()) {
@@ -481,15 +500,21 @@ function onEnter() {
   } else {
     // 搜索选择的内容
     let index = selectedRecordItem.value;
+
+    // 有输入内容是包含建议和记录的，所以先合并这两个内容列表
+    const selectList = [
+      ...searchSuggestion.value,
+      ...(searchRecord.value ?? [])
+    ];
     // 因为往下选择是后加，所以要 -1
     if (selectedDirection.value === 'down') {
       if (selectedRecordItem.value === 0) {
-        index = (searchRecord.value?.length ?? 0) - 1;
+        index = (selectList.length ?? 0) - 1;
       } else {
         index -= 1;
       }
     }
-    searchText.value = searchRecord.value?.[index] ?? '';
+    searchText.value = selectList[index] ?? '';
   }
 }
 </script>
