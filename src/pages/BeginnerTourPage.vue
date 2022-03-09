@@ -39,6 +39,7 @@ const tips = ref(
 onBeforeMount(() => {
   // 在挂载就绪之前需要一些操作
   store.dispatch(CONTROLLERS.SET_FOCUS_MODE, true);
+  store.dispatch(CONTROLLERS.SET_SHOW_TOOLBOX, false);
   store.dispatch(CONTROLLERS.SET_ADD_TOOL_DIALOG_VISIBLE, false);
   store.dispatch(CONTROLLERS.SET_SETTING_DIALOG_VISIBLE, false);
 });
@@ -50,19 +51,19 @@ const isClickableCircle = ref(false);
 const stepName = ref([
   'start',
   'focus_mode',
-  'time_panel',
-  'info_panel',
-  'search',
-  'not_focus_mode',
-  'tools_btn',
+  // 'time_panel',
+  // 'info_panel',
+  // 'search',
+  // 'not_focus_mode',
+  // 'tools_btn',
   'tools_panel',
-  'add_tool_panel',
-  'add_tool_example',
-  'add_custom_tool',
-  'add_custom_tool_panel',
-  'change_bg',
+  // 'add_tool_panel',
+  // 'add_tool_example',
+  // 'add_custom_tool',
+  // 'add_custom_tool_panel',
+  // 'change_bg',
   'settings',
-  'settings_panel',
+  // 'settings_panel',
   'end'
 ]);
 const step = ref(-1);
@@ -154,8 +155,9 @@ function nextNav() {
         height = '40%';
         radius = '10px';
         tips.value =
-          '工具箱是导航网站的快捷通道之一。点击“+”可以添加您喜欢的任意网站';
-        textTop = '34%';
+          '工具箱是导航网站的快捷通道之一，它在聚焦模式下是收缩状态的，点击下拉按钮展开。点击“+”可以添加您喜欢的任意网站';
+        textTop = '60%';
+        store.dispatch(CONTROLLERS.SET_SHOW_TOOLBOX, true);
         break;
 
       case 'add_tool_panel': // 添加工具对话框

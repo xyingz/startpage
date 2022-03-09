@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-11 15:50:00
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-02-15 18:07:17
+ * @LastEditTime: 2022-03-09 17:12:40
  * @Description: 初始化配置
  */
 import store from '@/store';
@@ -109,6 +109,9 @@ function initDefaultSearchEngineIdx() {
  * 检查版本号并保存新版本号
  */
 function checkVersion() {
+  // 测试用
+  // LocalStorage.remove(VERSION);
+
   const savedVersion = LocalStorage.getItem<string>(VERSION);
   if (savedVersion === APP_VERSION) return false;
 
