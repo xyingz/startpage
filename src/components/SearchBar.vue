@@ -30,6 +30,7 @@
       @keydown.up.exact="onKeyUp"
       @keydown.down.exact="onKeyDown"
       @focusin="onFocus"
+      @update:model-value="setTyping"
     >
       <!-- 如果有其他搜索url，提供选择 -->
       <template
@@ -235,6 +236,14 @@ const placeholderText = computed(() => {
  * 搜索文本
  */
 const searchText = ref('');
+/**
+ * 原始文本（建议时使用）
+ */
+const originText = ref('');
+
+function setTyping(val: any) {
+  originText.value = val;
+}
 
 /**
  * 搜索标准动作。所有搜索动作最后都调用这个方法实施搜索
@@ -330,7 +339,7 @@ const searchRecord = computed({
   get: () =>
     store.state.settings.searchRecord
       ?.filter(
-        record => !searchText.value || record.indexOf(searchText.value) !== -1
+        record => !originText.value || record.indexOf(originText.value) !== -1
       )
       .slice(0, 10),
   set: val => {
@@ -353,25 +362,25 @@ const searchSuggestion = ref<string[]>([]);
 
 // 监听输入变化
 watch(
-  () => searchText.value,
-  val => {
+  () => originText.value,
+  async val => {
     searchRecord.value = store.state.settings.searchRecord?.filter(
       record => record.indexOf(val) !== -1
     );
 
     // 获取建议
-    get<any>(`${suggestionUrl}${val}`).then(res => {
-      if (res[1]) {
-        searchSuggestion.value = res[1].suggests;
-      }
-    });
+    const res = await get<any>(`${suggestionUrl}${val}`);
+    if (res[1]) {
+      searchSuggestion.value = res[1].suggests;
+    }
 
     // 没有字符时隐藏搜索记录
-    if (
-      (searchSuggestion.value || searchRecord.value?.length) &&
-      searchText.value.length
-    ) {
-      showSearchRecord.value = true;
+    if (originText.value.length) {
+      if (searchSuggestion.value.length || searchRecord.value?.length) {
+        showSearchRecord.value = true;
+      } else {
+        showSearchRecord.value = false;
+      }
     } else {
       showSearchRecord.value = false;
     }
@@ -430,6 +439,13 @@ function onKeyDown() {
     }
   }
 
+  // 将建议内容填入搜索框
+  if (selectedRecordItem.value < searchSuggestion.value.length) {
+    searchText.value = searchSuggestion.value[selectedRecordItem.value];
+  } else {
+    searchText.value = originText.value;
+  }
+
   eleList[selectedRecordItem.value].classList.add('x-search-record-active');
 
   if (selectedRecordItem.value >= eleList.length - 1) {
@@ -440,8 +456,11 @@ function onKeyDown() {
 }
 
 // 按键上，选择搜索 建议 / 记录
-function onKeyUp() {
+function onKeyUp(e: KeyboardEvent) {
   if (!showSearchRecord.value) return;
+
+  // 显示记录的时候，要阻止按上键光标前置的事件
+  e.preventDefault();
 
   const eleList = document.querySelectorAll('.x-search-record');
   if (!eleList.length) return;
@@ -467,6 +486,13 @@ function onKeyUp() {
     selectedRecordItem.value = eleList.length - 1;
   } else {
     selectedRecordItem.value -= 1;
+  }
+
+  // 将建议内容填入搜索框
+  if (selectedRecordItem.value < searchSuggestion.value.length) {
+    searchText.value = searchSuggestion.value[selectedRecordItem.value];
+  } else {
+    searchText.value = originText.value;
   }
 
   eleList[selectedRecordItem.value].classList.add('x-search-record-active');
