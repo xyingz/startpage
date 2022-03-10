@@ -9,7 +9,7 @@
       >
         <div class="text-caption">
           {{ date.toLocaleDateString() }} 农历 {{ lunarStr }}
-          <q-popup-proxy :offset="[200, 25]">
+          <q-popup-proxy v-if="!isDeviceMobile()" :offset="[200, 25]">
             <div class="q-gutter-sm row items-start">
               <q-date
                 v-model="dateStr"
@@ -103,6 +103,7 @@ import getWeather from '@/api/weather';
 import { realInterval } from '@/utils/common';
 import useDateInfo from '@/composition/use-date-info';
 import useCopy from '@/composition/use-copy';
+import { isDeviceMobile } from '@/utils/check';
 import TimeComponent from './time/Time.vue';
 
 const weatherStr = ref('');
