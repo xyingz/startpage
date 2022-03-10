@@ -264,6 +264,7 @@ function handleSearch() {
 
       if (!store.state.settings.userSettings.isSaveInput) {
         searchText.value = '';
+        originText.value = '';
       }
     }
   }
