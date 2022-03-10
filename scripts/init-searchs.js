@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2022-02-15 16:38:16
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-02-22 10:01:41
+ * @LastEditTime: 2022-03-10 12:13:20
  * @Description: 初始化搜索引擎
  */
 
@@ -104,6 +104,27 @@ const json = [
       {
         name: '地图',
         url: 'https://map.sogou.com/index?query='
+      }
+    ]
+  },
+  {
+    name: '360',
+    icon: '360',
+    comment: '360',
+    website: 'https://www.so.com/',
+    searchs: [
+      {
+        name: '网页',
+        url: 'https://www.so.com/s?ie=utf-8&q='
+      },
+      {
+        name: '图片',
+        url: 'https://image.so.com/i?ie=utf-8&q='
+      },
+      {
+        name: '视频',
+        url: 'https://tv.360kan.com/s?q=',
+        params: '&src=tab_www'
       }
     ]
   },
