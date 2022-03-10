@@ -45,6 +45,7 @@
         <div
           class="column full-width justify-end q-gutter-y-md"
           :class="`col-${$q.screen.lt.sm && isShowKeyboard ? 9 : 5}`"
+          @click.stop="store.dispatch(CONTROLLERS.SET_FOCUS_MODE, true)"
         >
           <InfoPanelComponent
             v-if="store.state.settings.userSettings.isShowInfoPanel"
@@ -66,7 +67,10 @@
               style="margin-bottom: 10rem"
               @click.stop
             >
-              <span class="x-home-aphorisms" @click.stop="onCopyAphorisms">
+              <span
+                class="x-home-aphorisms"
+                @click.stop="() => onCopy(randomAphorisms?.content)"
+              >
                 <sup>『</sup> {{ randomAphorisms?.content }} <sub>』</sub>
               </span>
               <q-tooltip
@@ -122,8 +126,8 @@ import { CONTROLLERS } from '@/store/mutation-types';
 import { mobileKeyboardCallback, random } from '@/utils/common';
 import useBackgroundImage from '@/composition/use-background-image';
 import { isDeviceMobile } from '@/utils/check';
-import { copyToClipboard, useQuasar } from 'quasar';
-
+import { useQuasar } from 'quasar';
+import useCopy from '@/composition/use-copy';
 import HoverDirective from '@/directives/hover';
 import SettingDrawer from './HomeSettingDrawer.vue';
 import BeginnerTourComponent from './BeginnerTourPage.vue';
@@ -179,15 +183,7 @@ watch(
 );
 
 const $q = useQuasar();
-function onCopyAphorisms() {
-  copyToClipboard(randomAphorisms.value.content).then(() => {
-    $q.notify({
-      message: '已复制到剪贴板',
-      position: 'center',
-      timeout: 2000
-    });
-  });
-}
+const { onCopy } = useCopy();
 
 const { initImage, changeBgImage, loadingChangeImage } = useBackgroundImage();
 
