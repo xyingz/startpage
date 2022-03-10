@@ -98,14 +98,23 @@
     ]
   },
   {
-    "name": "magi",
-    "icon": "magi",
-    "comment": "Magi（搜人、事、物、概念，或者直接提问）",
-    "website": "https://magi.com/",
+    "name": "360",
+    "icon": "360",
+    "comment": "360",
+    "website": "https://www.so.com/",
     "searchs": [
       {
         "name": "网页",
-        "url": "https://magi.com/search?q="
+        "url": "https://www.so.com/s?ie=utf-8&q="
+      },
+      {
+        "name": "图片",
+        "url": "https://image.so.com/i?ie=utf-8&q="
+      },
+      {
+        "name": "视频",
+        "url": "https://tv.360kan.com/s?q=",
+        "params": "&src=tab_www"
       }
     ]
   },
@@ -118,6 +127,18 @@
       {
         "name": "视频",
         "url": "https://www.bilibili.com/search?keyword="
+      }
+    ]
+  },
+  {
+    "name": "magi",
+    "icon": "magi",
+    "comment": "Magi（搜人、事、物、概念，或者直接提问）",
+    "website": "https://magi.com/",
+    "searchs": [
+      {
+        "name": "网页",
+        "url": "https://magi.com/search?q="
       }
     ]
   }
