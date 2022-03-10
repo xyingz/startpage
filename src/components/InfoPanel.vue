@@ -11,17 +11,44 @@
           {{ date.toLocaleDateString() }} 农历 {{ lunarStr }}
           <q-popup-proxy :offset="[200, 25]">
             <div class="q-gutter-sm row items-start">
-              <q-date v-model="dateStr" mask="YYYY-MM-DD HH:mm:ss" />
-              <q-time v-model="dateStr" mask="YYYY-MM-DD HH:mm:ss" />
-            </div>
-            <div class="row items-center justify-end q-pa-sm q-gutter-sm">
-              <q-btn
-                v-close-popup
-                label="今天"
-                color="primary"
-                @click="() => (date = createDate())"
+              <q-date
+                v-model="dateStr"
+                mask="YYYY-MM-DD HH:mm:ss"
+                @update:model-value="onClickDate"
+                @navigation="onClickDate"
               />
-              <q-btn v-close-popup label="关闭" color="primary" outline />
+              <q-time
+                v-model="dateStr"
+                mask="YYYY-MM-DD HH:mm:ss"
+                @update:model-value="onClickDate"
+              />
+            </div>
+            <div class="row items-center">
+              <q-chip square color="secondary" text-color="white">
+                <q-avatar color="red">1</q-avatar>
+                选日期
+              </q-chip>
+
+              <q-chip square color="secondary" text-color="white">
+                <q-avatar color="red">2</q-avatar>
+                选时间
+              </q-chip>
+
+              <q-chip square color="secondary" text-color="white">
+                <q-avatar color="red">3</q-avatar>
+                查看具体信息
+              </q-chip>
+
+              <q-space />
+              <div class="q-pa-sm q-gutter-sm">
+                <q-btn
+                  v-close-popup
+                  label="今天"
+                  color="primary"
+                  @click="onClickToday"
+                />
+                <q-btn v-close-popup label="关闭" color="primary" outline />
+              </div>
             </div>
           </q-popup-proxy>
         </div>
@@ -90,8 +117,12 @@ function getCurrentWeather() {
 }
 getCurrentWeather();
 
+// 一小时更新一次
+realInterval(() => {
+  getCurrentWeather();
+}, 60 * 60 * 1000);
+
 const {
-  createDate,
   date,
   dateStr,
   lunarStr,
@@ -99,14 +130,18 @@ const {
   lunarInfoStr,
   solarInfoStr,
   fotoInfoStr,
-  taoInfoStr
+  taoInfoStr,
+  startDate,
+  stopDate
 } = useDateInfo();
 
-// 一小时更新一次
-realInterval(() => {
-  date.value = createDate();
-  getCurrentWeather();
-}, 60 * 60 * 1000);
+function onClickDate() {
+  stopDate();
+}
+
+function onClickToday() {
+  startDate();
+}
 
 const { onCopy } = useCopy();
 </script>

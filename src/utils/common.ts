@@ -4,7 +4,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-05 11:53:15
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-02-18 11:11:29
+ * @LastEditTime: 2022-03-10 13:50:04
  * @Description: 通用函数
  */
 
@@ -213,4 +213,6 @@ export function realInterval(cb: Function, time = 1000, immediate = true) {
       clearInterval(interval);
     }
   };
+
+  return interval;
 }

@@ -2,12 +2,12 @@
  * @Author: JeremyJone
  * @Date: 2022-03-10 10:09:37
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-03-10 11:38:14
+ * @LastEditTime: 2022-03-10 13:58:54
  * @Description: 日期信息的显示钩子
  */
 import { ref, computed } from 'vue';
 import { Solar, Foto, Tao } from 'lunar-typescript';
-import { formatDate } from '@/utils/common';
+import { formatDate, realInterval } from '@/utils/common';
 
 export default () => {
   function createDate() {
@@ -24,6 +24,19 @@ export default () => {
       date.value = new Date(value);
     }
   });
+
+  let interval: number | undefined;
+  function startDate() {
+    interval = realInterval(() => {
+      date.value = createDate();
+    }, 1000);
+  }
+
+  startDate();
+
+  function stopDate() {
+    clearInterval(interval);
+  }
 
   const solar = computed(() => Solar.fromDate(new Date(date.value)));
   const lunarStr = computed(
@@ -68,6 +81,9 @@ export default () => {
     solarInfoStr,
     lunarInfoStr,
     fotoInfoStr,
-    taoInfoStr
+    taoInfoStr,
+
+    startDate,
+    stopDate
   };
 };
