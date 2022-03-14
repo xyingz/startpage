@@ -90,7 +90,7 @@
       </div>
     </transition>
 
-    <SettingDrawer />
+    <SettingDialog />
 
     <!-- 右下角切换图片按钮 -->
     <q-btn
@@ -129,7 +129,7 @@ import { isDeviceMobile } from '@/utils/check';
 import { useQuasar } from 'quasar';
 import useCopy from '@/composition/use-copy';
 import HoverDirective from '@/directives/hover';
-import SettingDrawer from './HomeSettingDrawer.vue';
+import SettingDialog from './HomeSettingDialog.vue';
 import BeginnerTourComponent from './BeginnerTourPage.vue';
 
 export default defineComponent({
