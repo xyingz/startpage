@@ -113,15 +113,16 @@ function getCurrentWeather() {
       weatherStr.value = res;
     } else {
       weatherStr.value = `${res[0].location.name} 当前：${res[0].now.temperature}°C ${res[0].now.text}`;
+
+      // 如果失败，可能是因为接口调用次数超了，1分钟后再次调用
+      setTimeout(getCurrentWeather, 60 * 1000);
     }
   });
 }
 getCurrentWeather();
 
-// 一小时更新一次
-realInterval(() => {
-  getCurrentWeather();
-}, 60 * 60 * 1000);
+// 一小时更新一次天气
+realInterval(getCurrentWeather, 60 * 60 * 1000);
 
 const {
   date,
