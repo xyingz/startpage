@@ -40,6 +40,7 @@ export const ADD_NOTE = 'ADD_NOTE';
 export const SET_NOTES = 'SET_NOTES';
 export const DELETE_NOTE = 'DELETE_NOTE';
 export const UPDATE_NOTE = 'UPDATE_NOTE';
+export const GET_NOTES_MAX_Z_INDEX = 'GET_NOTES_MAX_Z_INDEX';
 
 const settings = 'settings';
 export const SETTINGS = {
@@ -55,7 +56,8 @@ export const SETTINGS = {
   ADD_NOTE: `${settings}/${ADD_NOTE}`,
   SET_NOTES: `${settings}/${SET_NOTES}`,
   DELETE_NOTE: `${settings}/${DELETE_NOTE}`,
-  UPDATE_NOTE: `${settings}/${UPDATE_NOTE}`
+  UPDATE_NOTE: `${settings}/${UPDATE_NOTE}`,
+  GET_NOTES_MAX_Z_INDEX: `${settings}/${GET_NOTES_MAX_Z_INDEX}`
 };
 
 export default {};

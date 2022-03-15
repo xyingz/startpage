@@ -27,5 +27,5 @@ declare interface SettingsState {
   /**
    * 用户便签记录
    */
-  notes?: Array<Note>;
+  notes: Array<Note>;
 }

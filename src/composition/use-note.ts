@@ -8,14 +8,14 @@ export default (note: Note) => {
   const store = useStore();
 
   const tmpNote = ref({
-    width: 0,
-    height: 0,
-    top: 0,
-    left: 0,
+    width: 300,
+    height: 350,
+    top: 50,
+    left: 50,
     backgroundColor: '#f5f500',
     color: '#000000',
     opacity: 1,
-    zIndex: 1,
+    zIndex: store.getters[SETTINGS.GET_NOTES_MAX_Z_INDEX],
     isClose: false,
     ...note
   });
@@ -57,6 +57,14 @@ export default (note: Note) => {
    */
   function updateZIndex(zIndex: number) {
     tmpNote.value.zIndex = zIndex;
+    save();
+  }
+
+  /**
+   * 更新内容
+   */
+  function updateContent(content: string) {
+    tmpNote.value.content = content;
     save();
   }
 
@@ -139,6 +147,7 @@ export default (note: Note) => {
     updateOpacity,
     updateTextColor,
     updateZIndex,
+    updateContent,
 
     closeNote,
     addNote,

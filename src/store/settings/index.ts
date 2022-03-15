@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-12 14:50:46
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-03-15 11:14:25
+ * @LastEditTime: 2022-03-15 16:17:30
  * @Description: 用户可以自行配置的设置项
  */
 
@@ -18,6 +18,7 @@ import {
   CLEAR_SEAECH_RECORD,
   DELETE_NOTE,
   DELETE_SEARCH_RECORD,
+  GET_NOTES_MAX_Z_INDEX,
   REMOVE_TOOL,
   SAVE_USER_SETTINGS,
   SET_NOTES,
@@ -37,6 +38,19 @@ const store: Module<SettingsState, RootState> = {
     searchRecord: [],
     userSettings,
     notes: []
+  },
+
+  getters: {
+    [GET_NOTES_MAX_Z_INDEX]: state => {
+      let zIndex = 1;
+      if (state.notes?.length > 0) {
+        zIndex = state.notes.reduce((max, note) => {
+          return Math.max(max, note.zIndex ?? 1);
+        }, 1);
+      }
+
+      return zIndex;
+    }
   },
 
   mutations: {
