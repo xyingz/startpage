@@ -5,7 +5,7 @@ import { changeColorAlpha } from '@/utils/common';
 import { computed, ref } from 'vue';
 import { debounce } from 'quasar';
 
-export default (note: Note) => {
+export default (note?: Note) => {
   const store = useStore();
 
   const tmpNote = ref({

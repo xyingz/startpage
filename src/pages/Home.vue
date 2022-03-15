@@ -137,6 +137,31 @@
               :key="note.id"
               :note="note"
             />
+
+            <q-fab
+              v-model="funcBtn"
+              vertical-actions-align="left"
+              color="primary"
+              class="absolute-bottom-left q-ma-lg"
+              glossy
+              icon="keyboard_arrow_up"
+              direction="up"
+              @click.stop
+            >
+              <q-fab-action
+                label-position="right"
+                color="primary"
+                icon="format_list_bulleted"
+                label="打开便签列表"
+              />
+              <q-fab-action
+                label-position="right"
+                color="secondary"
+                icon="add_circle_outline"
+                label="新建便签"
+                @click="addNote"
+              />
+            </q-fab>
           </div>
         </transition>
       </div>
@@ -180,6 +205,7 @@ import { mobileKeyboardCallback, random } from '@/utils/common';
 import useBackgroundImage from '@/composition/use-background-image';
 import { isDeviceMobile } from '@/utils/check';
 import { useQuasar } from 'quasar';
+import useNote from '@/composition/use-note';
 import useCopy from '@/composition/use-copy';
 import HoverDirective from '@/directives/hover';
 import SettingDialog from './HomeSettingDialog.vue';
@@ -276,6 +302,9 @@ const hoverHandler = {
 };
 
 const notes = reactive<Array<Note>>(store.state.settings?.notes ?? []);
+const funcBtn = ref(false);
+
+const { addNote } = useNote();
 </script>
 
 <style scoped lang="scss">

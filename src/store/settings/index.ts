@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-12 14:50:46
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-03-15 16:17:30
+ * @LastEditTime: 2022-03-15 17:30:39
  * @Description: 用户可以自行配置的设置项
  */
 
@@ -133,7 +133,8 @@ const store: Module<SettingsState, RootState> = {
       state.searchRecord = list;
     },
     [ADD_NOTE](state, note: Note) {
-      state.notes?.push(note);
+      const n = { id: uuid(12), content: '', ...note };
+      state.notes?.push(n);
     },
     [UPDATE_NOTE](state, note: Note) {
       const list = state.notes ?? [];
