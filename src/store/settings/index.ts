@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-12 14:50:46
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-02-15 17:23:30
+ * @LastEditTime: 2022-03-15 11:14:25
  * @Description: 用户可以自行配置的设置项
  */
 
@@ -13,15 +13,19 @@ import { uuid } from '@/utils/common';
 import GlobalConfig from '@/config/global';
 import { userSettings } from '@/config/data/user-settings';
 import {
+  ADD_NOTE,
   ADD_TOOL,
   CLEAR_SEAECH_RECORD,
+  DELETE_NOTE,
   DELETE_SEARCH_RECORD,
   REMOVE_TOOL,
   SAVE_USER_SETTINGS,
+  SET_NOTES,
   SET_SEARCH_ENGINE_LIST,
   SET_SEARCH_RECORD,
   SET_TODAY_BG,
-  SET_TOOL_LIST
+  SET_TOOL_LIST,
+  UPDATE_NOTE
 } from '../mutation-types';
 
 const store: Module<SettingsState, RootState> = {
@@ -31,7 +35,8 @@ const store: Module<SettingsState, RootState> = {
     tools: [],
     searchEngines: [],
     searchRecord: [],
-    userSettings
+    userSettings,
+    notes: []
   },
 
   mutations: {
@@ -112,6 +117,30 @@ const store: Module<SettingsState, RootState> = {
       }
 
       state.searchRecord = list;
+    },
+    [ADD_NOTE](state, note: Note) {
+      state.notes?.push(note);
+    },
+    [UPDATE_NOTE](state, note: Note) {
+      const list = state.notes ?? [];
+      const index = list.findIndex(item => item.id === note.id);
+      if (index !== -1) {
+        list.splice(index, 1, note);
+      }
+
+      state.notes = list;
+    },
+    [DELETE_NOTE](state, note: Note) {
+      const list = state.notes ?? [];
+      const index = list.findIndex(item => item.id === note.id);
+      if (index !== -1) {
+        list.splice(index, 1);
+      }
+
+      state.notes = list;
+    },
+    [SET_NOTES](state, notes: Array<Note>) {
+      state.notes = notes;
     }
   },
   actions: {
@@ -142,6 +171,18 @@ const store: Module<SettingsState, RootState> = {
     },
     [DELETE_SEARCH_RECORD](context, record: string) {
       context.commit(DELETE_SEARCH_RECORD, record);
+    },
+    [ADD_NOTE](context, note: Note) {
+      context.commit(ADD_NOTE, note);
+    },
+    [DELETE_NOTE](context, note: Note) {
+      context.commit(DELETE_NOTE, note);
+    },
+    [UPDATE_NOTE](context, note: Note) {
+      context.commit(UPDATE_NOTE, note);
+    },
+    [SET_NOTES](context, notes: Array<Note>) {
+      context.commit(SET_NOTES, notes);
     }
   }
 };

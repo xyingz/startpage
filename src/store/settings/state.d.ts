@@ -23,4 +23,9 @@ declare interface SettingsState {
    * 搜索历史记录
    */
   searchRecord?: Array<string>;
+
+  /**
+   * 用户便签记录
+   */
+  notes?: Array<Note>;
 }

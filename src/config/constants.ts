@@ -33,6 +33,11 @@ export const TODAY_BG = 'x-start-today-background';
  */
 export const SEARCH_RECORD = 'x-start-search-record';
 
+/**
+ * 用户便签记录
+ */
+export const USER_NOTES = 'x-start-user-notes';
+
 export default [
   TOOL_LIST,
   SEARCH_ENGINE_LIST,
@@ -40,5 +45,6 @@ export default [
   USER_SETTINGS,
   VERSION,
   TODAY_BG,
-  SEARCH_RECORD
+  SEARCH_RECORD,
+  USER_NOTES
 ];

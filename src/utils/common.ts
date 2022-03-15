@@ -4,7 +4,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-05 11:53:15
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-03-10 13:50:04
+ * @LastEditTime: 2022-03-15 14:19:34
  * @Description: 通用函数
  */
 
@@ -215,4 +215,16 @@ export function realInterval(cb: Function, time = 1000, immediate = true) {
   };
 
   return interval;
+}
+
+/**
+ * 修改颜色的透明度
+ */
+export function changeColorAlpha(color: string, alpha: number) {
+  const c = color.slice(1);
+  const r = parseInt(c.slice(0, 2), 16);
+  const g = parseInt(c.slice(2, 4), 16);
+  const b = parseInt(c.slice(4, 6), 16);
+
+  return `rgba(${r},${g},${b},${alpha})`;
 }

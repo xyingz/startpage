@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-11 15:50:00
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-03-09 17:12:40
+ * @LastEditTime: 2022-03-15 11:09:41
  * @Description: 初始化配置
  */
 import store from '@/store';
@@ -16,7 +16,8 @@ import {
   USER_SETTINGS,
   VERSION,
   TODAY_BG,
-  SEARCH_RECORD
+  SEARCH_RECORD,
+  USER_NOTES
 } from './constants';
 import searchEngines from './data/search-engine';
 import tools from './data/tools';
@@ -161,6 +162,17 @@ function initSearchRecord() {
   }
 }
 
+/**
+ * 加载便签记录
+ */
+function initNotes() {
+  const notesStr = LocalStorage.getItem<string>(USER_NOTES);
+  if (notesStr) {
+    const notes: Array<Note> = JSON.parse(notesStr);
+    store.dispatch(SETTINGS.SET_NOTES, notes);
+  }
+}
+
 export function initConfig() {
   const updated = checkVersion();
 
@@ -170,6 +182,7 @@ export function initConfig() {
   initSearchEngineList(updated);
   initDefaultSearchEngineIdx();
   initSearchRecord();
+  initNotes();
 
   checkBackgroundImage();
 }

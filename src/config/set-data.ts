@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-14 17:26:25
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-02-11 16:40:56
+ * @LastEditTime: 2022-03-15 10:10:45
  * @Description: 保存数据到本地
  */
 
@@ -14,6 +14,7 @@ import {
   SEARCH_RECORD,
   TODAY_BG,
   TOOL_LIST,
+  USER_NOTES,
   USER_SETTINGS
 } from './constants';
 import { userSettings } from './data/user-settings';
@@ -67,6 +68,13 @@ export function saveSearchRecord() {
     SEARCH_RECORD,
     JSON.stringify(store.state.settings.searchRecord)
   );
+}
+
+/**
+ * 保存便签
+ */
+export function saveNotes() {
+  LocalStorage.set(USER_NOTES, JSON.stringify(store.state.settings.notes));
 }
 
 /**

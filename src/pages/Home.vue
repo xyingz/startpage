@@ -17,11 +17,11 @@
     <transition name="fade">
       <div
         v-show="!watchBgImage"
-        class="column full-height"
+        class="full-height relative-position"
         @click.passive="onFocusOut"
       >
         <!-- 右上角功能区 -->
-        <div class="absolute-top-right q-mr-md q-mt-sm">
+        <div class="absolute-top-right q-mr-md q-mt-sm z-1000">
           <q-btn flat round size="sm" icon="favorite_border" @click.stop>
             <q-tooltip anchor="bottom start" self="center end">
               如果喜欢本页面，可以设为主页。
@@ -41,52 +41,104 @@
           />
         </div>
 
-        <!-- 信息、搜索区 -->
-        <div
-          class="column full-width justify-end q-gutter-y-md"
-          :class="`col-${$q.screen.lt.sm && isShowKeyboard ? 9 : 5}`"
-          @click.stop="store.dispatch(CONTROLLERS.SET_FOCUS_MODE, true)"
-        >
-          <InfoPanelComponent
-            v-if="store.state.settings.userSettings.isShowInfoPanel"
-          />
-          <SearchBarComponent />
-        </div>
+        <!-- 左右切换功能区域按钮 -->
+        <transition name="fade">
+          <div
+            v-show="pageIndex !== 1"
+            class="absolute-left overflow-hidden z-500"
+            style="width: 50px"
+          >
+            <q-btn
+              class="absolute-center"
+              style="height: 100px"
+              size="2rem"
+              color="grey-8"
+              flat
+              icon="chevron_left"
+              @click.stop="leftPage"
+            />
+          </div>
+        </transition>
+        <transition name="fade">
+          <div
+            v-show="pageIndex !== 2"
+            class="absolute-right overflow-hidden z-500"
+            style="width: 50px"
+          >
+            <q-btn
+              class="absolute-center"
+              style="height: 100px"
+              size="2rem"
+              color="grey-8"
+              flat
+              icon="chevron_right"
+              @click.stop="rightPage"
+            />
+          </div>
+        </transition>
 
-        <!-- 工具箱区域 -->
-        <div
-          class="q-py-md"
-          :class="`col-${$q.screen.lt.sm && isShowKeyboard ? 3 : 7}`"
-        >
-          <ToolboxComponent />
-
-          <transition name="fade">
+        <transition name="fade">
+          <!-- 首页搜索组件 -->
+          <div v-show="pageIndex === 1" class="absolute column fit">
+            <!-- 信息、搜索区 -->
             <div
-              v-if="!isShowKeyboard && store.state.controllers.focusMode"
-              class="absolute-bottom text-grey-6"
-              style="margin-bottom: 10rem"
-              @click.stop
+              class="column full-width justify-end q-gutter-y-md"
+              :class="`col-${$q.screen.lt.sm && isShowKeyboard ? 9 : 5}`"
+              @click.stop="store.dispatch(CONTROLLERS.SET_FOCUS_MODE, true)"
             >
-              <span
-                class="x-home-aphorisms"
-                @click.stop="() => onCopy(randomAphorisms?.content)"
-              >
-                <sup>『</sup> {{ randomAphorisms?.content }} <sub>』</sub>
-              </span>
-              <q-tooltip
-                :delay="500"
-                anchor="top middle"
-                self="bottom middle"
-                transition-show="scale"
-                transition-hide="scale"
-                class="shadow-5"
-                style="background-color: #75757555"
-              >
-                {{ randomAphorisms?.source }} {{ randomAphorisms?.author }}
-              </q-tooltip>
+              <InfoPanelComponent
+                v-if="store.state.settings.userSettings.isShowInfoPanel"
+              />
+              <SearchBarComponent />
             </div>
-          </transition>
-        </div>
+
+            <!-- 工具箱区域 -->
+            <div
+              class="q-py-md"
+              :class="`col-${$q.screen.lt.sm && isShowKeyboard ? 3 : 7}`"
+            >
+              <ToolboxComponent />
+
+              <transition name="fade">
+                <div
+                  v-if="!isShowKeyboard && store.state.controllers.focusMode"
+                  class="absolute-bottom text-grey-6"
+                  style="margin-bottom: 10rem"
+                  @click.stop
+                >
+                  <span
+                    class="x-home-aphorisms"
+                    @click.stop="() => onCopy(randomAphorisms?.content)"
+                  >
+                    <sup>『</sup> {{ randomAphorisms?.content }} <sub>』</sub>
+                  </span>
+                  <q-tooltip
+                    :delay="500"
+                    anchor="top middle"
+                    self="bottom middle"
+                    transition-show="scale"
+                    transition-hide="scale"
+                    class="shadow-5"
+                    style="background-color: #75757555"
+                  >
+                    {{ randomAphorisms?.source }} {{ randomAphorisms?.author }}
+                  </q-tooltip>
+                </div>
+              </transition>
+            </div>
+          </div>
+        </transition>
+
+        <transition name="fade">
+          <!-- 附加功能组件 -->
+          <div v-show="pageIndex === 2" class="absolute fit">
+            <NoteComponent
+              v-for="note in notes.filter(x => !x.isClose)"
+              :key="note.id"
+              :note="note"
+            />
+          </div>
+        </transition>
       </div>
     </transition>
 
@@ -96,7 +148,7 @@
     <q-btn
       v-show="!store.state.controllers.focusMode"
       v-hover="hoverHandler"
-      class="absolute-bottom-right q-mb-lg q-mr-md"
+      class="absolute-bottom-right q-mb-lg q-mr-md z-1000"
       round
       flat
       icon="auto_awesome"
@@ -117,10 +169,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref, watch } from 'vue';
+import { defineComponent, computed, ref, watch, reactive } from 'vue';
 import InfoPanelComponent from '@/components/InfoPanel.vue';
 import SearchBarComponent from '@/components/SearchBar.vue';
 import ToolboxComponent from '@/components/tools/ToolBox.vue';
+import NoteComponent from '@/components/note/index.vue';
 import { useStore } from '@/store';
 import { CONTROLLERS } from '@/store/mutation-types';
 import { mobileKeyboardCallback, random } from '@/utils/common';
@@ -141,6 +194,22 @@ export default defineComponent({
 
 <script lang="ts" setup>
 const store = useStore();
+
+const pageIndex = ref(1);
+
+function leftPage() {
+  if (pageIndex.value <= 1) {
+    return;
+  }
+  pageIndex.value -= 1;
+}
+
+function rightPage() {
+  if (pageIndex.value >= 2) {
+    return;
+  }
+  pageIndex.value += 1;
+}
 
 function onFocusOut() {
   // 移除聚焦模式
@@ -205,6 +274,8 @@ const hoverHandler = {
   },
   delay: 1000
 };
+
+const notes = reactive<Array<Note>>(store.state.settings?.notes ?? []);
 </script>
 
 <style scoped lang="scss">

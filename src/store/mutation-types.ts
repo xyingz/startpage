@@ -36,6 +36,10 @@ export const SET_TODAY_BG = 'SET_TODAY_BG';
 export const SET_SEARCH_RECORD = 'SET_SEARCH_RECORD';
 export const CLEAR_SEAECH_RECORD = 'CLEAR_SEAECH_RECORD';
 export const DELETE_SEARCH_RECORD = 'DELETE_SEARCH_RECORD';
+export const ADD_NOTE = 'ADD_NOTE';
+export const SET_NOTES = 'SET_NOTES';
+export const DELETE_NOTE = 'DELETE_NOTE';
+export const UPDATE_NOTE = 'UPDATE_NOTE';
 
 const settings = 'settings';
 export const SETTINGS = {
@@ -47,7 +51,11 @@ export const SETTINGS = {
   SET_TODAY_BG: `${settings}/${SET_TODAY_BG}`,
   SET_SEARCH_RECORD: `${settings}/${SET_SEARCH_RECORD}`,
   CLEAR_SEAECH_RECORD: `${settings}/${CLEAR_SEAECH_RECORD}`,
-  DELETE_SEARCH_RECORD: `${settings}/${DELETE_SEARCH_RECORD}`
+  DELETE_SEARCH_RECORD: `${settings}/${DELETE_SEARCH_RECORD}`,
+  ADD_NOTE: `${settings}/${ADD_NOTE}`,
+  SET_NOTES: `${settings}/${SET_NOTES}`,
+  DELETE_NOTE: `${settings}/${DELETE_NOTE}`,
+  UPDATE_NOTE: `${settings}/${UPDATE_NOTE}`
 };
 
 export default {};
