@@ -14,8 +14,73 @@
     @mousedown="onFocus"
   >
     <!-- 头部 -->
-    <div class="x-note-title" style="width: 100%" @mousedown="onTitleMouseDown">
-      <div class="row x-note-title-btn">
+    <div
+      class="absolute z-1"
+      style="width: 100%"
+      :style="{
+        backgroundColor: tmpNote.backgroundColor,
+        filter: 'brightness(80%)',
+        color: 'black'
+      }"
+      @mousedown="onTitleMouseDown"
+    >
+      <div class="row">
+        <q-btn-dropdown
+          flat
+          :icon="`format_align_${formatAlign}`"
+          padding="sm"
+          size="sm"
+          @mousedown.stop
+        >
+          <q-list>
+            <q-item
+              v-close-popup
+              dense
+              clickable
+              @click.stop="() => onChangeContentStyle('left')"
+            >
+              <q-item-section>
+                <q-icon name="format_align_left" />
+              </q-item-section>
+            </q-item>
+
+            <q-item
+              v-close-popup
+              dense
+              clickable
+              @click.stop="() => onChangeContentStyle('center')"
+            >
+              <q-item-section>
+                <q-icon name="format_align_center" />
+              </q-item-section>
+            </q-item>
+
+            <q-item
+              v-close-popup
+              dense
+              clickable
+              @click.stop="() => onChangeContentStyle('right')"
+            >
+              <q-item-section>
+                <q-icon name="format_align_right" />
+              </q-item-section>
+            </q-item>
+
+            <q-item
+              v-close-popup
+              dense
+              clickable
+              @click.stop="() => onChangeContentStyle('justify')"
+            >
+              <q-item-section>
+                <q-icon name="format_align_justify" />
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-btn-dropdown>
+
+        <q-separator vertical />
+
         <q-btn
           flat
           padding="sm"
@@ -163,12 +228,11 @@
     </div>
 
     <!-- 显示内容 -->
-    <div class="fit overflow-auto">
+    <div class="absolute fit overflow-auto q-pt-lg">
       <q-editor
         ref="editor"
         v-model="tmpNote.content"
         flat
-        :content-style="{ backgroundColor }"
         :toolbar="[]"
         @update:model-value="updateContent"
       />
@@ -227,6 +291,7 @@ const onClearZIndex = () => {
 };
 
 const editor = ref();
+const formatAlign = ref('left');
 function onChangeContentStyle(type: string) {
   switch (type) {
     case 'bold':
@@ -238,14 +303,30 @@ function onChangeContentStyle(type: string) {
     case 'underline':
       editor.value.runCmd('underline');
       break;
+    case 'left':
+      formatAlign.value = 'left';
+      editor.value.runCmd('justifyLeft');
+      break;
+    case 'center':
+      formatAlign.value = 'center';
+      editor.value.runCmd('justifyCenter');
+      break;
+    case 'right':
+      formatAlign.value = 'right';
+      editor.value.runCmd('justifyRight');
+      break;
+    case 'justify':
+      formatAlign.value = 'justify';
+      editor.value.runCmd('justifyFull');
+      break;
     default:
       break;
   }
 }
 </script>
 
-<style scoped lang="scss">
-.x-note-title {
-  background-color: rgba($color: #000000, $alpha: 0.2);
+<style lang="scss">
+.q-editor {
+  background-color: transparent;
 }
 </style>

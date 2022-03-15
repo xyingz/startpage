@@ -3,6 +3,7 @@ import { useStore } from '@/store';
 import { CONTROLLERS, SETTINGS } from '@/store/mutation-types';
 import { changeColorAlpha } from '@/utils/common';
 import { computed, ref } from 'vue';
+import { debounce } from 'quasar';
 
 export default (note: Note) => {
   const store = useStore();
@@ -144,10 +145,10 @@ export default (note: Note) => {
     onResizeMouseDown,
 
     updateBackgroundColor,
-    updateOpacity,
+    updateOpacity: debounce(updateOpacity, 500),
     updateTextColor,
     updateZIndex,
-    updateContent,
+    updateContent: debounce(updateContent, 500),
 
     closeNote,
     addNote,
