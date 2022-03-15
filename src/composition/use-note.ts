@@ -2,13 +2,14 @@ import { saveNotes } from '@/config/set-data';
 import { useStore } from '@/store';
 import { CONTROLLERS, SETTINGS } from '@/store/mutation-types';
 import { changeColorAlpha } from '@/utils/common';
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { debounce } from 'quasar';
 
 export default (note?: Note) => {
   const store = useStore();
 
   const tmpNote = ref({
+    content: '',
     width: 300,
     height: 350,
     top: 50,
@@ -28,6 +29,11 @@ export default (note?: Note) => {
   function save() {
     store.dispatch(SETTINGS.UPDATE_NOTE, { ...tmpNote.value }).then(saveNotes);
   }
+
+  watch(
+    () => [tmpNote.value.color, tmpNote.value.backgroundColor],
+    () => save()
+  );
 
   /**
    * 更新背景颜色

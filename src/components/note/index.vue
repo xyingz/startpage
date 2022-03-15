@@ -328,5 +328,6 @@ function onChangeContentStyle(type: string) {
 <style lang="scss">
 .q-editor {
   background-color: transparent;
+  text-align: left;
 }
 </style>
