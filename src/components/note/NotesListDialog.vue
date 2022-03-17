@@ -1,7 +1,7 @@
 <template>
   <XDialog v-model="show">
     <q-list
-      style="min-width: 300px; max-width: 600px"
+      style="min-width: 200px; max-width: 600px"
       class="q-pa-md q-gutter-md"
     >
       <template v-for="note in notes" :key="note.id">
@@ -12,7 +12,7 @@
         >
           <q-item-section
             style="
-              max-height: 5rem;
+              max-height: 10rem;
               background-color: darkgrey;
               justify-content: start;
             "

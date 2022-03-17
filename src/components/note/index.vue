@@ -25,88 +25,46 @@
       @mousedown="onTitleMouseDown"
     >
       <div class="row">
-        <q-btn-dropdown
-          flat
-          :icon="`format_align_${formatAlign}`"
-          padding="sm"
-          size="sm"
-          @mousedown.stop
-        >
-          <q-list>
-            <q-item
-              v-close-popup
-              dense
-              clickable
-              @click.stop="() => onChangeContentStyle('left')"
-            >
-              <q-item-section>
-                <q-icon name="format_align_left" />
-              </q-item-section>
-            </q-item>
+        <template v-for="(t, i) in toolbar" :key="i">
+          <q-btn-dropdown
+            v-if="!!t.children?.length"
+            :label="t.label"
+            :icon="t.icon"
+            flat
+            padding="xs"
+            size="sm"
+            dense
+            @mousedown.stop
+          >
+            <q-toolbar class="no-padding" style="min-height: fit-content">
+              <template v-for="(tc, ic) in t.children" :key="ic">
+                <q-btn
+                  flat
+                  padding="xs"
+                  size="sm"
+                  :icon="tc.icon"
+                  @click="() => onChangeContentStyle(tc.cmd)"
+                />
+              </template>
+            </q-toolbar>
+          </q-btn-dropdown>
 
-            <q-item
-              v-close-popup
-              dense
-              clickable
-              @click.stop="() => onChangeContentStyle('center')"
-            >
-              <q-item-section>
-                <q-icon name="format_align_center" />
-              </q-item-section>
-            </q-item>
+          <q-separator v-else-if="!!t.separator" vertical />
 
-            <q-item
-              v-close-popup
-              dense
-              clickable
-              @click.stop="() => onChangeContentStyle('right')"
-            >
-              <q-item-section>
-                <q-icon name="format_align_right" />
-              </q-item-section>
-            </q-item>
-
-            <q-item
-              v-close-popup
-              dense
-              clickable
-              @click.stop="() => onChangeContentStyle('justify')"
-            >
-              <q-item-section>
-                <q-icon name="format_align_justify" />
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </q-btn-dropdown>
-
-        <q-separator vertical />
-
-        <q-btn
-          flat
-          padding="sm"
-          size="sm"
-          icon="format_bold"
-          @click.stop="() => onChangeContentStyle('bold')"
-          @mousedown.stop
-        />
-
-        <q-btn
-          flat
-          padding="sm"
-          size="sm"
-          icon="format_italic"
-          @click.stop="() => onChangeContentStyle('italic')"
-          @mousedown.stop
-        />
-
-        <q-btn
-          flat
-          padding="sm"
-          size="sm"
-          icon="format_underlined"
-          @click.stop="() => onChangeContentStyle('underline')"
-          @mousedown.stop
-        />
+          <q-btn
+            v-else
+            flat
+            padding="xs"
+            size="xs"
+            :icon="t.icon"
+            @click.stop="() => onChangeContentStyle(t.cmd)"
+            @mousedown.stop
+          >
+            <q-tooltip v-if="!!t.tip" :delay="200">
+              {{ t.tip }}
+            </q-tooltip>
+          </q-btn>
+        </template>
 
         <q-space class="no-pointer-events" />
 
@@ -233,7 +191,49 @@
         ref="editorRef"
         v-model="tmpNote.content"
         flat
-        :toolbar="[]"
+        :toolbar="[
+          // [
+          //   {
+          //     label: $q.lang.editor.align,
+          //     icon: $q.iconSet.editor.align,
+          //     fixedLabel: true,
+          //     list: 'only-icons',
+          //     options: ['left', 'center', 'right', 'justify']
+          //   }
+          // ],
+          // ['bold', 'italic', 'strike', 'underline'],
+          // [
+          //   {
+          //     label: $q.lang.editor.formatting,
+          //     icon: $q.iconSet.editor.formatting,
+          //     fixedLabel: true,
+          //     fixedIcon: true,
+          //     list: 'only-icons',
+          //     options: [
+          //       'left',
+          //       'center',
+          //       'right',
+          //       'justify',
+          //       'bold',
+          //       'italic',
+          //       'strike',
+          //       'underline'
+          //     ]
+          //   },
+          //   'removeFormat'
+          // ],
+          // ['unordered', 'ordered']
+        ]"
+        :fonts="{
+          // arial: 'Arial',
+          // arial_black: 'Arial Black',
+          // comic_sans: 'Comic Sans MS',
+          // courier_new: 'Courier New',
+          // impact: 'Impact',
+          // lucida_grande: 'Lucida Grande',
+          // times_new_roman: 'Times New Roman',
+          // verdana: 'Verdana'
+        }"
         @paste="onPaste"
         @update:model-value="updateContent"
       />
@@ -292,44 +292,71 @@ const onClearZIndex = () => {
 };
 
 const editorRef = ref();
-const formatAlign = ref('left');
-function onChangeContentStyle(type: string) {
-  switch (type) {
-    case 'bold':
-      editorRef.value.runCmd('bold');
-      break;
-    case 'italic':
-      editorRef.value.runCmd('italic');
-      break;
-    case 'underline':
-      editorRef.value.runCmd('underline');
-      break;
-    case 'left':
-      formatAlign.value = 'left';
-      editorRef.value.runCmd('justifyLeft');
-      break;
-    case 'center':
-      formatAlign.value = 'center';
-      editorRef.value.runCmd('justifyCenter');
-      break;
-    case 'right':
-      formatAlign.value = 'right';
-      editorRef.value.runCmd('justifyRight');
-      break;
-    case 'justify':
-      formatAlign.value = 'justify';
-      editorRef.value.runCmd('justifyFull');
-      break;
-    default:
-      break;
-  }
+function onChangeContentStyle(type?: string) {
+  if (type) editorRef.value.runCmd(type);
 }
+
+const toolbar = [
+  {
+    icon: 'format_align_justify',
+    label: '对齐',
+    children: [
+      {
+        icon: 'format_align_left',
+        cmd: 'justifyLeft'
+      },
+      {
+        icon: 'format_align_center',
+        cmd: 'justifyCenter'
+      },
+      {
+        icon: 'format_align_right',
+        cmd: 'justifyRight'
+      }
+    ]
+  },
+  { separator: true },
+  {
+    icon: 'format_bold',
+    cmd: 'bold',
+    tip: '加粗'
+  },
+  {
+    icon: 'format_italic',
+    cmd: 'italic',
+    tip: '斜体'
+  },
+  {
+    icon: 'format_underlined',
+    cmd: 'underline',
+    tip: '下划线'
+  },
+  {
+    icon: 'strikethrough_s',
+    cmd: 'strikeThrough',
+    tip: '删除线'
+  },
+  { separator: true },
+  {
+    icon: 'format_clear',
+    cmd: 'removeFormat',
+    tip: '清除格式'
+  }
+  // {
+  //   icon: 'format_list_numbered',
+  //   cmd: 'insertOrderedList'
+  // },
+  // {
+  //   icon: 'format_list_bulleted',
+  //   cmd: 'insertUnorderedList'
+  // }
+];
 
 /**
  * Capture the <CTL-V> paste event, only allow plain-text, no images.
  * See: https://stackoverflow.com/a/28213320
  */
-function onPaste(evt: ClipboardEvent) {
+function onPaste(evt: any) {
   // Let inputs do their thing, so we don't break pasting of links.
   if (evt.target?.nodeName === 'INPUT') return;
   let text;

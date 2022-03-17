@@ -149,8 +149,8 @@ export default (note?: Note) => {
     const { offsetX, offsetY } = downEvent;
 
     const onMouseMove = (moveEvent: MouseEvent) => {
-      tmpNote.value.width = moveEvent.pageX - offsetX - tmpNote.value.left;
-      tmpNote.value.height = moveEvent.pageY - offsetY - tmpNote.value.top;
+      tmpNote.value.width = moveEvent.pageX + offsetX - tmpNote.value.left;
+      tmpNote.value.height = moveEvent.pageY + offsetY - tmpNote.value.top;
     };
 
     const onMouseUp = () => {
