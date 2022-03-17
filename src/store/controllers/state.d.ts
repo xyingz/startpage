@@ -34,4 +34,9 @@ declare interface ControllersState {
    * 是否显示管理搜索引擎对话框
    */
   showManageSearchDialog: boolean;
+
+  /**
+   * 当前选中的便签ID
+   */
+  selectedNoteId?: string;
 }

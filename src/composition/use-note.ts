@@ -183,6 +183,11 @@ export default (note?: Note) => {
     deleteNote,
     openNote,
 
-    onFocus: () => store.dispatch(CONTROLLERS.SET_FOCUS_MODE, true)
+    onFocus: () => {
+      store.dispatch(CONTROLLERS.SET_FOCUS_MODE, true);
+      store.dispatch(CONTROLLERS.SET_SELECTED_NOTE_ID, tmpNote.value.id);
+    },
+
+    selectedId: computed(() => store.state.controllers.selectedNoteId)
   };
 };

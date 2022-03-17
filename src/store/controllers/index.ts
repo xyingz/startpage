@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-12 14:36:57
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-02-15 16:20:03
+ * @LastEditTime: 2022-03-17 16:00:00
  * @Description: 程序内部控制变量模块
  */
 
@@ -18,7 +18,8 @@ import {
   SET_SEARCH_ENGINE_IDX,
   SET_SETTING_DIALOG_VISIBLE,
   SET_SHOW_TOOLBOX,
-  SET_MANAGE_SEARCH_DIALOG_VISIBLE
+  SET_MANAGE_SEARCH_DIALOG_VISIBLE,
+  SET_SELECTED_NOTE_ID
 } from '../mutation-types';
 
 const store: Module<ControllersState, RootState> = {
@@ -34,7 +35,8 @@ const store: Module<ControllersState, RootState> = {
     showAddToolDialog: false,
     showAddCustomToolDialog: false,
     showSettingDialog: false,
-    showManageSearchDialog: false
+    showManageSearchDialog: false,
+    selectedNoteId: ''
   },
 
   getters: {
@@ -76,8 +78,12 @@ const store: Module<ControllersState, RootState> = {
     },
     [SET_MANAGE_SEARCH_DIALOG_VISIBLE](state, isShow: boolean) {
       state.showManageSearchDialog = isShow;
+    },
+    [SET_SELECTED_NOTE_ID](state, id?: string) {
+      state.selectedNoteId = id;
     }
   },
+
   actions: {
     [SET_FOCUS_MODE](context, focusMode: boolean) {
       context.commit(SET_FOCUS_MODE, focusMode);
@@ -114,6 +120,9 @@ const store: Module<ControllersState, RootState> = {
     },
     [SET_MANAGE_SEARCH_DIALOG_VISIBLE](context, isShow: boolean) {
       context.commit(SET_MANAGE_SEARCH_DIALOG_VISIBLE, isShow);
+    },
+    [SET_SELECTED_NOTE_ID](context, id?: string) {
+      context.commit(SET_SELECTED_NOTE_ID, id);
     }
   }
 };

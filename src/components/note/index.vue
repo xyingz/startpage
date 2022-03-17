@@ -8,7 +8,7 @@
       height: tmpNote.height + 'px',
       top: tmpNote.top + 'px',
       left: tmpNote.left + 'px',
-      zIndex: tmpNote.zIndex
+      zIndex: tmpNote.id === selectedId ? 999 : tmpNote.zIndex
     }"
     @click.stop
     @mousedown="onFocus"
@@ -265,6 +265,7 @@ const props = defineProps<{ note: Note }>();
 
 const {
   tmpNote,
+  selectedId,
   backgroundColor,
   onTitleMouseDown,
   onResizeMouseDown,
