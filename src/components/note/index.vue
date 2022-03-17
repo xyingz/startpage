@@ -230,10 +230,11 @@
     <!-- 显示内容 -->
     <div class="absolute fit overflow-auto q-pt-lg">
       <q-editor
-        ref="editor"
+        ref="editorRef"
         v-model="tmpNote.content"
         flat
         :toolbar="[]"
+        @paste="onPaste"
         @update:model-value="updateContent"
       />
     </div>
@@ -290,37 +291,63 @@ const onClearZIndex = () => {
   updateZIndex(0);
 };
 
-const editor = ref();
+const editorRef = ref();
 const formatAlign = ref('left');
 function onChangeContentStyle(type: string) {
   switch (type) {
     case 'bold':
-      editor.value.runCmd('bold');
+      editorRef.value.runCmd('bold');
       break;
     case 'italic':
-      editor.value.runCmd('italic');
+      editorRef.value.runCmd('italic');
       break;
     case 'underline':
-      editor.value.runCmd('underline');
+      editorRef.value.runCmd('underline');
       break;
     case 'left':
       formatAlign.value = 'left';
-      editor.value.runCmd('justifyLeft');
+      editorRef.value.runCmd('justifyLeft');
       break;
     case 'center':
       formatAlign.value = 'center';
-      editor.value.runCmd('justifyCenter');
+      editorRef.value.runCmd('justifyCenter');
       break;
     case 'right':
       formatAlign.value = 'right';
-      editor.value.runCmd('justifyRight');
+      editorRef.value.runCmd('justifyRight');
       break;
     case 'justify':
       formatAlign.value = 'justify';
-      editor.value.runCmd('justifyFull');
+      editorRef.value.runCmd('justifyFull');
       break;
     default:
       break;
+  }
+}
+
+/**
+ * Capture the <CTL-V> paste event, only allow plain-text, no images.
+ * See: https://stackoverflow.com/a/28213320
+ */
+function onPaste(evt: ClipboardEvent) {
+  // Let inputs do their thing, so we don't break pasting of links.
+  if (evt.target?.nodeName === 'INPUT') return;
+  let text;
+  let onPasteStripFormattingIEPaste;
+  evt.preventDefault();
+  evt.stopPropagation();
+  if (evt.originalEvent && evt.originalEvent.clipboardData.getData) {
+    text = evt.originalEvent.clipboardData.getData('text/plain');
+    editorRef.value.runCmd('insertText', text);
+  } else if (evt.clipboardData && evt.clipboardData.getData) {
+    text = evt.clipboardData.getData('text/plain');
+    editorRef.value.runCmd('insertText', text);
+  } else if (window.clipboardData && window.clipboardData.getData) {
+    if (!onPasteStripFormattingIEPaste) {
+      onPasteStripFormattingIEPaste = true;
+      editorRef.value.runCmd('ms-pasteTextOnly', text);
+    }
+    onPasteStripFormattingIEPaste = false;
   }
 }
 </script>
