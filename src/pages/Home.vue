@@ -41,41 +41,43 @@
           />
         </div>
 
-        <!-- 左右切换功能区域按钮 -->
-        <transition name="fade">
-          <div
-            v-show="pageIndex !== 1"
-            class="absolute-left overflow-hidden z-500"
-            style="width: 50px"
-          >
-            <q-btn
-              class="absolute-center"
-              style="height: 100px"
-              size="2rem"
-              color="grey-8"
-              flat
-              icon="chevron_left"
-              @click.stop="leftPage"
-            />
-          </div>
-        </transition>
-        <transition name="fade">
-          <div
-            v-show="pageIndex !== 2"
-            class="absolute-right overflow-hidden z-500"
-            style="width: 50px"
-          >
-            <q-btn
-              class="absolute-center"
-              style="height: 100px"
-              size="2rem"
-              color="grey-8"
-              flat
-              icon="chevron_right"
-              @click.stop="rightPage"
-            />
-          </div>
-        </transition>
+        <template v-if="!$q.platform.is.mobile">
+          <!-- 左右切换功能区域按钮 -->
+          <transition name="fade">
+            <div
+              v-show="pageIndex !== 1"
+              class="absolute-left overflow-hidden z-500"
+              style="width: 50px"
+            >
+              <q-btn
+                class="absolute-center"
+                style="height: 100px"
+                size="2rem"
+                color="grey-8"
+                flat
+                icon="chevron_left"
+                @click.stop="leftPage"
+              />
+            </div>
+          </transition>
+          <transition name="fade">
+            <div
+              v-show="pageIndex !== 2"
+              class="absolute-right overflow-hidden z-500"
+              style="width: 50px"
+            >
+              <q-btn
+                class="absolute-center"
+                style="height: 100px"
+                size="2rem"
+                color="grey-8"
+                flat
+                icon="chevron_right"
+                @click.stop="rightPage"
+              />
+            </div>
+          </transition>
+        </template>
 
         <transition name="fade">
           <!-- 首页搜索组件 -->
@@ -131,7 +133,11 @@
 
         <transition name="fade">
           <!-- 附加功能组件 -->
-          <div v-show="pageIndex === 2" class="absolute fit">
+          <div
+            v-if="!$q.platform.is.mobile"
+            v-show="pageIndex === 2"
+            class="absolute fit"
+          >
             <NoteComponent
               v-for="note in notes.filter(x => !x.isClose)"
               :key="note.id"
@@ -153,6 +159,7 @@
                 color="primary"
                 icon="format_list_bulleted"
                 label="打开便签列表"
+                @click="() => (showNotesList = true)"
               />
               <q-fab-action
                 label-position="right"
@@ -162,6 +169,8 @@
                 @click="addNote"
               />
             </q-fab>
+
+            <NotesListComponent v-model="showNotesList" />
           </div>
         </transition>
       </div>
@@ -199,6 +208,7 @@ import InfoPanelComponent from '@/components/InfoPanel.vue';
 import SearchBarComponent from '@/components/SearchBar.vue';
 import ToolboxComponent from '@/components/tools/ToolBox.vue';
 import NoteComponent from '@/components/note/index.vue';
+import NotesListComponent from '@/components/note/NotesListDialog.vue';
 import { useStore } from '@/store';
 import { CONTROLLERS } from '@/store/mutation-types';
 import { mobileKeyboardCallback, random } from '@/utils/common';
@@ -301,10 +311,11 @@ const hoverHandler = {
   delay: 1000
 };
 
-const notes = reactive<Array<Note>>(store.state.settings?.notes ?? []);
+const notes = reactive<Array<Note>>(store.state.settings.notes);
 const funcBtn = ref(false);
 
 const { addNote } = useNote();
+const showNotesList = ref(false);
 </script>
 
 <style scoped lang="scss">

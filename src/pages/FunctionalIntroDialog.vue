@@ -1,40 +1,39 @@
 <template>
-  <q-dialog v-model="show">
-    <q-card class="x-dialog-bg">
-      <q-card-section class="items-center q-pa-none">
-        <q-toolbar>
-          <q-toolbar-title class="q-mt-md">
-            <div class="text-center text-bold">功能介绍</div>
-            <div class="text-center text-caption">{{ v }}</div>
-          </q-toolbar-title>
-          <q-btn v-close-popup flat round dense icon="close" />
-        </q-toolbar>
-      </q-card-section>
+  <XDialog v-model="show">
+    <q-card-section class="items-center q-pa-none">
+      <q-toolbar>
+        <q-toolbar-title class="q-mt-md">
+          <div class="text-center text-bold">功能介绍</div>
+          <div class="text-center text-caption">{{ v }}</div>
+        </q-toolbar-title>
+        <q-btn v-close-popup flat round dense icon="close" />
+      </q-toolbar>
+    </q-card-section>
 
-      <q-card-section>
-        <!-- 简易版自制 markdown -->
-        <template v-for="(line, i) in intro.split('\n')" :key="i">
-          <div
-            :class="{
-              'text-subtitle1 text-bold': line.startsWith('# '),
-              'text-italic': line.startsWith('> ')
-            }"
-          >
-            {{
-              line
-                .replace(/^$/, '&nbsp;')
-                .replace(/^# /, '')
-                .replace(/^> /, '')
-                .replace(/^- /, '● ')
-            }}
-          </div>
-        </template>
-      </q-card-section>
-    </q-card>
-  </q-dialog>
+    <q-card-section>
+      <!-- 简易版自制 markdown -->
+      <template v-for="(line, i) in intro.split('\n')" :key="i">
+        <div
+          :class="{
+            'text-subtitle1 text-bold': line.startsWith('# '),
+            'text-italic': line.startsWith('> ')
+          }"
+        >
+          {{
+            line
+              .replace(/^$/, '&nbsp;')
+              .replace(/^# /, '')
+              .replace(/^> /, '')
+              .replace(/^- /, '● ')
+          }}
+        </div>
+      </template>
+    </q-card-section>
+  </XDialog>
 </template>
 
 <script lang="ts" setup>
+import XDialog from '@/components/dialog/BasicDialog.vue';
 import { computed } from 'vue';
 
 const props = defineProps({
@@ -79,5 +78,9 @@ const intro = `# 搜索
 - 支持背景高斯模糊，模糊区间可以自定义
 - 支持调整工具箱图标的圆角大小
 - 所有设定均可以保存到本地，方便下次打开时自动加载
+
+# 附加功能
+- 电脑端支持附加功能
+- 自定义的便签，方便记录当前的想法，并自动保存
 `;
 </script>

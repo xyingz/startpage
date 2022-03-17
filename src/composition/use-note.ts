@@ -84,9 +84,31 @@ export default (note?: Note) => {
   }
 
   /**
+   * 打开标签
+   */
+  function openNote(n?: Note) {
+    if (n) {
+      tmpNote.value = {
+        ...tmpNote.value,
+        ...n,
+        isClose: false
+      };
+    } else {
+      tmpNote.value.isClose = false;
+    }
+    save();
+  }
+
+  /**
    * 删除便签
    */
-  function deleteNote() {
+  function deleteNote(n?: Note) {
+    if (n) {
+      tmpNote.value = {
+        ...tmpNote.value,
+        ...n
+      };
+    }
     store.dispatch(SETTINGS.DELETE_NOTE, tmpNote.value).then(saveNotes);
   }
 
@@ -159,6 +181,7 @@ export default (note?: Note) => {
     closeNote,
     addNote,
     deleteNote,
+    openNote,
 
     onFocus: () => store.dispatch(CONTROLLERS.SET_FOCUS_MODE, true)
   };
