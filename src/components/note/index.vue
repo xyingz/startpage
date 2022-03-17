@@ -165,7 +165,7 @@
                       dense
                       color="positive"
                       icon="done"
-                      @click="deleteNote"
+                      @click="() => deleteNote()"
                     />
                     <q-btn round dense color="negative" icon="close" />
                   </q-popup-proxy>
