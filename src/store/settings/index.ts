@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-12 14:50:46
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-03-15 17:34:05
+ * @LastEditTime: 2022-03-21 11:42:27
  * @Description: 用户可以自行配置的设置项
  */
 
@@ -106,16 +106,17 @@ const store: Module<SettingsState, RootState> = {
         });
       } else {
         const i = list.indexOf(record);
-        if (i === -1) list.unshift(record);
-        else {
-          list.splice(i, 1);
-          list.unshift(record);
-        }
+        if (i !== -1) list.splice(i, 1);
+
+        list.unshift(record);
       }
 
       // 只保留最新的记录
       if (list?.length > GlobalConfig.searchRecordLength) {
-        list.splice(0, list.length - GlobalConfig.searchRecordLength);
+        list.splice(
+          GlobalConfig.searchRecordLength,
+          list.length - GlobalConfig.searchRecordLength
+        );
       }
 
       state.searchRecord = list;
