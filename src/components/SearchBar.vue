@@ -121,6 +121,16 @@
             <q-item-section>
               <q-item-label class="text-center">清除所有记录</q-item-label>
             </q-item-section>
+
+            <q-item-section side>
+              <q-btn
+                flat
+                rounded
+                size="sm"
+                label="历史记录"
+                @click.stop="onOpenSearchHistory"
+              />
+            </q-item-section>
           </q-item>
         </q-list>
       </q-menu>
@@ -544,6 +554,10 @@ function onEnter() {
     searchText.value = selectList[index] ?? '';
     onSearch();
   }
+}
+
+function onOpenSearchHistory() {
+  console.log('onOpenSearchHistory');
 }
 </script>
 
