@@ -6,16 +6,16 @@
     </q-toolbar>
 
     <q-list
+      dense
       style="min-width: 500px; max-width: 1000px"
       class="q-pa-md q-gutter-md"
     >
       <q-item
         v-for="(item, index) in store.state.settings.searchRecord"
-        :key="index"
-        v-ripple
-        tag="label"
+        :key="`${item}-${index}`"
+        v-close-popup
         clickable
-        @dblclick="onDblClick(item)"
+        @click="() => onSearchItem(item)"
       >
         <q-item-section>
           <q-item-label>{{ item }}</q-item-label>
@@ -69,11 +69,9 @@ const show = computed({
 
 const store = useStore();
 
-const { onSearch, searchText } = useSearch();
-function onDblClick(item: string) {
-  searchText.value = item;
-  onSearch();
-  show.value = false;
+const { onClickRecord } = useSearch();
+function onSearchItem(item: string) {
+  onClickRecord(item);
 }
 
 function onDeleteRecord(record: string) {
