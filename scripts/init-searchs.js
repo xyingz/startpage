@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2022-02-15 16:38:16
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-03-10 12:13:20
+ * @LastEditTime: 2022-11-22 14:04:10
  * @Description: 初始化搜索引擎
  */
 
@@ -137,18 +137,6 @@ const json = [
       {
         name: '视频',
         url: 'https://www.bilibili.com/search?keyword='
-      }
-    ]
-  },
-  {
-    name: 'magi',
-    icon: 'magi',
-    comment: 'Magi（搜人、事、物、概念，或者直接提问）',
-    website: 'https://magi.com/',
-    searchs: [
-      {
-        name: '网页',
-        url: 'https://magi.com/search?q='
       }
     ]
   }
