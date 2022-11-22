@@ -19,7 +19,7 @@
         </div>
         <q-list bordered>
           <template v-for="search in searchList" :key="search.name">
-            <q-item tag="label">
+            <q-item tag="label" @click.prevent>
               <q-item-section avatar>
                 <q-icon :name="iconPath(search)" />
               </q-item-section>
