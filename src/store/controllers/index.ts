@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-12 14:36:57
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-03-17 16:00:00
+ * @LastEditTime: 2022-11-24 10:05:15
  * @Description: 程序内部控制变量模块
  */
 
@@ -19,7 +19,8 @@ import {
   SET_SETTING_DIALOG_VISIBLE,
   SET_SHOW_TOOLBOX,
   SET_MANAGE_SEARCH_DIALOG_VISIBLE,
-  SET_SELECTED_NOTE_ID
+  SET_SELECTED_NOTE_ID,
+  SET_BACKUP_AND_RESTORE_DIALOG_VISIBLE
 } from '../mutation-types';
 
 const store: Module<ControllersState, RootState> = {
@@ -36,7 +37,8 @@ const store: Module<ControllersState, RootState> = {
     showAddCustomToolDialog: false,
     showSettingDialog: false,
     showManageSearchDialog: false,
-    selectedNoteId: ''
+    selectedNoteId: '',
+    showBackupAndRestoreDialog: false
   },
 
   getters: {
@@ -81,6 +83,9 @@ const store: Module<ControllersState, RootState> = {
     },
     [SET_SELECTED_NOTE_ID](state, id?: string) {
       state.selectedNoteId = id;
+    },
+    [SET_BACKUP_AND_RESTORE_DIALOG_VISIBLE](state, isShow: boolean) {
+      state.showBackupAndRestoreDialog = isShow;
     }
   },
 
@@ -123,6 +128,9 @@ const store: Module<ControllersState, RootState> = {
     },
     [SET_SELECTED_NOTE_ID](context, id?: string) {
       context.commit(SET_SELECTED_NOTE_ID, id);
+    },
+    [SET_BACKUP_AND_RESTORE_DIALOG_VISIBLE](context, isShow: boolean) {
+      context.commit(SET_BACKUP_AND_RESTORE_DIALOG_VISIBLE, isShow);
     }
   }
 };

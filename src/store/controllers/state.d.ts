@@ -39,4 +39,9 @@ declare interface ControllersState {
    * 当前选中的便签ID
    */
   selectedNoteId?: string;
+
+  /**
+   * 是否显示备份还原对话框
+   */
+  showBackupAndRestoreDialog: boolean;
 }
