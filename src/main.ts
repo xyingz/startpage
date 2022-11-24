@@ -9,6 +9,13 @@ import router from './router/index';
 import store, { key } from './store/index';
 import './styles/index.scss';
 
+import { msalPlugin } from './plugins/msalPlugin';
+import { msalInstance } from './config/authConfig';
+import setMsAccount from './utils/setMsAccount';
+
+// 设置微软账户
+setMsAccount();
+
 const app = createApp(App);
 
 app
@@ -36,4 +43,5 @@ app
   })
   .use(router)
   .use(store, key)
+  .use(msalPlugin, msalInstance)
   .mount('#app');
