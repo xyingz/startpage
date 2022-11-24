@@ -275,6 +275,24 @@
             </q-item-section>
           </q-item>
 
+          <q-item>
+            <q-item-section />
+            <q-item-section side>
+              <q-btn
+                size="sm"
+                color="primary"
+                label="备份/还原"
+                @click="
+                  () =>
+                    store.dispatch(
+                      CONTROLLERS.SET_BACKUP_AND_RESTORE_DIALOG_VISIBLE,
+                      true
+                    )
+                "
+              />
+            </q-item-section>
+          </q-item>
+
           <!-- <q-item v-ripple clickable>
             <q-item-section>
               <q-item-label>Content filtering</q-item-label>

@@ -16,17 +16,19 @@
   </footer>
 
   <ManageSearchDialog />
+  <BackupDialog />
   <FuncionalIntroDialog v-model="showFunctionalIntro" />
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import ManageSearchDialog from '@/components/ManageSearchDialog.vue';
+import BackupDialog from '@/components/BackupDialog.vue';
 import FuncionalIntroDialog from '@/pages/FunctionalIntroDialog.vue';
 
 export default defineComponent({
   name: 'App',
-  components: { ManageSearchDialog, FuncionalIntroDialog },
+  components: { ManageSearchDialog, FuncionalIntroDialog, BackupDialog },
 
   setup() {
     const showFunctionalIntro = ref(false);
