@@ -46,7 +46,6 @@
       </q-card-section>
 
       <q-card-section>
-        <!-- <q-btn label="Google" color="primary" @click="loginGoogle" /> -->
         <div ref="googleBtnRef" />
       </q-card-section>
     </q-card>
