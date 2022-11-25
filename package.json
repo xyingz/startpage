@@ -27,6 +27,7 @@
         ]
     },
     "dependencies": {
+        "@azure/msal-browser": "^2.30.0",
         "@quasar/extras": "^1.12.3",
         "axios": "^0.22.0",
         "lunar-typescript": "^1.2.17",

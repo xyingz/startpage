@@ -15,15 +15,27 @@
         </q-toolbar>
       </q-card-section>
 
-      <q-card-section>
+      <q-card-section v-if="!isAuthenticated">
         <q-btn label="登录" color="primary" @click="login" />
       </q-card-section>
 
-      <q-card-section>
+      <q-card-section v-else>
         <q-list bordered>
           <q-item tag="label" @click.prevent>
             <q-item-section>
-              <q-item-label>123</q-item-label>
+              <q-item-label>
+                当前登录账户：{{ loginState.data.displayName }}
+              </q-item-label>
+            </q-item-section>
+
+            <q-item-section side>
+              <q-btn label="登出" color="primary" @click="logout" />
+            </q-item-section>
+          </q-item>
+
+          <q-item tag="label" @click.prevent>
+            <q-item-section>
+              <q-item-label>{{ loginState }}</q-item-label>
             </q-item-section>
 
             <q-item-section side>
@@ -32,15 +44,27 @@
           </q-item>
         </q-list>
       </q-card-section>
+
+      <q-card-section>
+        <q-btn label="Google" color="primary" @click="loginGoogle" />
+      </q-card-section>
     </q-card>
   </q-dialog>
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed, reactive, onMounted, watch } from 'vue';
 import { useStore } from '@/store';
 import { CONTROLLERS } from '@/store/mutation-types';
-import { loginConfig } from '@/config/loginConfig';
+import { useIsAuthenticated } from '@/composition/ms/useIsAuthenticated';
+import { useMsal } from '@/composition/ms/useMsal';
+import { graphConfig, loginRequest } from '@/config/authConfig';
+import UserInfo from '@/utils/UserInfo';
+import {
+  InteractionRequiredAuthError,
+  InteractionStatus
+} from '@azure/msal-browser';
+import { callMsGraph } from '@/utils/MsGraphApiCall';
 
 const store = useStore();
 const show = computed<boolean>({
@@ -52,9 +76,88 @@ const show = computed<boolean>({
   }
 });
 
-async function login() {
-  window.location.href = `https://login.microsoftonline.com/${loginConfig.Microsoft.TenantId}/oauth2/v2.0/authorize?client_id=${loginConfig.Microsoft.ClientId}&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2F&response_mode=query&scope=offline_access%20user.read%20mail.read&state=microsoft`;
+const isAuthenticated = useIsAuthenticated();
+
+const { instance, inProgress } = useMsal();
+const login = () => {
+  instance.loginPopup(loginRequest);
+};
+const logout = () => {
+  instance.logoutPopup({ mainWindowRedirectUri: '/' });
+};
+
+const loginState = reactive({
+  resolved: false,
+  data: {} as UserInfo,
+  drive: {}
+});
+
+async function getGraphData() {
+  const response = await instance
+    .acquireTokenSilent({
+      ...loginRequest
+    })
+    .catch(async e => {
+      if (e instanceof InteractionRequiredAuthError) {
+        await instance.acquireTokenRedirect(loginRequest);
+      }
+
+      throw e;
+    });
+
+  if (inProgress.value === InteractionStatus.None) {
+    const graphData = await callMsGraph(
+      response.accessToken,
+      graphConfig.graphMeEndpoint
+    );
+    loginState.data = graphData;
+    loginState.resolved = true;
+
+    const drive = await callMsGraph(
+      response.accessToken,
+      graphConfig.graphOneDriveEndpoint
+    );
+
+    loginState.drive = drive;
+
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    stopWatcher();
+  }
 }
+
+onMounted(() => {
+  getGraphData();
+});
+
+const stopWatcher = watch(inProgress, () => {
+  if (!loginState.resolved) {
+    getGraphData();
+  }
+});
+
+function loginGoogle() {
+  window.gapi.auth2.authorize(
+    {
+      client_id:
+        '641651741721-pn3b00amo790q3k6bmr3cg9nejs41tnj.apps.googleusercontent.com',
+      scope: 'https://www.googleapis.com/auth/drive.file'
+    },
+    (res: any) => {
+      if (res && !res.error) {
+        console.log('...token', res.access_token);
+      } else {
+        console.log('auth error', res);
+      }
+    }
+  );
+}
+
+onMounted(() => {
+  if (window.gapi) {
+    window.gapi.load('auth2');
+    window.gapi.load('picker');
+  }
+});
 </script>
 
 <style scoped></style>
