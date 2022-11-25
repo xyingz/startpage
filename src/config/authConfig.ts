@@ -40,7 +40,7 @@ export const msalConfig = {
             console.info(message);
             return;
           case LogLevel.Verbose:
-            console.debug(message);
+            // console.debug(message);
             return;
           case LogLevel.Warning:
             console.warn(message);
