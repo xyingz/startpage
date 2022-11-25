@@ -13,6 +13,8 @@
     </a>
     <span> | </span>
     <a href="javascript:void(0);" @click="openFunctionalIntroDialog">功能</a>
+    <span> | </span>
+    <a href="https://start.xiaopangying.com/privacy.html">隐私策略</a>
   </footer>
 
   <ManageSearchDialog />
