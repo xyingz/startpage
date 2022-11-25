@@ -6,8 +6,6 @@ export function useIsAuthenticated(): Ref<boolean> {
   const isAuthenticated = ref(accounts.value.length > 0);
 
   watch(accounts, () => {
-    console.log('accounts changed', accounts);
-
     isAuthenticated.value = accounts.value.length > 0;
   });
 

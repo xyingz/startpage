@@ -44,6 +44,10 @@
           </q-item>
         </q-list>
       </q-card-section>
+
+      <q-card-section>
+        <q-btn label="Google" color="primary" @click="loginGoogle" />
+      </q-card-section>
     </q-card>
   </q-dialog>
 </template>
@@ -54,7 +58,7 @@ import { useStore } from '@/store';
 import { CONTROLLERS } from '@/store/mutation-types';
 import { useIsAuthenticated } from '@/composition/ms/useIsAuthenticated';
 import { useMsal } from '@/composition/ms/useMsal';
-import { loginRequest } from '@/config/authConfig';
+import { graphConfig, loginRequest } from '@/config/authConfig';
 import UserInfo from '@/utils/UserInfo';
 import {
   InteractionRequiredAuthError,
@@ -84,7 +88,8 @@ const logout = () => {
 
 const loginState = reactive({
   resolved: false,
-  data: {} as UserInfo
+  data: {} as UserInfo,
+  drive: {}
 });
 
 async function getGraphData() {
@@ -101,9 +106,20 @@ async function getGraphData() {
     });
 
   if (inProgress.value === InteractionStatus.None) {
-    const graphData = await callMsGraph(response.accessToken);
+    const graphData = await callMsGraph(
+      response.accessToken,
+      graphConfig.graphMeEndpoint
+    );
     loginState.data = graphData;
     loginState.resolved = true;
+
+    const drive = await callMsGraph(
+      response.accessToken,
+      graphConfig.graphOneDriveEndpoint
+    );
+
+    loginState.drive = drive;
+
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
     stopWatcher();
   }
@@ -116,6 +132,30 @@ onMounted(() => {
 const stopWatcher = watch(inProgress, () => {
   if (!loginState.resolved) {
     getGraphData();
+  }
+});
+
+function loginGoogle() {
+  window.gapi.auth2.authorize(
+    {
+      client_id:
+        '641651741721-pn3b00amo790q3k6bmr3cg9nejs41tnj.apps.googleusercontent.com',
+      scope: 'https://www.googleapis.com/auth/drive.file'
+    },
+    (res: any) => {
+      if (res && !res.error) {
+        console.log('...token', res.access_token);
+      } else {
+        console.log('auth error', res);
+      }
+    }
+  );
+}
+
+onMounted(() => {
+  if (window.gapi) {
+    window.gapi.load('auth2');
+    window.gapi.load('picker');
   }
 });
 </script>

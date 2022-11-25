@@ -4,6 +4,8 @@ export const msLoginConfig = {
   Microsoft: {
     TenantId: '6407c5bc-634e-4146-90c2-bf6e16097c24',
     ClientId: '19fda7a9-42e0-4799-b3df-6eb5dac0ecb8'
+    // TenantId: '6407c5bc-634e-4146-90c2-bf6e16097c24',
+    // ClientId: '18eed8c8-dedd-49d1-88a2-2b25655d3b14'
   }
 };
 
@@ -16,7 +18,8 @@ export const msalConfig = {
     postLogoutRedirectUri: '/' // Must be registered as a SPA redirectURI on your app registration
   },
   cache: {
-    cacheLocation: 'localStorage'
+    cacheLocation: 'sessionStorage',
+    storeAuthStateInCookie: false
   },
   system: {
     loggerOptions: {
@@ -52,10 +55,22 @@ export const msalInstance = new PublicClientApplication(msalConfig);
 
 // Add here scopes for id token to be used at MS Identity Platform endpoints.
 export const loginRequest = {
-  scopes: ['User.Read']
+  scopes: [
+    'openid',
+    'profile',
+    'User.Read',
+    'offline_access',
+    'Files.ReadWrite.AppFolder',
+    'Sites.Read.All',
+    'Files.ReadWrite.All',
+    'Sites.ReadWrite.All'
+  ]
 };
 
 // Add here the endpoints for MS Graph API services you would like to use.
 export const graphConfig = {
-  graphMeEndpoint: 'https://graph.microsoft.com/v1.0/me'
+  graphMeEndpoint: 'https://graph.microsoft.com/v1.0/me',
+  graphOneDriveEndpoint:
+    'https://graph.microsoft.com/v1.0/me/drive/root/children'
+  // graphOneDriveEndpoint: 'https://api.onedrive.com/v1.0/drive/root'
 };
