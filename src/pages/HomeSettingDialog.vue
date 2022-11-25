@@ -275,7 +275,7 @@
             </q-item-section>
           </q-item>
 
-          <!-- <q-item>
+          <q-item>
             <q-item-section />
             <q-item-section side>
               <q-btn
@@ -291,7 +291,7 @@
                 "
               />
             </q-item-section>
-          </q-item> -->
+          </q-item>
 
           <!-- <q-item v-ripple clickable>
             <q-item-section>

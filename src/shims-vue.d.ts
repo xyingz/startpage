@@ -8,4 +8,5 @@ declare module '*.vue' {
 declare interface Window {
   clipboardData: any;
   gapi: any;
+  google: any;
 }

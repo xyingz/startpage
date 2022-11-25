@@ -35,7 +35,7 @@
 
           <q-item tag="label" @click.prevent>
             <q-item-section>
-              <q-item-label>{{ loginState }}</q-item-label>
+              <!-- <q-item-label>{{ loginState.data.displayName }}</q-item-label> -->
             </q-item-section>
 
             <q-item-section side>
@@ -46,14 +46,15 @@
       </q-card-section>
 
       <q-card-section>
-        <q-btn label="Google" color="primary" @click="loginGoogle" />
+        <!-- <q-btn label="Google" color="primary" @click="loginGoogle" /> -->
+        <div ref="googleBtnRef" />
       </q-card-section>
     </q-card>
   </q-dialog>
 </template>
 
 <script lang="ts" setup>
-import { computed, reactive, onMounted, watch } from 'vue';
+import { computed, reactive, onMounted, watch, ref, nextTick } from 'vue';
 import { useStore } from '@/store';
 import { CONTROLLERS } from '@/store/mutation-types';
 import { useIsAuthenticated } from '@/composition/ms/useIsAuthenticated';
@@ -75,6 +76,8 @@ const show = computed<boolean>({
     store.dispatch(CONTROLLERS.SET_BACKUP_AND_RESTORE_DIALOG_VISIBLE, value);
   }
 });
+
+// ************ MICROSOFT LOGIN ********** //
 
 const isAuthenticated = useIsAuthenticated();
 
@@ -135,29 +138,34 @@ const stopWatcher = watch(inProgress, () => {
   }
 });
 
-function loginGoogle() {
-  window.gapi.auth2.authorize(
-    {
-      client_id:
-        '641651741721-pn3b00amo790q3k6bmr3cg9nejs41tnj.apps.googleusercontent.com',
-      scope: 'https://www.googleapis.com/auth/drive.file'
-    },
-    (res: any) => {
-      if (res && !res.error) {
-        // console.log('...token', res.access_token);
-      } else {
-        // console.log('auth error', res);
-      }
-    }
-  );
-}
+// *************************************** //
 
-onMounted(() => {
-  if (window.gapi) {
-    window.gapi.load('auth2');
-    window.gapi.load('picker');
+// ************ GOOGLE LOGIN ************* //
+
+const googleBtnRef = ref<HTMLInputElement>();
+
+watch(show, () => {
+  if (show.value) {
+    nextTick(() => {
+      window.google.accounts.id.initialize({
+        client_id:
+          '641651741721-pn3b00amo790q3k6bmr3cg9nejs41tnj.apps.googleusercontent.com',
+        callback: (res: any) => {
+          console.info('......cb', res);
+        }
+      });
+
+      window.google.accounts.id.renderButton(googleBtnRef.value, {
+        theme: 'outline',
+        size: 'large'
+      });
+
+      window.google.accounts.id.prompt();
+    });
   }
 });
+
+// *************************************** //
 </script>
 
 <style scoped></style>
