@@ -144,9 +144,9 @@ function loginGoogle() {
     },
     (res: any) => {
       if (res && !res.error) {
-        console.log('...token', res.access_token);
+        // console.log('...token', res.access_token);
       } else {
-        console.log('auth error', res);
+        // console.log('auth error', res);
       }
     }
   );
