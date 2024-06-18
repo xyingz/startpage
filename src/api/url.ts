@@ -2,7 +2,7 @@
  * @Author: JeremyJone
  * @Date: 2022-01-20 16:57:49
  * @LastEditors: JeremyJone
- * @LastEditTime: 2022-03-02 10:21:29
+ * @LastEditTime: 2024-06-18 08:51:02
  * @Description: url 配置
  */
 
@@ -13,7 +13,7 @@ export const weatherUrl = `https://api.seniverse.com/v3/weather/now.json?key=${k
 // 无用
 // export const lunarUrl = `https://api.seniverse.com/v3/life/chinese_calendar.json?key=${key}`;
 
-export const iconUrl = `https://ico.kucat.cn/get.php`;
+export const iconUrl = `https://api.xiaopangying.com/web/icon`;
 export const imageUrl = `https://api.xiaopangying.com/image/bing`;
 
 // 搜索建议url
